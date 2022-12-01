@@ -6,8 +6,8 @@ public class FollowPlayer : MonoBehaviour
 {
 
     //실험(2)-미완
-    /*
-    public float turnSpeed = 4.0f;
+    
+    public float turnSpeed;
     private float xRotate = 0.0f;
 
     public GameObject player;
@@ -30,7 +30,7 @@ public class FollowPlayer : MonoBehaviour
         // 카메라 회전량을 카메라에 반영(X, Y축만 회전)
         transform.eulerAngles = new Vector3(xRotate, yRotate, 0);
     }
-    */
+    
 
     //실험(1)
     /*
@@ -39,15 +39,25 @@ public class FollowPlayer : MonoBehaviour
     bool zoomCheck = true;
     void Update()
     {
-        if(zoomCheck)
-            transform.position = player.transform.position; //줌in
+        if (zoomCheck) //zoomCheck의 bool 타입이 참/거짓에 따라 시점, 조작모드 전환
+            ZoomIn(); //1인칭뷰
         else
-        {
-            transform.position = player.transform.position + new Vector3(0, 5.5f, -8);
-        }
+            ZoomOut(); //쿼터뷰
 
         if (Input.GetKeyDown("v"))
             zoomCheck = !zoomCheck;
+    }
+
+    //카메라의 기본 포지션은 잡았으나 추후 지형/플레이어 스케일 고려하여 수정예정
+    void ZoomIn()
+    {
+        transform.position = player.transform.position; //줌in
+    }
+
+    void ZoomOut() 
+    {
+        transform.position = player.transform.position + new Vector3(0, 12.0f, -15); //줌 out
+        transform.rotation = Quaternion.Euler(45, 0, 0);
     }
     */
 }
