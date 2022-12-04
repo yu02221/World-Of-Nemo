@@ -8,10 +8,13 @@ public class TerrainGenerator : MonoBehaviour
 
     public GameObject terrainChunk;
 
-    FastNoise noise = new FastNoise();
+    private Dictionary<ChunkPos, TerrainChunk> buildedChunks = new Dictionary<ChunkPos, TerrainChunk>();
+    private int curChunkPosX;
+    private int curChunkPosZ;
 
-    public int width = 16;
-    public int height = 64;
+    public int cWidth;
+    public int cHeight;
+    public int cDistance;
 
     public float terrainDetail;
     public float terrainHeight;
@@ -21,45 +24,99 @@ public class TerrainGenerator : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.Find("Player").transform;
         seed = Random.Range(100000, 999999);
 
-        for (int i = -4; i < 4; i++)
+        player = GameObject.Find("Player").transform;
+
+        curChunkPosX = Mathf.FloorToInt(player.position.x / 16);
+        curChunkPosZ = Mathf.FloorToInt(player.position.z / 16);
+
+        cWidth = TerrainChunk.chunkWidth;
+        cHeight = TerrainChunk.chunkHeight;
+
+        LoadChunk();
+    }
+
+    private void Update()
+    {
+        int curPosX = Mathf.FloorToInt(player.position.x / 16);
+        int curPosZ = Mathf.FloorToInt(player.position.z / 16);
+
+        if (curChunkPosX != curPosX || curChunkPosZ != curPosZ)
         {
-            for (int j = -4; j < 4; j++)
+            curChunkPosX = curPosX;
+            curChunkPosZ = curPosZ;
+            LoadChunk();
+            UnloadChunk();
+        }
+    }
+
+    private void LoadChunk()
+    {
+        for (int i = curChunkPosX - cDistance; i < curChunkPosX + cDistance; i++)
+        {
+            for (int j = curChunkPosZ - cDistance; j < curChunkPosZ + cDistance; j++)
             {
                 BuildChunck(i * 16, j * 16);
             }
         }
     }
 
-    private void Update()
+    private void UnloadChunk()
     {
-        
+        List<ChunkPos> toUnload = new List<ChunkPos>();
+        foreach (var chunk in buildedChunks)
+        {
+            ChunkPos cPos = chunk.Key;
+            if (Mathf.Abs(curChunkPosX * 16 - cPos.x) > 16 * (cDistance) ||
+                Mathf.Abs(curChunkPosZ * 16 - cPos.z) > 16 * (cDistance))
+            {
+                toUnload.Add(chunk.Key);
+            }
+        }
+
+        foreach (var cPos in toUnload)
+        {
+            buildedChunks[cPos].gameObject.SetActive(false);
+        }
     }
 
     private void BuildChunck(int xPos, int zPos)
     {
         TerrainChunk chunk;
-
-        GameObject chunkObj = Instantiate(terrainChunk, new Vector3(xPos, 0, zPos), Quaternion.identity);
-        chunkObj.transform.parent = GameObject.Find("Environment").transform;
-        chunk = chunkObj.GetComponent<TerrainChunk>();
-
-
-        for (int x = 0; x < TerrainChunk.chunkWidth + 2; x++)
-        { 
-            for (int z = 0; z < TerrainChunk.chunkWidth + 2; z++)
+        ChunkPos curChunk = new ChunkPos(xPos, zPos);
+        if (buildedChunks.ContainsKey(curChunk))
+        {
+            chunk = buildedChunks[curChunk];
+            if (!chunk.gameObject.activeSelf)
             {
-                for (int y = 0; y < TerrainChunk.chunkHeight; y++)
-                {
-                    //if(Mathf.PerlinNoise((xPos + x-1) * .1f, (zPos + z-1) * .1f) * 10 + y < TerrainChunk.chunkHeight * .5f)
-                    chunk.blocks[x, y, z] = GetBlockType(xPos + x - 1, y, zPos + z - 1);
-                }
+                chunk.gameObject.SetActive(true);
             }
+        }
+        else
+        {
+            GameObject chunkObj = Instantiate(terrainChunk, new Vector3(xPos, 0, zPos), Quaternion.identity);
+            chunkObj.transform.parent = GameObject.Find("Terrain").transform;
+            chunk = chunkObj.GetComponent<TerrainChunk>();
+            buildedChunks.Add(curChunk, chunk);
+
+            for (int x = 0; x < cWidth + 2; x++)
+                for (int z = 0; z < cWidth + 2; z++)
+                    for (int y = 0; y < cHeight; y++)
+                        chunk.blocks[x, y, z] = GetBlockType(xPos + x - 1, y, zPos + z - 1);
         }
 
         chunk.BuildMesh();
+    }
+
+    public struct ChunkPos
+    {
+        public int x, z;
+        public ChunkPos(int x, int z)
+        {
+            this.x = x;
+            this.z = z;
+        }
     }
 
     private BlockType GetBlockType(int x, int y, int z)
@@ -68,7 +125,7 @@ public class TerrainGenerator : MonoBehaviour
         BlockType bt;
 
         int grassY = (int)(Mathf.PerlinNoise((x / 2 + seed) / terrainDetail, (z / 2 + seed) / terrainDetail) * terrainHeight) +16;
-        int soilRange = Random.Range(1, 5);
+        int soilRange = Random.Range(3, 5);
 
         if (y > grassY)
             bt = BlockType.Air;
@@ -80,46 +137,5 @@ public class TerrainGenerator : MonoBehaviour
             bt = BlockType.Stone;
 
         return bt;
-        /*
-        float simplex1 = noise.GetSimplex(x * .8f, z * .8f) * 10;
-        float simplex2 = noise.GetSimplex(x * 3f, z * 3f) * 10 * (noise.GetSimplex(x * .3f, z * .3f) + .5f);
-
-        float heightMap = simplex1 + simplex2;
-
-        //add the 2d noise to the middle of the terrain chunk
-        float baseLandHeight = TerrainChunk.chunkHeight * .5f + heightMap;
-
-        //3d noise for caves and overhangs and such
-        float caveNoise1 = noise.GetPerlinFractal(x * 5f, y * 10f, z * 5f);
-        float caveMask = noise.GetSimplex(x * .3f, z * .3f) + .3f;
-
-        //stone layer heightmap
-        float simplexStone1 = noise.GetSimplex(x * 1f, z * 1f) * 10;
-        float simplexStone2 = (noise.GetSimplex(x * 5f, z * 5f) + .5f) * 20 * (noise.GetSimplex(x * .3f, z * .3f) + .5f);
-
-        float stoneHeightMap = simplexStone1 + simplexStone2;
-        float baseStoneHeight = TerrainChunk.chunkHeight * .25f + stoneHeightMap;
-
-
-        BlockType blockType = BlockType.Air;
-
-        if (y <= baseLandHeight)
-        {
-            blockType = BlockType.Soil;
-
-            //just on the surface, use a grass type
-            if (y > baseLandHeight - 1)
-                blockType = BlockType.Grass;
-
-            if (y <= baseStoneHeight)
-                blockType = BlockType.Stone;
-        }
-
-
-        if (caveNoise1 > Mathf.Max(caveMask, .2f))
-            blockType = BlockType.Air;
-
-        return blockType;
-        */
     }
 }
