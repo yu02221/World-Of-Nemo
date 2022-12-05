@@ -8,7 +8,7 @@ public class TerrainGenerator : MonoBehaviour
 
     public GameObject terrainChunk;
 
-    private Dictionary<ChunkPos, TerrainChunk> buildedChunks = new Dictionary<ChunkPos, TerrainChunk>();
+    public static Dictionary<ChunkPos, TerrainChunk> buildedChunks = new Dictionary<ChunkPos, TerrainChunk>();
     private int curChunkPosX;
     private int curChunkPosZ;
 
@@ -20,6 +20,7 @@ public class TerrainGenerator : MonoBehaviour
     public float terrainHeight;
 
     int seed;
+    
 
 
     private void Start()
@@ -109,15 +110,7 @@ public class TerrainGenerator : MonoBehaviour
         chunk.BuildMesh();
     }
 
-    public struct ChunkPos
-    {
-        public int x, z;
-        public ChunkPos(int x, int z)
-        {
-            this.x = x;
-            this.z = z;
-        }
-    }
+    
 
     private BlockType GetBlockType(int x, int y, int z)
     {
@@ -137,5 +130,16 @@ public class TerrainGenerator : MonoBehaviour
             bt = BlockType.Stone;
 
         return bt;
+    }
+
+}
+
+public struct ChunkPos
+{
+    public int x, z;
+    public ChunkPos(int x, int z)
+    {
+        this.x = x;
+        this.z = z;
     }
 }
