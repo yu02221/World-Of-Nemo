@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3409800631144629140}
   - component: {fileID: 4376508333686397596}
   - component: {fileID: 8528637821132761173}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: StoneBlock
   m_TagString: Ground
   m_Icon: {fileID: 0}

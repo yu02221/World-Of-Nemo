@@ -4,18 +4,11 @@ using UnityEngine;
 
 public class FollowPlayer : MonoBehaviour
 {
-
-    //실험(2)-미완
-    
     public float turnSpeed;
     private float xRotate = 0.0f;
 
-    public GameObject player;
-
     void Update()
     {
-        transform.position = player.transform.position;
-
         // 좌우로 움직인 마우스의 이동량 * 속도에 따라 카메라가 좌우로 회전할 양 계산
         float yRotateSize = Input.GetAxis("Mouse X") * turnSpeed;
         // 현재 y축 회전값에 더한 새로운 회전각도 계산
@@ -26,9 +19,8 @@ public class FollowPlayer : MonoBehaviour
         // 위아래 회전량을 더해주지만 -45도 ~ 80도로 제한 (-45:하늘방향, 80:바닥방향)
         // Clamp 는 값의 범위를 제한하는 함수
         xRotate = Mathf.Clamp(xRotate + xRotateSize, -45, 80);
-
         // 카메라 회전량을 카메라에 반영(X, Y축만 회전)
-        transform.eulerAngles = new Vector3(xRotate, yRotate, 0);
+        transform.eulerAngles = new Vector3(xRotate, transform.eulerAngles.y, 0);
     }
     
 
