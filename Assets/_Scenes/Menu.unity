@@ -175,7 +175,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OptionsMenu: {fileID: 0}
-  valueText: {fileID: 87305865}
+  masterText: {fileID: 0}
+  musicText: {fileID: 0}
+  blockText: {fileID: 0}
+  friendlyText: {fileID: 0}
+  hostileText: {fileID: 0}
+  masterSlider: {fileID: 0}
+  musicSlider: {fileID: 0}
+  blockSlider: {fileID: 0}
+  friendlySlider: {fileID: 0}
+  hostileSlider: {fileID: 0}
 --- !u!114 &87305865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,14 +315,14 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.529
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 987063229}
+      - m_Target: {fileID: 1251602701}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: MusicVolume
-        m_Mode: 0
+        m_MethodName: SetSound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1493,7 +1502,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OptionsMenu: {fileID: 0}
-  valueText: {fileID: 955477235}
+  masterText: {fileID: 0}
+  musicText: {fileID: 0}
+  blockText: {fileID: 0}
+  friendlyText: {fileID: 0}
+  hostileText: {fileID: 0}
+  masterSlider: {fileID: 0}
+  musicSlider: {fileID: 0}
+  blockSlider: {fileID: 0}
+  friendlySlider: {fileID: 0}
+  hostileSlider: {fileID: 0}
 --- !u!114 &955477235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1672,7 +1690,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OptionsMenu: {fileID: 0}
-  valueText: {fileID: 987063230}
+  masterText: {fileID: 0}
+  musicText: {fileID: 0}
+  blockText: {fileID: 0}
+  friendlyText: {fileID: 0}
+  hostileText: {fileID: 0}
+  masterSlider: {fileID: 0}
+  musicSlider: {fileID: 0}
+  blockSlider: {fileID: 0}
+  friendlySlider: {fileID: 0}
+  hostileSlider: {fileID: 0}
 --- !u!114 &987063230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1945,7 +1972,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OptionsMenu: {fileID: 2094377058}
-  valueText: {fileID: 0}
+  masterText: {fileID: 1634462836}
+  musicText: {fileID: 987063230}
+  blockText: {fileID: 87305865}
+  friendlyText: {fileID: 955477235}
+  hostileText: {fileID: 2018351171}
+  masterSlider: {fileID: 2065574922}
+  musicSlider: {fileID: 105492977}
+  blockSlider: {fileID: 1583491433}
+  friendlySlider: {fileID: 1950835230}
+  hostileSlider: {fileID: 1756980417}
 --- !u!1 &1254544625
 GameObject:
   m_ObjectHideFlags: 0
@@ -2583,14 +2619,14 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.529
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 87305864}
+      - m_Target: {fileID: 1251602701}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: BLockVolume
-        m_Mode: 0
+        m_MethodName: SetSound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2845,7 +2881,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OptionsMenu: {fileID: 0}
-  valueText: {fileID: 1634462836}
+  masterText: {fileID: 0}
+  musicText: {fileID: 0}
+  blockText: {fileID: 0}
+  friendlyText: {fileID: 0}
+  hostileText: {fileID: 0}
+  masterSlider: {fileID: 0}
+  musicSlider: {fileID: 0}
+  blockSlider: {fileID: 0}
+  friendlySlider: {fileID: 0}
+  hostileSlider: {fileID: 0}
 --- !u!1 &1636864917
 GameObject:
   m_ObjectHideFlags: 0
@@ -3279,14 +3324,14 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.529
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2018351170}
+      - m_Target: {fileID: 1251602701}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: HostileVolume
-        m_Mode: 0
+        m_MethodName: SetSound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3765,14 +3810,14 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.529
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 955477234}
+      - m_Target: {fileID: 1251602701}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: FriendlyVolume
-        m_Mode: 0
+        m_MethodName: SetSound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3833,7 +3878,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OptionsMenu: {fileID: 0}
-  valueText: {fileID: 2018351171}
+  masterText: {fileID: 0}
+  musicText: {fileID: 0}
+  blockText: {fileID: 0}
+  friendlyText: {fileID: 0}
+  hostileText: {fileID: 0}
+  masterSlider: {fileID: 0}
+  musicSlider: {fileID: 0}
+  blockSlider: {fileID: 0}
+  friendlySlider: {fileID: 0}
+  hostileSlider: {fileID: 0}
 --- !u!114 &2018351171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3964,14 +4018,14 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.529
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1634462838}
+      - m_Target: {fileID: 1251602701}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: MasterVolume
-        m_Mode: 0
+        m_MethodName: SetSound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

@@ -8,36 +8,31 @@ public class UIManager : MonoBehaviour
 {
     public GameObject OptionsMenu;
 
-    public Text valueText;
+    public Text masterText;
+    public Text musicText;
+    public Text blockText;
+    public Text friendlyText;
+    public Text hostileText;
 
-    private void start() //텍스트 가져오기
-    {
-        valueText = GetComponent<Text>();
-    }
+    public Slider masterSlider;
+    public Slider musicSlider;
+    public Slider blockSlider;
+    public Slider friendlySlider;
+    public Slider hostileSlider;
 
-    public void MasterVolume (float value) //마스터 볼륨 설정
+    public void SetSound()
     {
-        valueText.text = ($" Master Volume : ") + Mathf.RoundToInt(value * 100) + "%";
-    }
+      
+            masterText.text = ($" Master Volume : ") + Mathf.RoundToInt(masterSlider.value * 100) + "%";
 
-    public void MusicVolume(float value) //음악 볼륨 설정 
-    {
-        valueText.text = ($" Music : ") + Mathf.RoundToInt(value * 100) + "%";
-    }
+            musicText.text = ($" Music : ") + Mathf.RoundToInt(musicSlider.value * 100) + "%";
 
-    public void BLockVolume(float value) //블럭 볼륨 설정
-    {
-        valueText.text = ($" Block : ") + Mathf.RoundToInt(value * 100) + "%";
-    }
+            blockText.text = ($" Block : ") + Mathf.RoundToInt(blockSlider.value * 100) + "%";
 
-    public void FriendlyVolume(float value) //친화적생명체 볼륨 설정
-    {
-        valueText.text = ($" Friendly Creatures : ") + Mathf.RoundToInt(value * 100) + "%";
-    }
+            friendlyText.text = ($" Friendly Creatures : ") + Mathf.RoundToInt(friendlySlider.value * 100) + "%";
+ 
+            hostileText.text = ($" Hostile Creatures : ") + Mathf.RoundToInt(hostileSlider.value * 100) + "%";
 
-    public void HostileVolume(float value) //적대적생명체 볼륨 설정
-    {
-        valueText.text = ($" Ambient/Envieonment : ") + Mathf.RoundToInt(value * 100) + "%";
     }
 
     public void StartGame()
@@ -53,11 +48,31 @@ public class UIManager : MonoBehaviour
     public void OnClickOptions()
     {
         OptionsMenu.SetActive(true);  //옵션들어가기
+        GetOption();
+        SetSound();
     }
 
     public void OptionBack()
     {
         OptionsMenu.SetActive(false);  //옵션나가기
+        SaveOption();
     }
 
+    public void SaveOption()
+    {
+        PlayerPrefs.SetFloat("Master Volume", masterSlider.value);
+        PlayerPrefs.SetFloat("Music", musicSlider.value);
+        PlayerPrefs.SetFloat("Block", blockSlider.value);
+        PlayerPrefs.SetFloat("Friendly Creatures", friendlySlider.value);
+        PlayerPrefs.SetFloat("Hostile Creatures", hostileSlider.value);
+    }
+
+    public void GetOption()
+    {
+        masterSlider.value = PlayerPrefs.GetFloat("Master Volume");
+        musicSlider.value = PlayerPrefs.GetFloat("Music");
+        blockSlider.value = PlayerPrefs.GetFloat("Block");
+        friendlySlider.value = PlayerPrefs.GetFloat("Friendly Creatures");
+        hostileSlider.value = PlayerPrefs.GetFloat("Hostile Creatures");
+    }
 }
