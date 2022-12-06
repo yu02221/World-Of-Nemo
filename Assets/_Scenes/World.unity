@@ -2307,7 +2307,7 @@ MonoBehaviour:
   terrainChunk: {fileID: 8473286140298106031, guid: 3490750def1761248892fdd115d82507, type: 3}
   cWidth: 16
   cHeight: 64
-  cDistance: 5
+  cDistance: 10
   terrainDetail: 20
   terrainHeight: 20
 --- !u!4 &1203359117
