@@ -75,6 +75,7 @@ public class PlayerMove : MonoBehaviour
             playerState = PlayerState.Idle;
     }
 
+    //플레이어의 하단(발바닥)쪽에 체크박스 오브젝트를 위치시켜 Ground로 레이어 지정이된 오브젝트와 콜라이더가 겹치게 되면 점프가 가능하게끔 bool체크를 해준다
     void IsGroundCheck()
     {
         Collider[] cols = Physics.OverlapBox(groundCheckTransform.position, boxSize * 0.5f,
