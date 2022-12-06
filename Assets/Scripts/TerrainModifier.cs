@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TerrainModifier : MonoBehaviour
+public class MiningBlock : MonoBehaviour
 {
     public LayerMask groundLayer;
 
@@ -10,22 +10,18 @@ public class TerrainModifier : MonoBehaviour
 
     public float maxDist = 4;
 
-    public float durability = 1;
+    // Start is called before the first frame update
+    void Start()
+    {
 
-    int chunkPosX = -1;
-    int chunkPosZ = -1;
+    }
 
+    // Update is called once per frame
     void Update()
     {
-        bool leftClick = Input.GetMouseButton(0);
+        bool leftClick = Input.GetMouseButtonDown(0);
         bool rightClick = Input.GetMouseButtonDown(1);
-
-        if (leftClick)
-            MiningBlock();
-        else if (rightClick)
-            PlacingBlock();
-
-        /*
+        Debug.DrawRay(transform.position, transform.forward, Color.red);
         if (leftClick || rightClick)
         {
             RaycastHit hitInfo;
@@ -66,54 +62,6 @@ public class TerrainModifier : MonoBehaviour
                     tc.BuildMesh();
                 }
             }
-        }
-        */
-    }
-
-    private void MiningBlock()
-    {
-        RaycastHit hitInfo;
-        if (Physics.Raycast(transform.position, transform.forward, out hitInfo, maxDist, groundLayer))
-        {
-            Vector3 targetBlock = hitInfo.point + transform.forward * .01f;
-
-            int ChunkPosX = Mathf.FloorToInt(targetBlock.x / 16f) * 16;
-            int ChunkPosZ = Mathf.FloorToInt(targetBlock.z / 16f) * 16;
-
-            ChunkPos cp = new ChunkPos(chunkPosX, chunkPosZ);
-
-            TerrainChunk tc = TerrainGenerator.buildedChunks[cp];
-
-            //index of the target block
-            int bix = Mathf.FloorToInt(targetBlock.x) - chunkPosX;
-            int biy = Mathf.FloorToInt(targetBlock.y);
-            int biz = Mathf.FloorToInt(targetBlock.z) - chunkPosZ;
-            if (false)
-            {
-                
-                durability = 1;
-            }
-            else
-            {
-                durability -= Time.deltaTime;
-            }
-
-            if (durability <= 0)
-            {
-                tc.blocks[bix, biy, biz] = BlockType.Air;
-                tc.BuildMesh();
-            }
-        }
-
-        
-    }
-
-    private void PlacingBlock()
-    {
-        RaycastHit hitInfo;
-        if (Physics.Raycast(transform.position, transform.forward, out hitInfo, maxDist + 1, groundLayer))
-        {
-
         }
     }
 }

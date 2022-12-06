@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     //실험(2)-미완
-    /*
+    
     public float turnSpeed = 4.0f;
     public float moveSpeed = 4.0f;
     float xRotate = 0.0f;
@@ -27,7 +27,7 @@ public class PlayerMove : MonoBehaviour
 
         transform.position += move * moveSpeed * Time.deltaTime;
     }
-    */
+    
 
     //실험(1)
     /*
