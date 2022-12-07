@@ -15,21 +15,21 @@ using UnityEngine;
     }
 public class PlayerMove : MonoBehaviour
 {
-    //ÇöÀç ÇÃ·¹ÀÌ¾îÀÇ »óÅÂ
+    //Ã‡Ã¶Ã€Ã§ Ã‡ÃƒÂ·Â¹Ã€ÃŒÂ¾Ã®Ã€Ã‡ Â»Ã³Ã…Ã‚
     public PlayerState playerState;
 
-    //AnimationClipÀ» ÀÌ¿ëÇØ »óÅÂ¿¡ ´ëÇÑ µ¿ÀÛ ±¸Çö¿¹Á¤
-    //¿©±âºÎÅÍ
+    //AnimationClipÃ€Â» Ã€ÃŒÂ¿Ã«Ã‡Ã˜ Â»Ã³Ã…Ã‚Â¿Â¡ Â´Ã«Ã‡Ã‘ ÂµÂ¿Ã€Ã› Â±Â¸Ã‡Ã¶Â¿Â¹ÃÂ¤
+    //Â¿Â©Â±Ã¢ÂºÃÃ…Ã
 
-    //¿©±â±îÁö
+    //Â¿Â©Â±Ã¢Â±Ã®ÃÃ¶
 
-    //ÇÃ·¹ÀÌ¾î ¿òÁ÷ÀÓ °ü·Ã º¯¼ö ½ÃÀÛ
+    //Ã‡ÃƒÂ·Â¹Ã€ÃŒÂ¾Ã® Â¿Ã²ÃÃ·Ã€Ã“ Â°Ã¼Â·Ãƒ ÂºÂ¯Â¼Ã¶ Â½ÃƒÃ€Ã›
     public float turnSpeed;
     public float moveSpeed;
     Rigidbody rb;
-    //³¡
+    //Â³Â¡
 
-    //ÇÃ·¹ÀÌ¾î Á¡ÇÁ °ü·Ã º¯¼ö ½ÃÀÛ
+    //Ã‡ÃƒÂ·Â¹Ã€ÃŒÂ¾Ã® ÃÂ¡Ã‡Ã Â°Ã¼Â·Ãƒ ÂºÂ¯Â¼Ã¶ Â½ÃƒÃ€Ã›
     public Transform groundCheckTransform;
     public Vector3 boxSize = new Vector3(0f, 1f,01f);
     public float halfsize = 1;
@@ -37,7 +37,7 @@ public class PlayerMove : MonoBehaviour
     public float jumpPower;
     bool isGround;
     
-    //³¡
+    //Â³Â¡
 
     private void Start()
     {
@@ -54,17 +54,17 @@ public class PlayerMove : MonoBehaviour
     }
     void Move()
     {
-        //¸¶¿ì½º ¿òÁ÷ÀÓ¿¡ ´ëÇÑ °ªÀ» ¹Ş´Â´Ù
+        //Â¸Â¶Â¿Ã¬Â½Âº Â¿Ã²ÃÃ·Ã€Ã“Â¿Â¡ Â´Ã«Ã‡Ã‘ Â°ÂªÃ€Â» Â¹ÃÂ´Ã‚Â´Ã™
         float yRotateSize = Input.GetAxis("Mouse X") * turnSpeed;
-        //¹ŞÀº °ªÀ» ÀúÀåÇÑ´Ù
+        //Â¹ÃÃ€Âº Â°ÂªÃ€Â» Ã€ÃºÃ€Ã¥Ã‡Ã‘Â´Ã™
         float yRotate = transform.eulerAngles.y + yRotateSize;
-        //¸¸¾à ¸¶¿ì½º ¿òÁ÷ÀÓÀÌ ¾ø´Ù¸é º¤ÅÍ°ª¿¡ ´ëÇÑ ÈûÀ» 0À¸·Î °íÁ¤½ÃÅ²´Ù.
+        //Â¸Â¸Â¾Ã  Â¸Â¶Â¿Ã¬Â½Âº Â¿Ã²ÃÃ·Ã€Ã“Ã€ÃŒ Â¾Ã¸Â´Ã™Â¸Ã© ÂºÂ¤Ã…ÃÂ°ÂªÂ¿Â¡ Â´Ã«Ã‡Ã‘ ÃˆÃ»Ã€Â» 0Ã€Â¸Â·Ã Â°Ã­ÃÂ¤Â½ÃƒÃ…Â²Â´Ã™.
         if (yRotateSize == 0)
             rb.angularVelocity = Vector3.zero;
-        //ÇÃ·¹ÀÌ¾îÀÇ È¸Àü°ª¿¡´ëÇÑ ³»¿ëÀ» Àû¿ë½ÃÄÑÁØ´Ù
+        //Ã‡ÃƒÂ·Â¹Ã€ÃŒÂ¾Ã®Ã€Ã‡ ÃˆÂ¸Ã€Ã¼Â°ÂªÂ¿Â¡Â´Ã«Ã‡Ã‘ Â³Â»Â¿Ã«Ã€Â» Ã€Ã»Â¿Ã«Â½ÃƒÃ„Ã‘ÃÃ˜Â´Ã™
         transform.eulerAngles = new Vector3(0, yRotate, 0);
-        //playerStateº¯°æÀ» À§ÇØ ÀÔ·Â°ª¿¡ ´ëÇÑ Stateº¯°æÀ» ÁøÇàÇÑ´Ù
-        //ÇÃ·¹ÀÌ¾î°¡ º¸´Â ¹æÇâ¿¡ µû¸¥ ¿òÁ÷ÀÓÀÇ ÀÔ·Â°ªÀ» Ãâ·ÂÇØÁØ´Ù.
+        //playerStateÂºÂ¯Â°Ã¦Ã€Â» Ã€Â§Ã‡Ã˜ Ã€Ã”Â·Ã‚Â°ÂªÂ¿Â¡ Â´Ã«Ã‡Ã‘ StateÂºÂ¯Â°Ã¦Ã€Â» ÃÃ¸Ã‡Ã Ã‡Ã‘Â´Ã™
+        //Ã‡ÃƒÂ·Â¹Ã€ÃŒÂ¾Ã®Â°Â¡ ÂºÂ¸Â´Ã‚ Â¹Ã¦Ã‡Ã¢Â¿Â¡ ÂµÃ»Â¸Â¥ Â¿Ã²ÃÃ·Ã€Ã“Ã€Ã‡ Ã€Ã”Â·Ã‚Â°ÂªÃ€Â» ÃƒÃ¢Â·Ã‚Ã‡Ã˜ÃÃ˜Â´Ã™.
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
         {
             Vector3 move = transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal");
@@ -75,7 +75,7 @@ public class PlayerMove : MonoBehaviour
             playerState = PlayerState.Idle;
     }
 
-    //ÇÃ·¹ÀÌ¾îÀÇ ÇÏ´Ü(¹ß¹Ù´Ú)ÂÊ¿¡ Ã¼Å©¹Ú½º ¿ÀºêÁ§Æ®¸¦ À§Ä¡½ÃÄÑ Ground·Î ·¹ÀÌ¾î ÁöÁ¤ÀÌµÈ ¿ÀºêÁ§Æ®¿Í Äİ¶óÀÌ´õ°¡ °ãÄ¡°Ô µÇ¸é Á¡ÇÁ°¡ °¡´ÉÇÏ°Ô²û boolÃ¼Å©¸¦ ÇØÁØ´Ù
+    //Ã‡ÃƒÂ·Â¹Ã€ÃŒÂ¾Ã®Ã€Ã‡ Ã‡ÃÂ´Ãœ(Â¹ÃŸÂ¹Ã™Â´Ãš)Ã‚ÃŠÂ¿Â¡ ÃƒÂ¼Ã…Â©Â¹ÃšÂ½Âº Â¿Ã€ÂºÃªÃÂ§Ã†Â®Â¸Â¦ Ã€Â§Ã„Â¡Â½ÃƒÃ„Ã‘ GroundÂ·Ã Â·Â¹Ã€ÃŒÂ¾Ã® ÃÃ¶ÃÂ¤Ã€ÃŒÂµÃˆ Â¿Ã€ÂºÃªÃÂ§Ã†Â®Â¿Ã Ã„ÃÂ¶Ã³Ã€ÃŒÂ´ÃµÂ°Â¡ Â°Ã£Ã„Â¡Â°Ã” ÂµÃ‡Â¸Ã© ÃÂ¡Ã‡ÃÂ°Â¡ Â°Â¡Â´Ã‰Ã‡ÃÂ°Ã”Â²Ã» boolÃƒÂ¼Ã…Â©Â¸Â¦ Ã‡Ã˜ÃÃ˜Â´Ã™
     void IsGroundCheck()
     {
         Collider[] cols = Physics.OverlapBox(groundCheckTransform.position, boxSize * 0.5f,

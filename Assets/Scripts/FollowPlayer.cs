@@ -9,46 +9,46 @@ public class FollowPlayer : MonoBehaviour
 
     void Update()
     {
-        // ÁÂ¿ì·Î ¿òÁ÷ÀÎ ¸¶¿ì½ºÀÇ ÀÌµ¿·® * ¼Óµµ¿¡ µû¶ó Ä«¸Ş¶ó°¡ ÁÂ¿ì·Î È¸ÀüÇÒ ¾ç °è»ê
+        // ì¢Œìš°ë¡œ ì›€ì§ì¸ ë§ˆìš°ìŠ¤ì˜ ì´ë™ëŸ‰ * ì†ë„ì— ë”°ë¼ ì¹´ë©”ë¼ê°€ ì¢Œìš°ë¡œ íšŒì „í•  ì–‘ ê³„ì‚°
         float yRotateSize = Input.GetAxis("Mouse X") * turnSpeed;
-        // ÇöÀç yÃà È¸Àü°ª¿¡ ´õÇÑ »õ·Î¿î È¸Àü°¢µµ °è»ê
+        // í˜„ì¬ yì¶• íšŒì „ê°’ì— ë”í•œ ìƒˆë¡œìš´ íšŒì „ê°ë„ ê³„ì‚°
         float yRotate = transform.eulerAngles.y + yRotateSize;
 
-        // À§¾Æ·¡·Î ¿òÁ÷ÀÎ ¸¶¿ì½ºÀÇ ÀÌµ¿·® * ¼Óµµ¿¡ µû¶ó Ä«¸Ş¶ó°¡ È¸ÀüÇÒ ¾ç °è»ê(ÇÏ´Ã, ¹Ù´ÚÀ» ¹Ù¶óº¸´Â µ¿ÀÛ)
+        // ìœ„ì•„ë˜ë¡œ ì›€ì§ì¸ ë§ˆìš°ìŠ¤ì˜ ì´ë™ëŸ‰ * ì†ë„ì— ë”°ë¼ ì¹´ë©”ë¼ê°€ íšŒì „í•  ì–‘ ê³„ì‚°(í•˜ëŠ˜, ë°”ë‹¥ì„ ë°”ë¼ë³´ëŠ” ë™ì‘)
         float xRotateSize = -Input.GetAxis("Mouse Y") * turnSpeed;
-        // À§¾Æ·¡ È¸Àü·®À» ´õÇØÁÖÁö¸¸ -45µµ ~ 80µµ·Î Á¦ÇÑ (-45:ÇÏ´Ã¹æÇâ, 80:¹Ù´Ú¹æÇâ)
-        // Clamp ´Â °ªÀÇ ¹üÀ§¸¦ Á¦ÇÑÇÏ´Â ÇÔ¼ö
+        // ìœ„ì•„ë˜ íšŒì „ëŸ‰ì„ ë”í•´ì£¼ì§€ë§Œ -45ë„ ~ 80ë„ë¡œ ì œí•œ (-45:í•˜ëŠ˜ë°©í–¥, 80:ë°”ë‹¥ë°©í–¥)
+        // Clamp ëŠ” ê°’ì˜ ë²”ìœ„ë¥¼ ì œí•œí•˜ëŠ” í•¨ìˆ˜
         xRotate = Mathf.Clamp(xRotate + xRotateSize, -45, 80);
-        // Ä«¸Ş¶ó È¸Àü·®À» Ä«¸Ş¶ó¿¡ ¹İ¿µ(X, YÃà¸¸ È¸Àü)
+        // ì¹´ë©”ë¼ íšŒì „ëŸ‰ì„ ì¹´ë©”ë¼ì— ë°˜ì˜(X, Yì¶•ë§Œ íšŒì „)
         transform.eulerAngles = new Vector3(xRotate, transform.eulerAngles.y, 0);
     }
     
 
-    //½ÇÇè(1)
+    //ì‹¤í—˜(1)
     /*
     public GameObject player;
 
     bool zoomCheck = true;
     void Update()
     {
-        if (zoomCheck) //zoomCheckÀÇ bool Å¸ÀÔÀÌ Âü/°ÅÁş¿¡ µû¶ó ½ÃÁ¡, Á¶ÀÛ¸ğµå ÀüÈ¯
-            ZoomIn(); //1ÀÎÄªºä
+        if (zoomCheck) //zoomCheckì˜ bool íƒ€ì…ì´ ì°¸/ê±°ì§“ì— ë”°ë¼ ì‹œì , ì¡°ì‘ëª¨ë“œ ì „í™˜
+            ZoomIn(); //1ì¸ì¹­ë·°
         else
-            ZoomOut(); //ÄõÅÍºä
+            ZoomOut(); //ì¿¼í„°ë·°
 
         if (Input.GetKeyDown("v"))
             zoomCheck = !zoomCheck;
     }
 
-    //Ä«¸Ş¶óÀÇ ±âº» Æ÷Áö¼ÇÀº Àâ¾ÒÀ¸³ª ÃßÈÄ ÁöÇü/ÇÃ·¹ÀÌ¾î ½ºÄÉÀÏ °í·ÁÇÏ¿© ¼öÁ¤¿¹Á¤
+    //ì¹´ë©”ë¼ì˜ ê¸°ë³¸ í¬ì§€ì…˜ì€ ì¡ì•˜ìœ¼ë‚˜ ì¶”í›„ ì§€í˜•/í”Œë ˆì´ì–´ ìŠ¤ì¼€ì¼ ê³ ë ¤í•˜ì—¬ ìˆ˜ì •ì˜ˆì •
     void ZoomIn()
     {
-        transform.position = player.transform.position; //ÁÜin
+        transform.position = player.transform.position; //ì¤Œin
     }
 
     void ZoomOut() 
     {
-        transform.position = player.transform.position + new Vector3(0, 12.0f, -15); //ÁÜ out
+        transform.position = player.transform.position + new Vector3(0, 12.0f, -15); //ì¤Œ out
         transform.rotation = Quaternion.Euler(45, 0, 0);
     }
     */
