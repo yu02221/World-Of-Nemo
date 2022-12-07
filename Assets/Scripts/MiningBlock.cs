@@ -10,10 +10,18 @@ public class TerrainModifier : MonoBehaviour
 
     public float maxDist = 4;
 
-    public float durability = 1;
+    public float durability;
+    public float curDurability;
 
-    int chunkPosX = -1;
-    int chunkPosZ = -1;
+    int curBlockX = TerrainChunk.chunkWidth;
+    int curBlockY = TerrainChunk.chunkHeight;
+    int curBlockZ = TerrainChunk.chunkWidth;
+
+    int bix;
+    int biy;
+    int biz;
+
+    TerrainChunk tc;
 
     void Update()
     {
@@ -24,96 +32,81 @@ public class TerrainModifier : MonoBehaviour
             MiningBlock();
         else if (rightClick)
             PlacingBlock();
-
-        /*
-        if (leftClick || rightClick)
-        {
-            RaycastHit hitInfo;
-            if (Physics.Raycast(transform.position, transform.forward, out hitInfo, maxDist, groundLayer))
-            {
-                Vector3 pointInTargetBlock;
-
-                //destroy
-                if (leftClick)
-                    pointInTargetBlock = hitInfo.point + transform.forward * .01f;//move a little inside the block
-                else
-                    pointInTargetBlock = hitInfo.point - transform.forward * .01f;
-                //get the terrain chunk (can't just use collider)
-                int chunkPosX = Mathf.FloorToInt(pointInTargetBlock.x / 16f) * 16;
-                int chunkPosZ = Mathf.FloorToInt(pointInTargetBlock.z / 16f) * 16;
-
-                print("X :" + chunkPosX);
-                print("Z :" + chunkPosZ);
-                ChunkPos cp = new ChunkPos(chunkPosX, chunkPosZ);
-
-                TerrainChunk tc = TerrainGenerator.buildedChunks[cp];
-
-                //index of the target block
-                int bix = Mathf.FloorToInt(pointInTargetBlock.x) - chunkPosX;
-                int biy = Mathf.FloorToInt(pointInTargetBlock.y);
-                int biz = Mathf.FloorToInt(pointInTargetBlock.z) - chunkPosZ;
-
-                if (leftClick)//replace block with air
-                {
-                    //inv.AddToInventory(tc.blocks[bix, biy, biz]);
-                    tc.blocks[bix, biy, biz] = BlockType.Air;
-                    tc.BuildMesh();
-                }
-                else if (rightClick)
-                {
-                    tc.blocks[bix, biy, biz] = BlockType.Soil;
-
-                    tc.BuildMesh();
-                }
-            }
-        }
-        */
     }
 
     private void MiningBlock()
     {
-        RaycastHit hitInfo;
-        if (Physics.Raycast(transform.position, transform.forward, out hitInfo, maxDist, groundLayer))
+        if (GetTargetBlock(1))
         {
-            Vector3 targetBlock = hitInfo.point + transform.forward * .01f;
-
-            int ChunkPosX = Mathf.FloorToInt(targetBlock.x / 16f) * 16;
-            int ChunkPosZ = Mathf.FloorToInt(targetBlock.z / 16f) * 16;
-
-            ChunkPos cp = new ChunkPos(chunkPosX, chunkPosZ);
-
-            TerrainChunk tc = TerrainGenerator.buildedChunks[cp];
-
-            //index of the target block
-            int bix = Mathf.FloorToInt(targetBlock.x) - chunkPosX;
-            int biy = Mathf.FloorToInt(targetBlock.y);
-            int biz = Mathf.FloorToInt(targetBlock.z) - chunkPosZ;
-            if (false)
+            if (bix != curBlockX || biy != curBlockY || biz != curBlockZ)
             {
-                
-                durability = 1;
+                curDurability = durability;
+                curBlockX = bix;
+                curBlockY = biy;
+                curBlockZ = biz;
             }
             else
             {
-                durability -= Time.deltaTime;
+                curDurability -= Time.deltaTime;
             }
-
-            if (durability <= 0)
+            
+            if (curDurability <= 0)
             {
+                curDurability = durability;
                 tc.blocks[bix, biy, biz] = BlockType.Air;
                 tc.BuildMesh();
             }
         }
-
-        
     }
 
     private void PlacingBlock()
     {
+        if (GetTargetBlock(-1))
+        {
+            tc.blocks[bix, biy, biz] = BlockType.Soil;
+
+            tc.BuildMesh();
+        }
+    }
+
+    private bool GetTargetBlock(int sign)
+    {
         RaycastHit hitInfo;
         if (Physics.Raycast(transform.position, transform.forward, out hitInfo, maxDist + 1, groundLayer))
         {
+            Vector3 targetPos = hitInfo.point + transform.forward * .01f * sign;
 
+            int chunkPosX = Mathf.FloorToInt(targetPos.x / 16f) * 16;
+            int chunkPosZ = Mathf.FloorToInt(targetPos.z / 16f) * 16;
+            ChunkPos cp = new ChunkPos(chunkPosX, chunkPosZ);
+
+            tc = TerrainGenerator.buildedChunks[cp];
+
+            //index of the target block
+            bix = Mathf.FloorToInt(targetPos.x) - chunkPosX;
+            biy = Mathf.FloorToInt(targetPos.y);
+            biz = Mathf.FloorToInt(targetPos.z) - chunkPosZ;
+            GetBlockDurability(tc.blocks[bix, biy, biz]);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    private void GetBlockDurability(BlockType targetBlock)
+    {
+        switch (targetBlock)
+        {
+            case BlockType.Grass:
+            case BlockType.Soil:
+                durability = 1.0f;
+                break;
+            case BlockType.Stone:
+                durability = 4.0f;
+                break;
+            default:
+                durability = 0;
+                break;
         }
     }
 }
