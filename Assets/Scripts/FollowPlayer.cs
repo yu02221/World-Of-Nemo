@@ -6,7 +6,7 @@ public class FollowPlayer : MonoBehaviour
 {
 
     //실험(2)-미완
-    /*
+    
     public float turnSpeed = 4.0f;
     private float xRotate = 0.0f;
 
@@ -25,12 +25,12 @@ public class FollowPlayer : MonoBehaviour
         float xRotateSize = -Input.GetAxis("Mouse Y") * turnSpeed;
         // 위아래 회전량을 더해주지만 -45도 ~ 80도로 제한 (-45:하늘방향, 80:바닥방향)
         // Clamp 는 값의 범위를 제한하는 함수
-        xRotate = Mathf.Clamp(xRotate + xRotateSize, -45, 80);
+        xRotate = Mathf.Clamp(xRotate + xRotateSize, -80, 80);
 
         // 카메라 회전량을 카메라에 반영(X, Y축만 회전)
-        transform.eulerAngles = new Vector3(xRotate, yRotate, 0);
+        transform.eulerAngles = new Vector3(xRotate, transform.eulerAngles.y, transform.eulerAngles.z);
     }
-    */
+    
 
     //실험(1)
     /*
