@@ -2,89 +2,110 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+    public enum PlayerState
+    {
+        Idle,
+        Walk,
+        Run,
+        Jump,
+        Crouch,
+        Attack,
+        Damaged,
+        Dead,
+    }
 public class PlayerMove : MonoBehaviour
 {
-    //실험(2)-미완
+    //현재 플레이어의 상태
+    public PlayerState playerState;
+
+    //AnimationClip을 이용해 상태에 대한 동작 구현예정
+    //여기부터
+
+    //여기까지
+
+    //플레이어 움직임 관련 변수 시작
+    public float turnSpeed;
+    public float moveSpeed;
+    Rigidbody rb;
+    //끝
+
+    //플레이어 점프 관련 변수 시작
+    public Transform groundCheckTransform;
+    public Vector3 boxSize = new Vector3(0f, 1f,01f);
+    public float halfsize = 1;
+    public LayerMask groundCheckLayerMask;
+    public float jumpPower;
+    bool isGround;
     
-    public float turnSpeed = 4.0f;
-    public float moveSpeed = 4.0f;
-    float xRotate = 0.0f;
-
-    private void Update()
-    {
-        Move();
-    }
-    void Move()
-    {
-        float yRotateSize = Input.GetAxis("Mouse X") * turnSpeed;
-        float yRotate = transform.eulerAngles.y + yRotateSize;
-
-        transform.eulerAngles = new Vector3(xRotate, yRotate, 0);
-
-        Vector3 move =
-            transform.forward * Input.GetAxis("Vertical") +
-            transform.right * Input.GetAxis("Horizontal");
-
-        transform.position += move * moveSpeed * Time.deltaTime;
-    }
-    
-
-    //실험(1)
-    /*
-    float hAxis;
-    float vAxis;
-    public float jump;
-    public float speed;
-    public float rotSpeed;
-    Rigidbody body;
-    Vector3 moveVec;
-    bool isGround = true;
-    
+    //끝
 
     private void Start()
     {
-        //body = GetComponent<Rigidbody>(); 
+        rb = GetComponent<Rigidbody>();
     }
-    private void FixedUpdate()
+    private void Update()
     {
-        //실험(1)
-        //Move();
-        //Jump();
-
+        IsGroundCheck();
+        if (playerState != PlayerState.Dead && playerState != PlayerState.Attack)
+        {
+            Move();
+            Jump();
+        }
     }
-
-    
     void Move()
     {
-        hAxis = Input.GetAxisRaw("Horizontal");
-        vAxis = Input.GetAxisRaw("Vertical");
-
-        moveVec = new Vector3(hAxis, 0, vAxis).normalized;
-
-        transform.position += moveVec * speed * Time.deltaTime;
-        transform.rotation = Quaternion.Lerp
-            (transform.rotation, Quaternion.LookRotation(moveVec), Time.deltaTime * rotSpeed);
-
-        transform.LookAt(transform.position + moveVec);
-    }
-    
-    void Jump()
-    {
-        
-        if(Input.GetKey(KeyCode.Space) && isGround)
+        //마우스 움직임에 대한 값을 받는다
+        float yRotateSize = Input.GetAxis("Mouse X") * turnSpeed;
+        //받은 값을 저장한다
+        float yRotate = transform.eulerAngles.y + yRotateSize;
+        //만약 마우스 움직임이 없다면 벡터값에 대한 힘을 0으로 고정시킨다.
+        if (yRotateSize == 0)
+            rb.angularVelocity = Vector3.zero;
+        //플레이어의 회전값에대한 내용을 적용시켜준다
+        transform.eulerAngles = new Vector3(0, yRotate, 0);
+        //playerState변경을 위해 입력값에 대한 State변경을 진행한다
+        //플레이어가 보는 방향에 따른 움직임의 입력값을 출력해준다.
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
         {
-            body.AddForce(Vector3.up * jump, ForceMode.Impulse);
-
-            isGround = false;
+            Vector3 move = transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal");
+            transform.position += move * moveSpeed * Time.deltaTime;
+            playerState = PlayerState.Walk;
         }
+        else if(isGround == true)
+            playerState = PlayerState.Idle;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    //플레이어의 하단(발바닥)쪽에 체크박스 오브젝트를 위치시켜 Ground로 레이어 지정이된 오브젝트와 콜라이더가 겹치게 되면 점프가 가능하게끔 bool체크를 해준다
+    void IsGroundCheck()
     {
-        if(collision.gameObject.CompareTag("Ground"))
-        {
+        Collider[] cols = Physics.OverlapBox(groundCheckTransform.position, boxSize * 0.5f,
+            groundCheckTransform.rotation,
+            groundCheckLayerMask);
+        if (cols.Length > 0)
+        { 
             isGround = true;
         }
-    
-    */
+        else
+        { 
+            isGround = false;
+            playerState = PlayerState.Jump;
+        }
+        print(isGround);
+        
+    }
+    void Jump()
+    {
+        if (playerState != PlayerState.Dead && playerState != PlayerState.Damaged &&
+            playerState != PlayerState.Attack && playerState != PlayerState.Crouch &&
+            isGround == true)
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                print("jump");
+                rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+                //rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            }
+            else return;
+        }
+    }
 }
