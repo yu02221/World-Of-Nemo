@@ -37,7 +37,7 @@ public class UIManager : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("Loading"); //게임 들어가기
+        SceneManager.LoadScene("World"); //게임 들어가기
     }
 
     public void QuitGame()
