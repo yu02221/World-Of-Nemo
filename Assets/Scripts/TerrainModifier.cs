@@ -10,8 +10,8 @@ public class TerrainModifier : MonoBehaviour
 
     public float maxDist = 4;
 
-    public float durability;
-    public float curDurability;
+    private float durability;
+    private float curDurability;
 
     int curBlockX = TerrainChunk.chunkWidth;
     int curBlockY = TerrainChunk.chunkHeight;
