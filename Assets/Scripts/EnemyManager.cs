@@ -7,7 +7,36 @@ using System.Text;
 
 public class EnemyManager : MonoBehaviour
 {
-    
+    public enum EnemyState
+    {
+        Idle,
+        Move,
+        Jump,
+        Return,
+        Die,
+    }
+    public EnemyState e_State;
+
+    public Transform player;
+    public float findDistance;
+    public float moveSpeed;
+    public float moveDistance;
+
+    Vector3 dir;
+    Vector3 originPos; //Enemy의 원래 위치값
+    Quaternion originRot; //Enemy의 원래 회전값(바라보던 방향)
+
+    private void Start()
+    {
+        e_State = EnemyState.Idle;
+        originPos = transform.position;
+        originRot = transform.rotation;
+    }
+
+    private void Update()
+    {
+        
+    }
 
     //FPS Game의 Enemy를 참고하여 만든 스크립트
     /*
