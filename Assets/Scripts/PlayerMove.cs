@@ -90,8 +90,6 @@ public class PlayerMove : MonoBehaviour
             isGround = false;
             playerState = PlayerState.Jump;
         }
-        print(isGround);
-        
     }
     void Jump()
     {

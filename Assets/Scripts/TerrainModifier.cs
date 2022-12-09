@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class TerrainModifier : MonoBehaviour
 {
+    public Transform player;
+    private PlayerStatus ps;
+
     public LayerMask groundLayer;
 
     //public Inventory inv;
@@ -21,7 +24,14 @@ public class TerrainModifier : MonoBehaviour
     int biy;
     int biz;
 
+    bool placible;
+
     TerrainChunk tc;
+
+    private void Start()
+    {
+        ps = player.GetComponent<PlayerStatus>();
+    }
 
     void Update()
     {
@@ -63,9 +73,16 @@ public class TerrainModifier : MonoBehaviour
     {
         if (GetTargetBlock(-1))
         {
-            tc.blocks[bix, biy, biz] = BlockType.Soil;
+            print($"{ps.standBlockX - ps.standChunkX} : {bix}");
+            print($"{ps.standBlockZ - ps.standChunkZ} : {biz}");
+            if (ps.standBlockX - ps.standChunkX != bix ||
+                ps.standBlockZ - ps.standChunkZ != biz ||
+                ps.standBlockY != biy)
+            {
+                tc.blocks[bix, biy, biz] = BlockType.Soil;
+                tc.BuildMesh();
+            }
 
-            tc.BuildMesh();
         }
     }
 
@@ -78,6 +95,7 @@ public class TerrainModifier : MonoBehaviour
 
             int chunkPosX = Mathf.FloorToInt(targetPos.x / 16f) * 16;
             int chunkPosZ = Mathf.FloorToInt(targetPos.z / 16f) * 16;
+
             ChunkPos cp = new ChunkPos(chunkPosX, chunkPosZ);
 
             tc = TerrainGenerator.buildedChunks[cp];
