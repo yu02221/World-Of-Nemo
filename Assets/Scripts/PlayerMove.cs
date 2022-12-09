@@ -90,8 +90,6 @@ public class PlayerMove : MonoBehaviour
             isGround = false;
             playerState = PlayerState.Jump;
         }
-        print(isGround);
-        
     }
     void Jump()
     {
@@ -101,7 +99,6 @@ public class PlayerMove : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump"))
             {
-                print("jump");
                 rb.velocity = new Vector2(rb.velocity.x, jumpPower);
                 //rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
             }

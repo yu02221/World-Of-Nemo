@@ -28,6 +28,11 @@ public class TerrainGenerator : MonoBehaviour
         seed = Random.Range(100000, 999999);
 
         player = GameObject.Find("Player").transform;
+        int playerY = (int)(Mathf.PerlinNoise(
+            (player.position.x / 2 + seed) / terrainDetail, 
+            (player.position.z / 2 + seed) / terrainDetail)
+            * terrainHeight) + 18;
+        player.position = new Vector3(player.position.x, playerY, player.position.z);
 
         curChunkPosX = Mathf.FloorToInt(player.position.x / 16);
         curChunkPosZ = Mathf.FloorToInt(player.position.z / 16);
