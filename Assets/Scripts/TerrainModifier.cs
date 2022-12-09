@@ -73,8 +73,6 @@ public class TerrainModifier : MonoBehaviour
     {
         if (GetTargetBlock(-1))
         {
-            print($"{ps.standBlockX - ps.standChunkX} : {bix}");
-            print($"{ps.standBlockZ - ps.standChunkZ} : {biz}");
             if (ps.standBlockX - ps.standChunkX != bix ||
                 ps.standBlockZ - ps.standChunkZ != biz ||
                 ps.standBlockY != biy)
@@ -104,6 +102,9 @@ public class TerrainModifier : MonoBehaviour
             bix = Mathf.FloorToInt(targetPos.x) - chunkPosX;
             biy = Mathf.FloorToInt(targetPos.y);
             biz = Mathf.FloorToInt(targetPos.z) - chunkPosZ;
+
+            if (biy >= TerrainChunk.chunkHeight || biy < 0)
+                return false;
             GetBlockDurability(tc.blocks[bix, biy, biz]);
             return true;
         }

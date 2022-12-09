@@ -99,7 +99,6 @@ public class PlayerMove : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump"))
             {
-                print("jump");
                 rb.velocity = new Vector2(rb.velocity.x, jumpPower);
                 //rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
             }
