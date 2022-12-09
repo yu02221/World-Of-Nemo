@@ -27,6 +27,8 @@ public class PlayerMove : MonoBehaviour
     public float turnSpeed;
     public float moveSpeed;
     Rigidbody rb;
+    //블럭 측면과의 거리 측정
+    bool isBorder;
     //끝
 
     //플레이어 점프 관련 변수 시작
@@ -36,8 +38,9 @@ public class PlayerMove : MonoBehaviour
     public LayerMask groundCheckLayerMask;
     public float jumpPower;
     bool isGround;
-    
     //끝
+
+    Vector3 dir;
 
     private void Start()
     {
@@ -51,11 +54,29 @@ public class PlayerMove : MonoBehaviour
             Move();
             Jump();
         }
+        StopToWall();
     }
+
+    void StopToWall()
+    {
+        dir = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
+        if (Input.GetKey(KeyCode.W))
+        {
+            isBorder = Physics.Raycast(dir, transform.forward, 0.55f, LayerMask.GetMask("Ground"));
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+                isBorder = false;
+        }
+        else
+            isBorder = false;
+        
+        Debug.DrawRay(dir, transform.forward * 0.55f, Color.red);
+        print(isBorder);
+    }
+
     void Move()
     {
         //마우스 움직임에 대한 값을 받는다
-        float yRotateSize = Input.GetAxis("Mouse X") * turnSpeed;
+        float yRotateSize = Input.GetAxis("Mouse X") * turnSpeed * Time.deltaTime;
         //받은 값을 저장한다
         float yRotate = transform.eulerAngles.y + yRotateSize;
         //만약 마우스 움직임이 없다면 벡터값에 대한 힘을 0으로 고정시킨다.
@@ -67,8 +88,18 @@ public class PlayerMove : MonoBehaviour
         //플레이어가 보는 방향에 따른 움직임의 입력값을 출력해준다.
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
         {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                moveSpeed = 8;
+            }
+            else
+                moveSpeed = 4;
+
             Vector3 move = transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal");
-            transform.position += move * moveSpeed * Time.deltaTime;
+            if(!isBorder) //만약 벽과의 거리가 설정값보다 작다면 움직
+            {
+                transform.position += move * moveSpeed * Time.deltaTime;
+            }
             playerState = PlayerState.Walk;
         }
         else if(isGround == true)

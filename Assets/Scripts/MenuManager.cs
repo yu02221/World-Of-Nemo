@@ -15,11 +15,11 @@ public class MenuManager : MonoBehaviour
         {
             if(GameIsMenu)
             {
-                InGameMenu();
+                CloseGameMenu();
             }
             else
             {
-                Pause();
+                OpenGameMenu();
             }
         }
     }
@@ -28,17 +28,17 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
-    public void InGameMenu()
+    public void CloseGameMenu()
     {
         menuCanvas.SetActive(false);
-        Time.timeScale = 0f;
+        Time.timeScale = 1f;
         GameIsMenu = false;
     }
 
-    public void Pause()
+    public void OpenGameMenu()
     {
         menuCanvas.SetActive(true);
-        Time.timeScale = 1f;
+        Time.timeScale = 0f;
         GameIsMenu = true;
     }
 
