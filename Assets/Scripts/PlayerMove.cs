@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-    public enum PlayerState
-    {
-        Idle,
-        Walk,
-        Run,
-        Jump,
-        Crouch,
-        Attack,
-        Damaged,
-        Dead,
-    }
+public enum PlayerState
+{
+    Idle,
+    Walk,
+    Run,
+    Jump,
+    Crouch,
+    Attack,
+    Damaged,
+    Dead,
+}
 public class PlayerMove : MonoBehaviour
 {
     //현재 플레이어의 상태
@@ -20,7 +20,7 @@ public class PlayerMove : MonoBehaviour
 
     //AnimationClip을 이용해 상태에 대한 동작 구현예정
     //여기부터
-
+    public Animator playerAnim;
     //여기까지
 
     //플레이어 움직임 관련 변수 시작
@@ -70,7 +70,6 @@ public class PlayerMove : MonoBehaviour
             isBorder = false;
         
         Debug.DrawRay(dir, transform.forward * 0.55f, Color.red);
-        print(isBorder);
     }
 
     void Move()
@@ -90,20 +89,33 @@ public class PlayerMove : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.LeftShift))
             {
+                playerState = PlayerState.Run;
+                playerAnim.SetBool("run", true);
                 moveSpeed = 8;
             }
             else
+            {
+                playerState = PlayerState.Walk;
+                playerAnim.SetBool("walk", true);
+                playerAnim.SetBool("run", false);
                 moveSpeed = 4;
-
+            }
+            
             Vector3 move = transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal");
             if(!isBorder) //만약 벽과의 거리가 설정값보다 작다면 움직
             {
                 transform.position += move * moveSpeed * Time.deltaTime;
             }
             playerState = PlayerState.Walk;
+            playerAnim.SetBool("walk", true);
         }
         else if(isGround == true)
+        {
             playerState = PlayerState.Idle;
+            playerAnim.SetBool("walk", false);
+            playerAnim.SetBool("run", false);
+
+        }
     }
 
     //플레이어의 하단(발바닥)쪽에 체크박스 오브젝트를 위치시켜 Ground로 레이어 지정이된 오브젝트와 콜라이더가 겹치게 되면 점프가 가능하게끔 bool체크를 해준다
