@@ -33,7 +33,7 @@ public class PlayerMove : MonoBehaviour
 
     //플레이어 점프 관련 변수 시작
     public Transform groundCheckTransform;
-    public Vector3 boxSize = new Vector3(0f, 1f,01f);
+    public Vector3 boxSize = new Vector3(0f, 1f, 0f);
     public float halfsize = 1;
     public LayerMask groundCheckLayerMask;
     public float jumpPower;
