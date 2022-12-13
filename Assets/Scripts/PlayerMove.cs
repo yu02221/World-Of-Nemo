@@ -48,12 +48,15 @@ public class PlayerMove : MonoBehaviour
     }
     private void Update()
     {
+        if (playerState != PlayerState.Dead && playerState != PlayerState.Attack)
+            Jump();
+    }
+
+    private void FixedUpdate()
+    {
         IsGroundCheck();
         if (playerState != PlayerState.Dead && playerState != PlayerState.Attack)
-        {
             Move();
-            Jump();
-        }
         StopToWall();
     }
 
@@ -75,7 +78,7 @@ public class PlayerMove : MonoBehaviour
     void Move()
     {
         //마우스 움직임에 대한 값을 받는다
-        float yRotateSize = Input.GetAxis("Mouse X") * turnSpeed * Time.deltaTime;
+        float yRotateSize = Input.GetAxis("Mouse X") * turnSpeed * Time.fixedDeltaTime;
         //받은 값을 저장한다
         float yRotate = transform.eulerAngles.y + yRotateSize;
         //만약 마우스 움직임이 없다면 벡터값에 대한 힘을 0으로 고정시킨다.
@@ -104,7 +107,7 @@ public class PlayerMove : MonoBehaviour
             Vector3 move = transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal");
             if(!isBorder) //만약 벽과의 거리가 설정값보다 작다면 움직
             {
-                transform.position += move * moveSpeed * Time.deltaTime;
+                transform.position += move * moveSpeed * Time.fixedDeltaTime;
             }
             playerState = PlayerState.Walk;
             playerAnim.SetBool("walk", true);

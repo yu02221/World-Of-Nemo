@@ -28,6 +28,8 @@ public class TerrainModifier : MonoBehaviour
 
     TerrainChunk tc;
 
+    public BlockType placeBlock;
+
     private void Start()
     {
         ps = player.GetComponent<PlayerStatus>();
@@ -77,7 +79,7 @@ public class TerrainModifier : MonoBehaviour
                 ps.standBlockZ - ps.standChunkZ != biz ||
                 ps.standBlockY != biy)
             {
-                tc.blocks[bix, biy, biz] = BlockType.Dirt;
+                tc.blocks[bix, biy, biz] = placeBlock;
                 tc.BuildMesh();
             }
 

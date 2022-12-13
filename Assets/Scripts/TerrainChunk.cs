@@ -61,7 +61,7 @@ public class TerrainChunk : MonoBehaviour
                             verts.Add(blockPos + new Vector3(1, 0, 0));
                             numFaces++;
 
-                            uvs.AddRange(Block.blocks[blocks[x, y, z]].sidePos.GetUVs());
+                            uvs.AddRange(Block.blocks[blocks[x, y, z]].frontPos.GetUVs());
                         }
 
                         //right
@@ -85,7 +85,7 @@ public class TerrainChunk : MonoBehaviour
                             verts.Add(blockPos + new Vector3(0, 0, 1));
                             numFaces++;
 
-                            uvs.AddRange(Block.blocks[blocks[x, y, z]].sidePos.GetUVs());
+                            uvs.AddRange(Block.blocks[blocks[x, y, z]].frontPos.GetUVs());
                         }
 
                         //left
