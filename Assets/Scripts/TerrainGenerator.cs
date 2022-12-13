@@ -136,7 +136,7 @@ public class TerrainGenerator : MonoBehaviour
         else if (y == grassY)
             bt = BlockType.Grass;
         else if (y < grassY && y >= grassY - soilRange)
-            bt = BlockType.Soil;
+            bt = BlockType.Dirt;
         else
             bt = BlockType.Stone;
 

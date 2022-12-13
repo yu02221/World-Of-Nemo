@@ -77,7 +77,7 @@ public class TerrainModifier : MonoBehaviour
                 ps.standBlockZ - ps.standChunkZ != biz ||
                 ps.standBlockY != biy)
             {
-                tc.blocks[bix, biy, biz] = BlockType.Soil;
+                tc.blocks[bix, biy, biz] = BlockType.Dirt;
                 tc.BuildMesh();
             }
 
@@ -117,7 +117,7 @@ public class TerrainModifier : MonoBehaviour
         switch (targetBlock)
         {
             case BlockType.Grass:
-            case BlockType.Soil:
+            case BlockType.Dirt:
                 durability = 1.0f;
                 break;
             case BlockType.Stone:
