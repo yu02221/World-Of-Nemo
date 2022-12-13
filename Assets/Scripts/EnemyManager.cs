@@ -7,24 +7,26 @@ using System.Text;
 
 public class EnemyManager : MonoBehaviour
 {
-    public Transform groundCheckTransform;
-    public Vector3 boxSize = new Vector3(0, 1, 0);
-    public float halfsize = 1;
-    public LayerMask groundCheckLayerMask;
-    public float jumpPower;
-    bool isGround;
+    public Transform groundCheckTransform; //에너미를 기준으로 Ground를 체크하기 위함
+    public Vector3 boxSize = new Vector3(0, 1, 0); //그라운드 체크의 범위를 위한 벡터값
+    public float halfsize = 1; //그라운드 체크의 범위를 줄이기 위한 변수
+    public LayerMask groundCheckLayerMask; //그라운드의 레이어
+    public float jumpPower; //점프할때의 힘
+    bool isGround; // 만약 isGround라면 점프가 불가능, !isGround라면 점프가 가능.
 
     Vector3 dir;
-    Vector3 playerDir;
+    Vector3 lookDir;
+
+    public Transform lookPlayer; //RotateTowards를 자연스럽게 해주기 위해 플레이어에게 시선을 고정시키는 자식obj
     
     public Transform player;
-    public float distanceFromPlayer;
-    public float speed;
-    public float turnSpeed;
+    public float distanceFromPlayer; //Enemy와 Player의 거리를 체크하기 위함
+    public float speed; //이동할때 스피드
+    public float turnSpeed; //턴(플레이어 방향으로)스피드
 
     Rigidbody rb;
 
-    bool isBorder;
+    bool isBorder; //정면방향에 Ground를 체크해주기 위함
 
     private void Start()
     {
@@ -33,22 +35,33 @@ public class EnemyManager : MonoBehaviour
 
     private void Update()
     {
+        lookDir = (player.position - transform.position).normalized;
+        
+        Quaternion from = transform.rotation;
+        Quaternion to = Quaternion.LookRotation(lookDir);
+        transform.rotation = Quaternion.Lerp(from, to, Time.deltaTime);
+        //점프가 가능한지 여부를 지속적으로 묻기 위한 메소드
         IsGroundCheck();
-        playerDir = new Vector3(player.position.x, 0, player.position.z);
-
-        print("isGround" + isGround);
-        print("isBorder" +isBorder);
-
+        //Enemy와 Player의 거리가 일정 수치 미만이 되었는지 체크하기위한 메소드
         CheckDistanceToPlayer();
+        //만약 Enemy와 Player의 거리가 10미만이라면 플레이어 방향으로 이동
         if(distanceFromPlayer < 10)
         {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, playerDir, turnSpeed);
-            //transform.position -= player.transform.forward * speed * Time.deltaTime;
+            
+            //Enemy의 회전값을 부드럽게 변경해주기위함
+            //transform.LookAt(player);
+            //transform.rotation = Quaternion.RotateTowards(player.transform.rotation, transform.rotation, turnSpeed * 5);
+            //transform.rotation = Quaternion.Euler(0, lookPlayer.rotation.x, 0);
+
+            //Enemy의 이동을 담당
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
 
             //움직일때만 메소드가 이용되게 하기 위해
             JumpToWall();
         }
+
+        print("isGround" + isGround);
+        print("isBorder" +isBorder);
     }
 
     //만약 벽 앞까지 온다면 점프
