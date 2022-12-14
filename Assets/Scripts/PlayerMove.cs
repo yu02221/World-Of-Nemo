@@ -151,4 +151,9 @@ public class PlayerMove : MonoBehaviour
             else return;
         }
     }
+
+    public void Attack()
+    {
+
+    }
 }

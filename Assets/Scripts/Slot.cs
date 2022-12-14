@@ -7,7 +7,11 @@ public class Slot : MonoBehaviour
 {
     [SerializeField] Image image;
 
-    private Item _item;
+    public Item _item;
+
+    public int itemCount;
+    public Text itemCountTxt;
+    public GameObject selected;
 
     public Item item
     {
@@ -25,5 +29,13 @@ public class Slot : MonoBehaviour
                 image.color = new Color(1, 1, 1, 0);
             }
         }
+    }
+
+    public void SetItemCountText()
+    {
+        if (itemCount <= 1)
+            itemCountTxt.text = "";
+        else
+            itemCountTxt.text = itemCount.ToString();
     }
 }

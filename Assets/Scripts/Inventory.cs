@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public List<Item> items;
+    public Transform slotParent;
+    public Slot[] slots;
 
-    [SerializeField] private Transform slotParent;
-    [SerializeField] private Slot[] slots;
 
     private void OnValidate()
     {
@@ -22,10 +21,6 @@ public class Inventory : MonoBehaviour
     public void FreshSlot()
     {
         int i = 0;
-        for (; i < items.Count && i < slots.Length; i++)
-        {
-            slots[i].item = items[i];
-        }
         for (; i < slots.Length; i++)
         {
             slots[i].item = null;
@@ -34,14 +29,36 @@ public class Inventory : MonoBehaviour
     
     public void AddItem(Item _item)
     {
-        if (items.Count < slots.Length)
+        int addIdx = -1;
+        
+        for (int i = 0; i < slots.Length; i++)
         {
-            items.Add(_item);
-            FreshSlot();
+            if (slots[i].item == _item && slots[i].itemCount < _item.maxStorageCount)
+            {
+                addIdx = i;
+                break;
+            }
         }
-        else
+
+        if (addIdx == -1)
         {
-            print("½½·ÔÀÌ °¡µæ Ã¡½À´Ï´Ù.");
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (slots[i].item == null)
+                {
+                    addIdx = i;
+                    break;
+                }
+            }
+            if (addIdx == -1)
+            {
+                print("ÀÎº¥Åä¸®°¡ °¡µæ Ã¡½À´Ï´Ù.");
+                return;
+            }
         }
+        if (slots[addIdx].item == null)
+            slots[addIdx].item = _item;
+        slots[addIdx].itemCount++;
+        slots[addIdx].SetItemCountText();
     }
 }

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0a558daea17b54b4a8c11112e4a6a869, type: 3}
-  m_Name: OakPlanks
+  m_Name: Furnace
   m_EditorClassIdentifier: 
   itemType: 0
-  blockType: 7
-  itemName: OakPlanks
-  itemImage: {fileID: 21300000, guid: eaca2d6e8c9f19943be64638b682868a, type: 3}
+  blockType: 8
+  itemName: Furnace
+  itemImage: {fileID: 21300000, guid: 3d216fd98b1ff1e4abf99ecd56adcecd, type: 3}
   maxStorageCount: 64
