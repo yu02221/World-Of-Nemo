@@ -55,6 +55,8 @@ public class PlayerMove : MonoBehaviour
             Jump();
         }
         StopToWall();
+
+        Dead();
     }
 
     void StopToWall()
@@ -70,7 +72,6 @@ public class PlayerMove : MonoBehaviour
             isBorder = false;
         
         Debug.DrawRay(dir, transform.forward * 0.55f, Color.red);
-        print(isBorder);
     }
 
     void Move()
@@ -135,5 +136,11 @@ public class PlayerMove : MonoBehaviour
             }
             else return;
         }
+    }
+
+    void Dead()
+    {
+        if (playerState == PlayerState.Dead)
+            Time.timeScale = 0;
     }
 }
