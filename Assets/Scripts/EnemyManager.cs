@@ -39,9 +39,10 @@ public class EnemyManager : MonoBehaviour
     bool isForwardToWall;
 
     public int attackPower;
-    float attackDelay = 1f;
+    public float attackDelay;
     bool isForwardToPlayer;
     public GameObject nearPlayer;
+    public Text attackDelayText; //지울거
     
     PlayerManager pm;
 
@@ -50,15 +51,25 @@ public class EnemyManager : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         pm = GetComponent<PlayerManager>();
         e_State = E_State.Idle;
+
+        attackDelayText.text = $"Delay : {attackDelay}"; //지울거
     }
 
     private void Update()
     {
         //Enemy와 Player의 거리가 일정 수치 미만이 되었는지 체크하기위한 메소드
         CheckDistanceToPlayer();
-
+        //플레이어와의 거리가 1.3 미만일경우 공격
         if (distanceFromPlayer < 1.3f)
             Attack();
+        //플레이어와의 거리가 1.3초과 3 미만일경우 Idle상태로 변경
+        else if (distanceFromPlayer > 1.3 && distanceFromPlayer < 3)
+            e_State = E_State.Idle;
+        //플레이어와의 거리가 3초과일 경우 어택딜레이 초기화
+        else if (distanceFromPlayer > 3)
+            attackDelay = 0;
+
+        attackDelayText.text = $"Delay : {attackDelay}"; //지울거
 
         //플레이어와의 거리를 체크하여 조건을 달성할시에 움직임 관련 메소드를 호출해주기 위함.
         if (distanceFromPlayer < 10 && e_State != E_State.Attack)
@@ -71,7 +82,7 @@ public class EnemyManager : MonoBehaviour
             IsGroundCheck();
         }
         
-        else
+        else if(e_State != E_State.Attack)
             e_State = E_State.Idle;
     }
     
@@ -79,8 +90,15 @@ public class EnemyManager : MonoBehaviour
     {
         e_State = E_State.Attack;
 
-        nearPlayer.GetComponent<PlayerManager>().DamageAction(attackPower);
+        attackDelay += Time.deltaTime;
+
+        if (attackDelay > 2)
+        {
+            nearPlayer.GetComponent<PlayerManager>().DamageAction(attackPower);
+            attackDelay = 0;
+        }
     }
+    
     
     void Move()
     {
