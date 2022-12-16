@@ -29,6 +29,7 @@ public class TerrainModifier : MonoBehaviour
     public BlockType placeBlock;
 
     public Inventory hotInven;
+    public Inventory hotInven_w;
     public Item item;
     public ItemSet itemSet;
 
@@ -45,7 +46,8 @@ public class TerrainModifier : MonoBehaviour
         MouseInput();
         HotkeyInput();
         ScrollInput();
-        print(curSlot);
+
+        CopyHotInven();
     }
 
     private void MouseInput()
@@ -62,8 +64,8 @@ public class TerrainModifier : MonoBehaviour
         }
         else if (rightClick)
         {
-            if (hotInven.slots[curSlot].item != null &&
-                hotInven.slots[curSlot].item.itemType == Item.ItemType.Block &&
+            if (hotInven_w.slots[curSlot].item != null &&
+                hotInven_w.slots[curSlot].item.itemType == Item.ItemType.Block &&
                 GetTargetBlock(-1))
                 PlacingBlock();
         }
@@ -108,7 +110,6 @@ public class TerrainModifier : MonoBehaviour
             else
                 SetCurSlot(curSlot - 1);
         }
-            
     }
 
     private void SetCurSlot(int index)
@@ -140,7 +141,9 @@ public class TerrainModifier : MonoBehaviour
         if (curDurability <= 0)
         {
             curDurability = durability;
+
             GetItem(tc.blocks[bix, biy, biz]);
+
             tc.blocks[bix, biy, biz] = BlockType.Air;
             tc.BuildMesh();
         }
@@ -149,13 +152,16 @@ public class TerrainModifier : MonoBehaviour
     private void PlacingBlock()
     {
         if (ps.standBlockX - ps.standChunkX != bix ||
-                ps.standBlockZ - ps.standChunkZ != biz ||
-                ps.standBlockY != biy)
+            ps.standBlockZ - ps.standChunkZ != biz ||
+            ps.standBlockY != biy)
         {
-            tc.blocks[bix, biy, biz] = hotInven.slots[curSlot].item.blockType;
-            if (--hotInven.slots[curSlot].itemCount == 0)
-                hotInven.slots[curSlot].item = null;
-            hotInven.slots[curSlot].SetItemCountText();
+            tc.blocks[bix, biy, biz] = hotInven_w.slots[curSlot].item.blockType;
+
+            if (--hotInven_w.slots[curSlot].itemCount == 0)
+                hotInven_w.slots[curSlot].item = null;
+
+            hotInven_w.slots[curSlot].SetItemCountText();
+
             tc.BuildMesh();
         }
     }
@@ -246,6 +252,16 @@ public class TerrainModifier : MonoBehaviour
                 break;
         }
         
-        hotInven.AddItem(item);
+        hotInven_w.AddItem(item);
+    }
+
+    private void CopyHotInven()
+    {
+        for (int i = 0; i < hotInven_w.slots.Length; i++)
+        {
+            hotInven.slots[i].item = hotInven_w.slots[i].item;
+            hotInven.slots[i].itemCount = hotInven_w.slots[i].itemCount;
+            hotInven.slots[i].SetItemCountText();
+        }
     }
 }

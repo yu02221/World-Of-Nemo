@@ -12,20 +12,6 @@ public class Inventory : MonoBehaviour
     {
         slots = slotParent.GetComponentsInChildren<Slot>();
     }
-
-    private void Awake()
-    {
-        FreshSlot();
-    }
-
-    public void FreshSlot()
-    {
-        int i = 0;
-        for (; i < slots.Length; i++)
-        {
-            slots[i].item = null;
-        }
-    }
     
     public void AddItem(Item _item)
     {
