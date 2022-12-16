@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class TerrainModifier : MonoBehaviour
 {
@@ -54,20 +55,22 @@ public class TerrainModifier : MonoBehaviour
     {
         bool leftClick = Input.GetMouseButton(0);
         bool rightClick = Input.GetMouseButtonDown(1);
-
-        if (leftClick)
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            if (GetTargetBlock(1))
-                MiningBlock();
-            else
-                player.GetComponent<PlayerMove>().Attack();
-        }
-        else if (rightClick)
-        {
-            if (hotInven_w.slots[curSlot].item != null &&
-                hotInven_w.slots[curSlot].item.itemType == Item.ItemType.Block &&
-                GetTargetBlock(-1))
-                PlacingBlock();
+            if (leftClick)
+            {
+                if (GetTargetBlock(1))
+                    MiningBlock();
+                else
+                    player.GetComponent<PlayerMove>().Attack();
+            }
+            else if (rightClick)
+            {
+                if (hotInven_w.slots[curSlot].item != null &&
+                    hotInven_w.slots[curSlot].item.itemType == Item.ItemType.Block &&
+                    GetTargetBlock(-1))
+                    PlacingBlock();
+            }
         }
     }
 

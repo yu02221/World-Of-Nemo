@@ -4,7 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour, IPointerClickHandler
+public class Slot : MonoBehaviour
+    , IPointerClickHandler
+    , IPointerEnterHandler
+    , IPointerExitHandler
 {
     [SerializeField] Image image;
 
@@ -13,6 +16,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     public int itemCount;
     public Text itemCountTxt;
     public GameObject selected;
+    public GameObject hilighted;
     public bool clickable;
 
     public SelectedItem selectedItem;
@@ -45,14 +49,30 @@ public class Slot : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        print(gameObject.name);
         if (clickable && eventData.button == PointerEventData.InputButton.Left)
         {
-            SwitchItem();
+            if (item != null && item == selectedItem.item)
+                CombineItems();
+            else
+                SwitchItems();
+        }
+        else if (clickable && eventData.button == PointerEventData.InputButton.Right)
+        {
+            if (item != null && selectedItem.item == null)
+                SplitItems();
+            else if (selectedItem.item != null && (item == null || item == selectedItem.item))
+            {
+                if (item != null && itemCount >= item.maxStorageCount)
+                    return;
+                else
+                    SplitItem();
+            }
         }
     }
 
-    private void SwitchItem()
+    
+
+    private void SwitchItems()
     {
         Item tempItem = selectedItem.item;
         int tempCount = selectedItem.itemCount;
@@ -64,5 +84,56 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         item = tempItem;
         itemCount = tempCount;
         SetItemCountText();
+    }
+
+    private void CombineItems()
+    {
+        itemCount += selectedItem.itemCount;
+        if (itemCount > item.maxStorageCount)
+        {
+            selectedItem.itemCount = itemCount - item.maxStorageCount;
+            itemCount = item.maxStorageCount;
+        }
+        else
+        {
+            selectedItem.itemCount = 0;
+            selectedItem.item = null;
+        }
+        selectedItem.SetItemCountText();
+        SetItemCountText();
+    }
+
+    private void SplitItems()
+    {
+        selectedItem.item = item;
+        selectedItem.itemCount = (itemCount / 2) + (itemCount % 2);
+        itemCount /= 2;
+        if (itemCount == 0)
+            item = null;
+        selectedItem.SetItemCountText();
+        SetItemCountText();
+    }
+
+    private void SplitItem()
+    {
+        item = selectedItem.item;
+        selectedItem.itemCount--;
+        itemCount++;
+        if (selectedItem.itemCount <= 0)
+            selectedItem.item = null;
+        selectedItem.SetItemCountText();
+        SetItemCountText();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (clickable)
+            hilighted.SetActive(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (clickable)
+            hilighted.SetActive(false);
     }
 }

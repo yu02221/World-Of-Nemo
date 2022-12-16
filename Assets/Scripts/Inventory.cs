@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public Transform slotParent;
     public Slot[] slots;
+    public Inventory nextInventory;
 
 
     private void OnValidate()
     {
-        slots = slotParent.GetComponentsInChildren<Slot>();
+        slots = transform.GetComponentsInChildren<Slot>();
     }
     
     public void AddItem(Item _item)
@@ -38,7 +38,10 @@ public class Inventory : MonoBehaviour
             }
             if (addIdx == -1)
             {
-                print("인벤토리가 가득 찼습니다.");
+                if (nextInventory != null)
+                    nextInventory.AddItem(_item);
+                else
+                    print("모든 인벤토리가 가득 찼습니다.");
                 return;
             }
         }
