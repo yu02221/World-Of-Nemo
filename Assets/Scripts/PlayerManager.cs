@@ -5,51 +5,42 @@ using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
-    public int playerHP;
+    public int maxHp;
+    public int nowHp;
     PlayerMove pm;
 
     public Text lifeText;
 
     Rigidbody rb;
-    public int isCollisionPower;
-
-    public int enemy_2Power;
-
     private void Start()
     {
         pm = GetComponent<PlayerMove>();
         rb = GetComponent<Rigidbody>();
-        lifeText.text = $"Life = {playerHP}";
+        lifeText.text = $"Life = {nowHp}";
+        
     }
     private void Update()
     {
         CheckHP();
-        lifeText.text = $"Life = {playerHP}";
+        lifeText.text = $"Life = {nowHp}";
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        //크러쉬에너미와 부딪혔을때
         if (collision.gameObject.name == "Enemy_2")
         {
-            rb.velocity = Vector3.up * isCollisionPower;
-            playerHP -= enemy_2Power;
-            //Vector3 dir = transform.position - collision.gameObject.transform.position;
-            //dir = dir.normalized * 1000;
-            //collision.gameObject.GetComponent<Rigidbody>().AddForce(dir);
+            Vector3 reactVec = transform.position - collision.transform.position;
+            reactVec = reactVec.normalized;
+            reactVec += Vector3.up;
+            rb.AddForce(reactVec * 5, ForceMode.Impulse);
         }
     }
-
     void CheckHP()
     {
-        if(playerHP <= 0)
+        if(nowHp <= 0)
         {
             pm.playerState = PlayerState.Dead;
         }
     }
-    
-    public void DamageAction(int damage)
-    {
-        playerHP -= damage;
-    }
-    
 }

@@ -40,7 +40,6 @@ public class EnemyManager : MonoBehaviour
 
     public int attackPower;
     public float attackDelay;
-    bool isForwardToPlayer;
     public GameObject nearPlayer;
     public Text attackDelayText; //지울거
     
@@ -49,7 +48,7 @@ public class EnemyManager : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        pm = GetComponent<PlayerManager>();
+        pm = GameObject.Find("Player").GetComponent<PlayerManager>();
         e_State = E_State.Idle;
 
         attackDelayText.text = $"Delay : {attackDelay}"; //지울거
@@ -94,7 +93,7 @@ public class EnemyManager : MonoBehaviour
 
         if (attackDelay > 2)
         {
-            nearPlayer.GetComponent<PlayerManager>().DamageAction(attackPower);
+            pm.nowHp -= attackPower;
             attackDelay = 0;
         }
     }
@@ -102,15 +101,15 @@ public class EnemyManager : MonoBehaviour
     
     void Move()
     {
-        if(e_State != E_State.Die && e_State != E_State.Attack)
-            e_State = E_State.Walk;
-
         //Enemy의 Rotation을 담당
         lookDir = (player.position - transform.position).normalized;
         lookDir.y = 0;
         Quaternion from = transform.rotation;
         Quaternion to = Quaternion.LookRotation(lookDir);
         transform.rotation = Quaternion.Lerp(from, to, turnSpeed * Time.deltaTime);
+
+        if(e_State != E_State.Die && e_State != E_State.Attack)
+            e_State = E_State.Walk;
 
         //Ground와 지속적인 충돌을 감지 및 움직임에 제한을 두기위함
         dir = new Vector3(transform.position.x, transform.position.y, transform.position.z);

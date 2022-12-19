@@ -74,6 +74,22 @@ public class PlayerMove : MonoBehaviour
         Debug.DrawRay(dir, transform.forward * 0.55f, Color.red);
     }
 
+    //플레이어의 하단(발바닥)쪽에 체크박스 오브젝트를 위치시켜 Ground로 레이어 지정이된 오브젝트와 콜라이더가 겹치게 되면 점프가 가능하게끔 bool체크를 해준다
+    void IsGroundCheck()
+    {
+        Collider[] cols = Physics.OverlapBox(groundCheckTransform.position, boxSize * 0.5f,
+            groundCheckTransform.rotation,
+            groundCheckLayerMask);
+        if (cols.Length > 0)
+        { 
+            isGround = true;
+        }
+        else
+        { 
+            isGround = false;
+            playerState = PlayerState.Jump;
+        }
+    }
     void Move()
     {
         //마우스 움직임에 대한 값을 받는다
@@ -105,23 +121,6 @@ public class PlayerMove : MonoBehaviour
         }
         else if(isGround == true)
             playerState = PlayerState.Idle;
-    }
-
-    //플레이어의 하단(발바닥)쪽에 체크박스 오브젝트를 위치시켜 Ground로 레이어 지정이된 오브젝트와 콜라이더가 겹치게 되면 점프가 가능하게끔 bool체크를 해준다
-    void IsGroundCheck()
-    {
-        Collider[] cols = Physics.OverlapBox(groundCheckTransform.position, boxSize * 0.5f,
-            groundCheckTransform.rotation,
-            groundCheckLayerMask);
-        if (cols.Length > 0)
-        { 
-            isGround = true;
-        }
-        else
-        { 
-            isGround = false;
-            playerState = PlayerState.Jump;
-        }
     }
     void Jump()
     {
