@@ -55,6 +55,7 @@ public class CrushEnemy : MonoBehaviour
         if (distanceFromPlayer < 10)
         {
             //Enemy 이동에 관한 메소드
+            if (distanceFromPlayer > 0.8f) //모델링 넣은 후에 콜라이더 조절해서 자연스러운 거리 측정해넣기
             Move();
             //벽 앞에서면 점프시켜주는 메소드
             JumpToWall();
