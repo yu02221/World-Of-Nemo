@@ -17,6 +17,8 @@ public class PlayerMove : MonoBehaviour
 {
     //현재 플레이어의 상태
     public PlayerState playerState;
+    //플레이어 능력치
+    PlayerStatus ps;
 
     //AnimationClip을 이용해 상태에 대한 동작 구현예정
     //여기부터
@@ -45,6 +47,7 @@ public class PlayerMove : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        ps = GetComponent<PlayerStatus>();
     }
     private void Update()
     {
@@ -158,14 +161,19 @@ public class PlayerMove : MonoBehaviour
             Time.timeScale = 0;
     }
 
-    public void HitByEnemy(Vector3 enemyPosi0tion, float attackPower)
+    public void HitByEnemy(Vector3 enemyPosi0tion, int attackPower)
     {
-        float hp = 0;
         Vector3 reactVec = transform.position - enemyPosi0tion;
         reactVec = reactVec.normalized;
         reactVec += Vector3.up;
         rb.AddForce(reactVec * 5, ForceMode.Impulse);
-        hp -= attackPower;
+        ps.hp -= attackPower;
+        print(ps.hp);
+        if (ps.hp <= 0)
+        {
+            Dead();
+            playerState = PlayerState.Dead;
+        }
     }
 
     public void Attack()

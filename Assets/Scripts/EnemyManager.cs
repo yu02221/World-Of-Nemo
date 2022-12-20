@@ -41,17 +41,15 @@ public class EnemyManager : MonoBehaviour
     public int attackPower;
     public float attackDelay;
     public GameObject nearPlayer;
-    public Text attackDelayText; //지울거
     
-    PlayerManager pm;
+    PlayerMove pm;
 
     private void Start()
     {
+        player = GameObject.Find("Player").transform;
         rb = GetComponent<Rigidbody>();
-        pm = GameObject.Find("Player").GetComponent<PlayerManager>();
+        pm = player.GetComponent<PlayerMove>();
         e_State = E_State.Idle;
-
-        attackDelayText.text = $"Delay : {attackDelay}"; //지울거
     }
 
     private void Update()
@@ -68,7 +66,7 @@ public class EnemyManager : MonoBehaviour
         else if (distanceFromPlayer > 3)
             attackDelay = 0;
 
-        attackDelayText.text = $"Delay : {attackDelay}"; //지울거
+        //print($"Delay : {attackDelay}"); //지울거
 
         //플레이어와의 거리를 체크하여 조건을 달성할시에 움직임 관련 메소드를 호출해주기 위함.
         if (distanceFromPlayer < 10 && e_State != E_State.Attack)
@@ -93,7 +91,7 @@ public class EnemyManager : MonoBehaviour
 
         if (attackDelay > 2)
         {
-            pm.nowHp -= attackPower;
+            pm.HitByEnemy(transform.position, attackPower);
             attackDelay = 0;
         }
     }

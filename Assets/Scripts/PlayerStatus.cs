@@ -17,6 +17,9 @@ public class PlayerStatus : MonoBehaviour
 
     public Text xyz;
 
+    public int hp;
+    public int maxHp;
+
     private void Start()
     {
         GetStandBlock();
@@ -26,7 +29,7 @@ public class PlayerStatus : MonoBehaviour
     {
         GetStandBlock();
 
-        xyz.text = string.Format($"X : {standBlockX}, Y : {standBlockY}, Z : {standBlockZ}");
+        xyz.text = string.Format($"X : {standBlockX}\nY : {standBlockY}\nZ : {standBlockZ}");
         
     }
 
