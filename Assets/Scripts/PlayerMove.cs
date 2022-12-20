@@ -2,43 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-    public enum PlayerState
-    {
-        Idle,
-        Walk,
-        Run,
-        Jump,
-        Crouch,
-        Attack,
-        Damaged,
-        Dead,
-    }
+public enum PlayerState
+{
+    Idle,
+    Walk,
+    Run,
+    Jump,
+    Crouch,
+    Attack,
+    Damaged,
+    Dead,
+}
 public class PlayerMove : MonoBehaviour
 {
-    //ÇöÀç ÇÃ·¹ÀÌ¾îÀÇ »óÅÂ
+    //í˜„ì¬ í”Œë ˆì´ì–´ì˜ ìƒíƒœ
     public PlayerState playerState;
 
-    //AnimationClipÀ» ÀÌ¿ëÇØ »óÅÂ¿¡ ´ëÇÑ µ¿ÀÛ ±¸Çö¿¹Á¤
-    //¿©±âºÎÅÍ
+    //AnimationClipì„ ì´ìš©í•´ ìƒíƒœì— ëŒ€í•œ ë™ì‘ êµ¬í˜„ì˜ˆì •
+    //ì—¬ê¸°ë¶€í„°
+    public Animator playerAnim;
+    //ì—¬ê¸°ê¹Œì§€
 
-    //¿©±â±îÁö
-
-    //ÇÃ·¹ÀÌ¾î ¿òÁ÷ÀÓ °ü·Ã º¯¼ö ½ÃÀÛ
+    //í”Œë ˆì´ì–´ ì›€ì§ì„ ê´€ë ¨ ë³€ìˆ˜ ì‹œì‘
     public float turnSpeed;
     public float moveSpeed;
     Rigidbody rb;
-    //ºí·° Ãø¸é°úÀÇ °Å¸® ÃøÁ¤
+    //ë¸”ëŸ­ ì¸¡ë©´ê³¼ì˜ ê±°ë¦¬ ì¸¡ì •
     bool isBorder;
-    //³¡
+    //ë
 
-    //ÇÃ·¹ÀÌ¾î Á¡ÇÁ °ü·Ã º¯¼ö ½ÃÀÛ
+    //í”Œë ˆì´ì–´ ì í”„ ê´€ë ¨ ë³€ìˆ˜ ì‹œì‘
     public Transform groundCheckTransform;
     public Vector3 boxSize = new Vector3(0f, 1f, 0f);
     public float halfsize = 1;
     public LayerMask groundCheckLayerMask;
     public float jumpPower;
     bool isGround;
-    //³¡
+    //ë
 
     Vector3 dir;
 
@@ -48,12 +48,15 @@ public class PlayerMove : MonoBehaviour
     }
     private void Update()
     {
+        if (playerState != PlayerState.Dead && playerState != PlayerState.Attack)
+            Jump();
+    }
+
+    private void FixedUpdate()
+    {
         IsGroundCheck();
         if (playerState != PlayerState.Dead && playerState != PlayerState.Attack)
-        {
             Move();
-            Jump();
-        }
         StopToWall();
 
         Dead();
@@ -74,7 +77,7 @@ public class PlayerMove : MonoBehaviour
         Debug.DrawRay(dir, transform.forward * 0.55f, Color.red);
     }
 
-    //ÇÃ·¹ÀÌ¾îÀÇ ÇÏ´Ü(¹ß¹Ù´Ú)ÂÊ¿¡ Ã¼Å©¹Ú½º ¿ÀºêÁ§Æ®¸¦ À§Ä¡½ÃÄÑ Ground·Î ·¹ÀÌ¾î ÁöÁ¤ÀÌµÈ ¿ÀºêÁ§Æ®¿Í Äİ¶óÀÌ´õ°¡ °ãÄ¡°Ô µÇ¸é Á¡ÇÁ°¡ °¡´ÉÇÏ°Ô²û boolÃ¼Å©¸¦ ÇØÁØ´Ù
+    //í”Œë ˆì´ì–´ì˜ í•˜ë‹¨(ë°œë°”ë‹¥)ìª½ì— ì²´í¬ë°•ìŠ¤ ì˜¤ë¸Œì íŠ¸ë¥¼ ìœ„ì¹˜ì‹œì¼œ Groundë¡œ ë ˆì´ì–´ ì§€ì •ì´ëœ ì˜¤ë¸Œì íŠ¸ì™€ ì½œë¼ì´ë”ê°€ ê²¹ì¹˜ê²Œ ë˜ë©´ ì í”„ê°€ ê°€ëŠ¥í•˜ê²Œë” boolì²´í¬ë¥¼ í•´ì¤€ë‹¤
     void IsGroundCheck()
     {
         Collider[] cols = Physics.OverlapBox(groundCheckTransform.position, boxSize * 0.5f,
@@ -92,35 +95,48 @@ public class PlayerMove : MonoBehaviour
     }
     void Move()
     {
-        //¸¶¿ì½º ¿òÁ÷ÀÓ¿¡ ´ëÇÑ °ªÀ» ¹Ş´Â´Ù
-        float yRotateSize = Input.GetAxis("Mouse X") * turnSpeed * Time.deltaTime;
-        //¹ŞÀº °ªÀ» ÀúÀåÇÑ´Ù
+        //ë§ˆìš°ìŠ¤ ì›€ì§ì„ì— ëŒ€í•œ ê°’ì„ ë°›ëŠ”ë‹¤
+        float yRotateSize = Input.GetAxis("Mouse X") * turnSpeed * Time.fixedDeltaTime;
+        //ë°›ì€ ê°’ì„ ì €ì¥í•œë‹¤
         float yRotate = transform.eulerAngles.y + yRotateSize;
-        //¸¸¾à ¸¶¿ì½º ¿òÁ÷ÀÓÀÌ ¾ø´Ù¸é º¤ÅÍ°ª¿¡ ´ëÇÑ ÈûÀ» 0À¸·Î °íÁ¤½ÃÅ²´Ù.
+        //ë§Œì•½ ë§ˆìš°ìŠ¤ ì›€ì§ì„ì´ ì—†ë‹¤ë©´ ë²¡í„°ê°’ì— ëŒ€í•œ í˜ì„ 0ìœ¼ë¡œ ê³ ì •ì‹œí‚¨ë‹¤.
         if (yRotateSize == 0)
             rb.angularVelocity = Vector3.zero;
-        //ÇÃ·¹ÀÌ¾îÀÇ È¸Àü°ª¿¡´ëÇÑ ³»¿ëÀ» Àû¿ë½ÃÄÑÁØ´Ù
+        //í”Œë ˆì´ì–´ì˜ íšŒì „ê°’ì—ëŒ€í•œ ë‚´ìš©ì„ ì ìš©ì‹œì¼œì¤€ë‹¤
         transform.eulerAngles = new Vector3(0, yRotate, 0);
-        //playerStateº¯°æÀ» À§ÇØ ÀÔ·Â°ª¿¡ ´ëÇÑ Stateº¯°æÀ» ÁøÇàÇÑ´Ù
-        //ÇÃ·¹ÀÌ¾î°¡ º¸´Â ¹æÇâ¿¡ µû¸¥ ¿òÁ÷ÀÓÀÇ ÀÔ·Â°ªÀ» Ãâ·ÂÇØÁØ´Ù.
+        //playerStateë³€ê²½ì„ ìœ„í•´ ì…ë ¥ê°’ì— ëŒ€í•œ Stateë³€ê²½ì„ ì§„í–‰í•œë‹¤
+        //í”Œë ˆì´ì–´ê°€ ë³´ëŠ” ë°©í–¥ì— ë”°ë¥¸ ì›€ì§ì„ì˜ ì…ë ¥ê°’ì„ ì¶œë ¥í•´ì¤€ë‹¤.
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
         {
             if (Input.GetKey(KeyCode.LeftShift))
             {
+                playerState = PlayerState.Run;
+                playerAnim.SetBool("run", true);
                 moveSpeed = 8;
             }
             else
-                moveSpeed = 4;
-
-            Vector3 move = transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal");
-            if(!isBorder) //¸¸¾à º®°úÀÇ °Å¸®°¡ ¼³Á¤°ªº¸´Ù ÀÛ´Ù¸é ¿òÁ÷
             {
-                transform.position += move * moveSpeed * Time.deltaTime;
+                playerState = PlayerState.Walk;
+                playerAnim.SetBool("walk", true);
+                playerAnim.SetBool("run", false);
+                moveSpeed = 4;
+            }
+            
+            Vector3 move = transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal");
+            if(!isBorder) //ë§Œì•½ ë²½ê³¼ì˜ ê±°ë¦¬ê°€ ì„¤ì •ê°’ë³´ë‹¤ ì‘ë‹¤ë©´ ì›€ì§
+            {
+                transform.position += move * moveSpeed * Time.fixedDeltaTime;
             }
             playerState = PlayerState.Walk;
+            playerAnim.SetBool("walk", true);
         }
         else if(isGround == true)
+        {
             playerState = PlayerState.Idle;
+            playerAnim.SetBool("walk", false);
+            playerAnim.SetBool("run", false);
+
+        }
     }
     void Jump()
     {
@@ -136,7 +152,6 @@ public class PlayerMove : MonoBehaviour
             else return;
         }
     }
-
     void Dead()
     {
         if (playerState == PlayerState.Dead)

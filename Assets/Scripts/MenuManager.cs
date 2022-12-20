@@ -6,21 +6,28 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
-    public static bool GameIsMenu = false;
-    public GameObject menuCanvas;
+    public GameObject gameMenuWindow;
+
+    public GameObject inventoryWindow;
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(GameIsMenu)
-            {
+            if (inventoryWindow.activeSelf)
+                CloseInventory();
+            else if(gameMenuWindow.activeSelf)
                 CloseGameMenu();
-            }
             else
-            {
                 OpenGameMenu();
-            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (inventoryWindow.activeSelf)
+                CloseInventory();
+            else if(!gameMenuWindow.activeSelf)
+                OpenInventory();
         }
     }
     public void QuitToTitle()
@@ -30,17 +37,29 @@ public class MenuManager : MonoBehaviour
 
     public void CloseGameMenu()
     {
-        menuCanvas.SetActive(false);
+        gameMenuWindow.SetActive(false);
         Time.timeScale = 1f;
-        GameIsMenu = false;
+        Cursor.visible = false;
     }
 
     public void OpenGameMenu()
     {
-        menuCanvas.SetActive(true);
+        gameMenuWindow.SetActive(true);
         Time.timeScale = 0f;
-        GameIsMenu = true;
+        Cursor.visible = true;
     }
 
-    
+    public void CloseInventory()
+    {
+        inventoryWindow.SetActive(false);
+        Time.timeScale = 1f;
+        Cursor.visible = false;
+    }
+
+    public void OpenInventory()
+    {
+        inventoryWindow.SetActive(true);
+        Time.timeScale = 0f;
+        Cursor.visible = true;
+    }
 }

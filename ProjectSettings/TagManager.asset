@@ -16,6 +16,7 @@ TagManager:
   - Ground
   - Enemy
   - CrushEnemy
+  - Player
   - 
   - 
   - 
