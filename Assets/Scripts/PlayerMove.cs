@@ -152,6 +152,22 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    void Dead()
+    {
+        if (playerState == PlayerState.Dead)
+            Time.timeScale = 0;
+    }
+
+    public void HitByEnemy(Vector3 enemyPosi0tion, float attackPower)
+    {
+        float hp = 0;
+        Vector3 reactVec = transform.position - enemyPosi0tion;
+        reactVec = reactVec.normalized;
+        reactVec += Vector3.up;
+        rb.AddForce(reactVec * 5, ForceMode.Impulse);
+        hp -= attackPower;
+    }
+
     public void Attack()
     {
 
