@@ -6,21 +6,28 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
-    public static bool GameIsMenu = false;
-    public GameObject menuCanvas;
+    public GameObject gameMenuWindow;
+
+    public GameObject inventoryWindow;
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(GameIsMenu)
-            {
-                InGameMenu();
-            }
+            if (inventoryWindow.activeSelf)
+                CloseInventory();
+            else if(gameMenuWindow.activeSelf)
+                CloseGameMenu();
             else
-            {
-                Pause();
-            }
+                OpenGameMenu();
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (inventoryWindow.activeSelf)
+                CloseInventory();
+            else if(!gameMenuWindow.activeSelf)
+                OpenInventory();
         }
     }
     public void QuitToTitle()
@@ -28,19 +35,31 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
-    public void InGameMenu()
+    public void CloseGameMenu()
     {
-        menuCanvas.SetActive(false);
-        Time.timeScale = 0f;
-        GameIsMenu = false;
-    }
-
-    public void Pause()
-    {
-        menuCanvas.SetActive(true);
+        gameMenuWindow.SetActive(false);
         Time.timeScale = 1f;
-        GameIsMenu = true;
+        Cursor.visible = false;
     }
 
-    
+    public void OpenGameMenu()
+    {
+        gameMenuWindow.SetActive(true);
+        Time.timeScale = 0f;
+        Cursor.visible = true;
+    }
+
+    public void CloseInventory()
+    {
+        inventoryWindow.SetActive(false);
+        Time.timeScale = 1f;
+        Cursor.visible = false;
+    }
+
+    public void OpenInventory()
+    {
+        inventoryWindow.SetActive(true);
+        Time.timeScale = 0f;
+        Cursor.visible = true;
+    }
 }

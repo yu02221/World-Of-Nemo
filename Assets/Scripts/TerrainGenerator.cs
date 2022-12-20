@@ -8,7 +8,7 @@ public class TerrainGenerator : MonoBehaviour
 
     public GameObject terrainChunk;
 
-    private Dictionary<ChunkPos, TerrainChunk> buildedChunks = new Dictionary<ChunkPos, TerrainChunk>();
+    public static Dictionary<ChunkPos, TerrainChunk> buildedChunks = new Dictionary<ChunkPos, TerrainChunk>();
     private int curChunkPosX;
     private int curChunkPosZ;
 
@@ -20,13 +20,19 @@ public class TerrainGenerator : MonoBehaviour
     public float terrainHeight;
 
     int seed;
-
+    
+    private List<ChunkPos> toGenerate = new List<ChunkPos>();
 
     private void Start()
     {
         seed = Random.Range(100000, 999999);
 
         player = GameObject.Find("Player").transform;
+        int playerY = (int)(Mathf.PerlinNoise(
+            (player.position.x / 2 + seed) / terrainDetail, 
+            (player.position.z / 2 + seed) / terrainDetail)
+            * terrainHeight) + 18;
+        player.position = new Vector3(player.position.x, playerY, player.position.z);
 
         curChunkPosX = Mathf.FloorToInt(player.position.x / 16);
         curChunkPosZ = Mathf.FloorToInt(player.position.z / 16);
@@ -34,7 +40,7 @@ public class TerrainGenerator : MonoBehaviour
         cWidth = TerrainChunk.chunkWidth;
         cHeight = TerrainChunk.chunkHeight;
 
-        LoadChunk();
+        LoadChunk(true);
     }
 
     private void Update()
@@ -51,15 +57,20 @@ public class TerrainGenerator : MonoBehaviour
         }
     }
 
-    private void LoadChunk()
+    private void LoadChunk(bool instant = false)
     {
         for (int i = curChunkPosX - cDistance; i < curChunkPosX + cDistance; i++)
         {
             for (int j = curChunkPosZ - cDistance; j < curChunkPosZ + cDistance; j++)
             {
-                BuildChunck(i * 16, j * 16);
+                if (instant)
+                    BuildChunk(i * 16, j * 16);
+                else
+                    toGenerate.Add(new ChunkPos(i * 16, j * 16));
             }
         }
+
+        StartCoroutine(DelayBuildChunks());
     }
 
     private void UnloadChunk()
@@ -68,20 +79,21 @@ public class TerrainGenerator : MonoBehaviour
         foreach (var chunk in buildedChunks)
         {
             ChunkPos cPos = chunk.Key;
-            if (Mathf.Abs(curChunkPosX * 16 - cPos.x) > 16 * (cDistance) ||
-                Mathf.Abs(curChunkPosZ * 16 - cPos.z) > 16 * (cDistance))
+            if (Mathf.Abs(curChunkPosX * 16 - cPos.x) > 16 * (cDistance + 3) ||
+                Mathf.Abs(curChunkPosZ * 16 - cPos.z) > 16 * (cDistance + 3))
             {
                 toUnload.Add(chunk.Key);
             }
         }
 
-        foreach (var cPos in toUnload)
+        while (toUnload.Count > 0)
         {
-            buildedChunks[cPos].gameObject.SetActive(false);
+            buildedChunks[toUnload[0]].gameObject.SetActive(false);
+            toUnload.RemoveAt(0);
         }
     }
 
-    private void BuildChunck(int xPos, int zPos)
+    private void BuildChunk(int xPos, int zPos)
     {
         TerrainChunk chunk;
         ChunkPos curChunk = new ChunkPos(xPos, zPos);
@@ -100,8 +112,8 @@ public class TerrainGenerator : MonoBehaviour
             chunk = chunkObj.GetComponent<TerrainChunk>();
             buildedChunks.Add(curChunk, chunk);
 
-            for (int x = 0; x < cWidth + 2; x++)
-                for (int z = 0; z < cWidth + 2; z++)
+            for (int x = 0; x < cWidth; x++)
+                for (int z = 0; z < cWidth; z++)
                     for (int y = 0; y < cHeight; y++)
                         chunk.blocks[x, y, z] = GetBlockType(xPos + x - 1, y, zPos + z - 1);
         }
@@ -109,15 +121,7 @@ public class TerrainGenerator : MonoBehaviour
         chunk.BuildMesh();
     }
 
-    public struct ChunkPos
-    {
-        public int x, z;
-        public ChunkPos(int x, int z)
-        {
-            this.x = x;
-            this.z = z;
-        }
-    }
+    
 
     private BlockType GetBlockType(int x, int y, int z)
     {
@@ -132,10 +136,31 @@ public class TerrainGenerator : MonoBehaviour
         else if (y == grassY)
             bt = BlockType.Grass;
         else if (y < grassY && y >= grassY - soilRange)
-            bt = BlockType.Soil;
+            bt = BlockType.Dirt;
         else
             bt = BlockType.Stone;
 
         return bt;
+    }
+
+    IEnumerator DelayBuildChunks()
+    {
+        while (toGenerate.Count > 0)
+        {
+            BuildChunk(toGenerate[0].x, toGenerate[0].z);
+            toGenerate.RemoveAt(0);
+
+            yield return new WaitForSeconds(.1f);
+        }
+    }
+}
+
+public struct ChunkPos
+{
+    public int x, z;
+    public ChunkPos(int x, int z)
+    {
+        this.x = x;
+        this.z = z;
     }
 }
