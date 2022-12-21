@@ -1,0 +1,5 @@
+Item0,Item1,Item2,Item3,Item4,Item5,Item6,Item7,Item8,ResultItem,Count
+OakPlanks,OakPlanks,null,OakPlanks,OakPlanks,null,null,null,null,CraftingTable,1
+null,OakPlanks,OakPlanks,null,OakPlanks,OakPlanks,null,null,null,CraftingTable,1
+null,null,null,OakPlanks,OakPlanks,null,OakPlanks,OakPlanks,null,CraftingTable,1
+null,null,null,null,OakPlanks,OakPlanks,null,OakPlanks,OakPlanks,CraftingTable,1

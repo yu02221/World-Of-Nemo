@@ -70,9 +70,7 @@ public class Slot : MonoBehaviour
         }
     }
 
-    
-
-    private void SwitchItems()
+    public void SwitchItems()
     {
         Item tempItem = selectedItem.item;
         int tempCount = selectedItem.itemCount;
@@ -86,7 +84,7 @@ public class Slot : MonoBehaviour
         SetItemCountText();
     }
 
-    private void CombineItems()
+    public void CombineItems()
     {
         itemCount += selectedItem.itemCount;
         if (itemCount > item.maxStorageCount)
@@ -103,7 +101,7 @@ public class Slot : MonoBehaviour
         SetItemCountText();
     }
 
-    private void SplitItems()
+    public void SplitItems()
     {
         selectedItem.item = item;
         selectedItem.itemCount = (itemCount / 2) + (itemCount % 2);
@@ -114,7 +112,7 @@ public class Slot : MonoBehaviour
         SetItemCountText();
     }
 
-    private void SplitItem()
+    public void SplitItem()
     {
         item = selectedItem.item;
         selectedItem.itemCount--;

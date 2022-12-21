@@ -9,12 +9,15 @@ public class MenuManager : MonoBehaviour
     public GameObject gameMenuWindow;
 
     public GameObject inventoryWindow;
+    public GameObject craftingTableWindow;
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (inventoryWindow.activeSelf)
+            if (craftingTableWindow.activeSelf)
+                CloseCraftingTable();
+            else if (inventoryWindow.activeSelf)
                 CloseInventory();
             else if(gameMenuWindow.activeSelf)
                 CloseGameMenu();
@@ -24,7 +27,9 @@ public class MenuManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (inventoryWindow.activeSelf)
+            if (craftingTableWindow.activeSelf)
+                CloseCraftingTable();
+            else if (inventoryWindow.activeSelf)
                 CloseInventory();
             else if(!gameMenuWindow.activeSelf)
                 OpenInventory();
@@ -54,6 +59,11 @@ public class MenuManager : MonoBehaviour
         inventoryWindow.SetActive(false);
         Time.timeScale = 1f;
         Cursor.visible = false;
+    }
+    public void CloseCraftingTable()
+    {
+        craftingTableWindow.SetActive(false);
+        CloseInventory();
     }
 
     public void OpenInventory()

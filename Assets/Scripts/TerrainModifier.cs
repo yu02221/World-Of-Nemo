@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -36,6 +34,9 @@ public class TerrainModifier : MonoBehaviour
 
     public int curSlot = 0;
 
+    public GameObject craftringTableWindow;
+    public GameObject inventoryWindow;
+
     private void Start()
     {
         ps = player.GetComponent<PlayerStatus>();
@@ -66,7 +67,14 @@ public class TerrainModifier : MonoBehaviour
             }
             else if (rightClick)
             {
-                if (hotInven_w.slots[curSlot].item != null &&
+                if (GetTargetBlock(1) && tc.blocks[bix, biy, biz] == BlockType.CraftingTable)
+                {
+                    craftringTableWindow.SetActive(true);
+                    inventoryWindow.SetActive(true);
+                    Time.timeScale = 0;
+                    Cursor.visible = true;
+                }
+                else if (hotInven_w.slots[curSlot].item != null &&
                     hotInven_w.slots[curSlot].item.itemType == Item.ItemType.Block &&
                     GetTargetBlock(-1))
                     PlacingBlock();

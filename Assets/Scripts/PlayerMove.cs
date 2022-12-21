@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum PlayerState
 {
@@ -40,13 +41,13 @@ public class PlayerMove : MonoBehaviour
     public LayerMask groundCheckLayerMask;
     public float jumpPower;
     bool isGround;
-    Vector3 velocity;
-    float gravity = -10;
     //끝
 
     TerrainChunk tc;
 
     Vector3 dir;
+
+    public Text velY;
 
     private void Start()
     {
@@ -56,10 +57,7 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
         IsGroundCheck();
-        if (!isGround)
-            velocity.y += gravity * Time.deltaTime;
-        else
-            velocity.y = 0;
+
         if (playerState != PlayerState.Dead && playerState != PlayerState.Attack)
             Jump();
 
@@ -72,8 +70,6 @@ public class PlayerMove : MonoBehaviour
             rb.angularVelocity = Vector3.zero;
         //플레이어의 회전값에대한 내용을 적용시켜준다
         transform.eulerAngles = new Vector3(0, yRotate, 0);
-
-        
     }
 
     private void FixedUpdate()
@@ -81,7 +77,6 @@ public class PlayerMove : MonoBehaviour
         if (playerState != PlayerState.Dead && playerState != PlayerState.Attack)
             Move();
 
-        transform.Translate(velocity * Time.fixedDeltaTime);
     }
 
     void Move()
@@ -107,7 +102,7 @@ public class PlayerMove : MonoBehaviour
             Vector3 move = transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal");
             if (MoveBlockCheck(move) == BlockType.Air || !isGround)
             {
-                transform.position += move * moveSpeed * Time.fixedDeltaTime;
+                transform.position += move * moveSpeed * Time.deltaTime;
             }
             else
             {
@@ -148,10 +143,9 @@ public class PlayerMove : MonoBehaviour
             playerState != PlayerState.Attack && playerState != PlayerState.Crouch &&
             isGround == true)
         {
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButton("Jump"))
             {
-                velocity.y = jumpPower;
-                //rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+                rb.velocity = new Vector2(rb.velocity.x, jumpPower);
                 //rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
             }
             else return;
@@ -187,7 +181,8 @@ public class PlayerMove : MonoBehaviour
         reactVec += Vector3.up;
         rb.AddForce(reactVec * 5, ForceMode.Impulse);
         ps.hp -= attackPower;
-        print(ps.hp);
+        ps.SetHp();
+
         if (ps.hp <= 0)
         {
             Dead();
