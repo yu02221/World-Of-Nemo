@@ -9,7 +9,8 @@ public class CrushEnemy : MonoBehaviour
         Idle,
         Walk,
         Jump,
-        Die,
+        Damaged,
+        Death,
     }
     public E_State e_State;
 
@@ -38,6 +39,12 @@ public class CrushEnemy : MonoBehaviour
     public int crushPower = 2;
     PlayerMove pm;
 
+    //크러쉬 에너미 stats
+    public int maxHp;
+    public int nowHp;
+
+    public Animator anim;
+
     private void Start()
     {
         player = GameObject.Find("Player").transform;
@@ -52,19 +59,25 @@ public class CrushEnemy : MonoBehaviour
         CheckDistanceToPlayer();
 
         //플레이어와의 거리를 체크하여 조건을 달성할시에 움직임 관련 메소드를 호출해주기 위함.
-        if (distanceFromPlayer < 10)
+        if (distanceFromPlayer < 10 && e_State != E_State.Death && e_State != E_State.Damaged)
         {
+            anim.SetBool("run", true);
             //Enemy 이동에 관한 메소드
             if (distanceFromPlayer > 0.8f) //모델링 넣은 후에 콜라이더 조절해서 자연스러운 거리 측정해넣기
+            { 
             Move();
+            }
             //벽 앞에서면 점프시켜주는 메소드
             JumpToWall();
             //점프가 가능한지 여부를 지속적으로 묻기 위한 메소드
             IsGroundCheck();
         }
 
-        else if (e_State != E_State.Die)
+        else if (e_State != E_State.Death)
+        { 
             e_State = E_State.Idle;
+            anim.SetBool("run", false);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -72,6 +85,23 @@ public class CrushEnemy : MonoBehaviour
         if(collision.collider.name == "Player")
         {
             pm.HitByEnemy(collision.transform.position, 1);
+        }
+    }
+
+    void Damaged()
+    {
+        anim.SetTrigger("damaged");
+        e_State = E_State.Damaged;
+        Death();
+    }
+
+    void Death()
+    {
+        if (nowHp <= 0)
+        {
+            anim.SetBool("death", true);
+            e_State = E_State.Death;
+            Destroy(gameObject,3f);
         }
     }
 
@@ -95,7 +125,7 @@ public class CrushEnemy : MonoBehaviour
         {
             isGround = false;
 
-            if (e_State != E_State.Die)
+            if (e_State != E_State.Death)
                 e_State = E_State.Jump;
         }
 
@@ -123,7 +153,7 @@ public class CrushEnemy : MonoBehaviour
         Quaternion to = Quaternion.LookRotation(lookDir);
         transform.rotation = Quaternion.Lerp(from, to, turnSpeed * Time.deltaTime);
 
-        if (e_State != E_State.Die)
+        if (e_State != E_State.Death)
             e_State = E_State.Walk;
 
         //Ground와 지속적인 충돌을 감지 및 움직임에 제한을 두기위함
