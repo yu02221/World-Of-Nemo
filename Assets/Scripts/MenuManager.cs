@@ -7,9 +7,19 @@ using UnityEngine.UI;
 public class MenuManager : MonoBehaviour
 {
     public GameObject gameMenuWindow;
+    public Inventory hInven;
+    public SelectedItem sItem;
+    Inventory[] invens;
+    CraftingInventory cInven;
 
     public GameObject inventoryWindow;
     public GameObject craftingTableWindow;
+
+    private void Start()
+    {
+        invens = inventoryWindow.GetComponentsInChildren<Inventory>();
+        cInven = inventoryWindow.GetComponentInChildren<CraftingInventory>();
+    }
 
     private void Update()
     {
@@ -56,7 +66,30 @@ public class MenuManager : MonoBehaviour
 
     public void CloseInventory()
     {
+        foreach (var inven in invens)
+            foreach (var slot in inven.slots)
+                slot.hilighted.SetActive(false);
+        foreach (var slot in cInven.slots)
+        {
+            if (slot.item != null)
+            {
+                hInven.AddItem(slot.item, slot.itemCount);
+                slot.item = null;
+                slot.itemCount = 0;
+                slot.SetItemCountText();
+            }
+            slot.hilighted.SetActive(false);
+        }
+        if (sItem.item != null)
+        {
+            hInven.AddItem(sItem.item, sItem.itemCount);
+            sItem.item = null;
+            sItem.itemCount = 0;
+            sItem.SetItemCountText();
+        }
+        
         inventoryWindow.SetActive(false);
+
         Time.timeScale = 1f;
         Cursor.visible = false;
     }

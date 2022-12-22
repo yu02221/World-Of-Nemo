@@ -164,7 +164,7 @@ public class TerrainModifier : MonoBehaviour
     {
         if (ps.standBlockX - ps.standChunkX != bix ||
             ps.standBlockZ - ps.standChunkZ != biz ||
-            ps.standBlockY != biy)
+            ps.standBlockY != biy && ps.standBlockY + 1 != biy)
         {
             tc.blocks[bix, biy, biz] = hotInven_w.slots[curSlot].item.blockType;
 
@@ -224,46 +224,47 @@ public class TerrainModifier : MonoBehaviour
 
     private void GetItem(BlockType block)
     {
+        int count = 1;
         switch (block)
         {
             case BlockType.Grass:
             case BlockType.Dirt:
-                item = itemSet.dirt;
+                item = itemSet.iSet["Dirt"];
                 break;
             case BlockType.Stone:
             case BlockType.CobbleStone:
-                item = itemSet.cobbleStone;
+                item = itemSet.iSet["CobbleStone"];
                 break;
             case BlockType.OakLog:
-                item = itemSet.oakLog;
+                item = itemSet.iSet["OakLog"];
                 break;
             case BlockType.Coal:
-                item = itemSet.coal;
+                item = itemSet.iSet["Coal"];
                 break;
             case BlockType.Diamond:
-                item = itemSet.diamond;
+                item = itemSet.iSet["Diamond"];
                 break;
             case BlockType.Iron:
-                item = itemSet.rawIron;
+                item = itemSet.iSet["IronIngot"];
                 break;
             case BlockType.Gold:
-                item = itemSet.rawGold;
+                item = itemSet.iSet["GoldIngot"];
                 break;
             case BlockType.Furnace:
-                item = itemSet.furnace;
+                item = itemSet.iSet["Furnace"];
                 break;
             case BlockType.CraftingTable:
-                item = itemSet.craftingTable;
+                item = itemSet.iSet["CraftingTable"];
                 break;
             case BlockType.OakPlanks:
-                item = itemSet.oakPlanks;
+                item = itemSet.iSet["OakPlanks"];
                 break;
             default:
-                item = itemSet.dirt;
+                item = itemSet.iSet["Dirt"];
                 break;
         }
         
-        hotInven_w.AddItem(item);
+        hotInven_w.AddItem(item, count);
     }
 
     private void CopyHotInven()
@@ -273,6 +274,7 @@ public class TerrainModifier : MonoBehaviour
             hotInven.slots[i].item = hotInven_w.slots[i].item;
             hotInven.slots[i].itemCount = hotInven_w.slots[i].itemCount;
             hotInven.slots[i].SetItemCountText();
+            hotInven_w.slots[i].SetItemCountText();
         }
     }
 }

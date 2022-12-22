@@ -6,8 +6,8 @@ OakPlanks,null,null,null,WoodButton,1
 null,OakPlanks,null,null,WoodButton,1
 null,null,OakPlanks,null,WoodButton,1
 null,null,null,OakPlanks,WoodButton,1
-Coal,null,Stick,null,Touch,4
-null,Coal,null,Stick,Touch,4
+Coal,null,Stick,null,Torch,4
+null,Coal,null,Stick,Torch,4
 Stone,null,null,null,StoneButton,1
 null,Stone,null,null,StoneButton,1
 null,null,Stone,null,StoneButton,1

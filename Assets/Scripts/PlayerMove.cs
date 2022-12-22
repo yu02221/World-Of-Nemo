@@ -104,11 +104,7 @@ public class PlayerMove : MonoBehaviour
             {
                 transform.position += move * moveSpeed * Time.deltaTime;
             }
-            else
-            {
-                print(isGround);
-                print(MoveBlockCheck(move));
-            }
+
             playerState = PlayerState.Walk;
             playerAnim.SetBool("walk", true);
         }

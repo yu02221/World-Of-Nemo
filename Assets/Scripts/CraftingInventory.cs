@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class CraftingInventory : MonoBehaviour
 {
-    public int size;
     public Slot[] slots;
-    string[] items;
+    protected string[] items;
     public ItemSet itemset;
-    List<Dictionary<string, object>> recipes;
-    Item resultItem;
-    int resultItemCount;
+    protected List<Dictionary<string, object>> recipes;
+    protected Item resultItem;
+    protected int resultItemCount;
     public ResultSlot resultSlot;
 
 
@@ -21,11 +20,8 @@ public class CraftingInventory : MonoBehaviour
 
     private void Start()
     {
-        items = new string[size];
-        if (size == 4)
-            recipes = CSVReader.Read("CraftingInven");
-        else if (size == 9)
-            recipes = CSVReader.Read("CraftingTable");
+        items = new string[4];
+        recipes = CSVReader.Read("CraftingInven");
     }
 
     private void Update()
@@ -37,51 +33,38 @@ public class CraftingInventory : MonoBehaviour
             else
                 items[i] = "null";
         }
-        int j = 0;
-        for (; j < recipes.Count; j++)
-        {
-            if (items[0] == recipes[j]["Item0"].ToString() &&
-                items[1] == recipes[j]["Item1"].ToString() &&
-                items[2] == recipes[j]["Item2"].ToString() &&
-                items[3] == recipes[j]["Item3"].ToString())
-            {
-                resultItem = NameToItem(recipes[j]["ResultItem"].ToString());
-                resultItemCount = int.Parse(recipes[j]["Count"].ToString());
-                break;
-            }
-        }
-        if (j == recipes.Count)
-            resultItem = null;
+
+        GetResultItem();
 
         if (resultItem != null)
         {
             resultSlot.item = resultItem;
             resultSlot.itemCount = resultItemCount;
-            resultSlot.SetItemCountText();
         }
         else
         {
             resultSlot.item = null;
             resultSlot.itemCount = 0;
-            resultSlot.SetItemCountText();
         }
+        resultSlot.SetItemCountText();
     }
 
-    private Item NameToItem(string name)
+    protected void GetResultItem()
     {
-        Item item = null;
-        switch (name)
+        int i = 0;
+        for (; i < recipes.Count; i++)
         {
-            case "CraftingTable":
-                item = itemset.craftingTable;
+            if (items[0] == recipes[i]["Item0"].ToString() &&
+                items[1] == recipes[i]["Item1"].ToString() &&
+                items[2] == recipes[i]["Item2"].ToString() &&
+                items[3] == recipes[i]["Item3"].ToString())
+            {
+                resultItem = itemset.iSet[recipes[i]["ResultItem"].ToString()];
+                resultItemCount = int.Parse(recipes[i]["Count"].ToString());
                 break;
-            case "OakPlanks":
-                item = itemset.oakPlanks;
-                break;
-            default:
-                item = null;
-                break;
+            }
         }
-        return item;
+        if (i == recipes.Count)
+            resultItem = null;
     }
 }

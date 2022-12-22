@@ -11,6 +11,7 @@ public class Item : ScriptableObject
         Equipment,  //장비
         Ingredient, //재료
         Food,
+        Other,
     }
 
     public ItemType itemType;

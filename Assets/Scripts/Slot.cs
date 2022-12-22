@@ -39,6 +39,12 @@ public class Slot : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        item = _item;
+        SetItemCountText();
+    }
+
     public void SetItemCountText()
     {
         if (itemCount <= 1)
