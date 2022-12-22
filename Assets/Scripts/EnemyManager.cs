@@ -13,7 +13,7 @@ public class EnemyManager : MonoBehaviour
         Walk,
         Jump,
         Attack,
-        Die,
+        Death,
 
     }
     public E_State e_State;
@@ -46,6 +46,9 @@ public class EnemyManager : MonoBehaviour
 
     public Animator anim;
 
+    public int maxHp;
+    public int nowHp;
+
     private void Start()
     {
         player = GameObject.Find("Player").transform;
@@ -56,6 +59,8 @@ public class EnemyManager : MonoBehaviour
 
     private void Update()
     {
+        //실험용
+        Damaged();
         //Enemy와 Player의 거리가 일정 수치 미만이 되었는지 체크하기위한 메소드
         CheckDistanceToPlayer();
         //플레이어와의 거리가 1.3 미만일경우 공격
@@ -93,7 +98,27 @@ public class EnemyManager : MonoBehaviour
             anim.SetBool("walk", false);
         }
     }
-    
+
+    void Damaged()
+    {//실험용 if문
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            anim.SetTrigger("damaged");
+            nowHp -= 2;
+        }
+        Death();
+    }
+    //damaged를 어떻게 할지 생각(1회성으로)
+    void Death()
+    {
+        if (nowHp <= 0)
+        {
+            anim.SetBool("death", true);
+            e_State = E_State.Death;
+            Destroy(gameObject, 3f);
+        }
+    }
+
     void Attack()
     {
         e_State = E_State.Attack;
@@ -117,7 +142,7 @@ public class EnemyManager : MonoBehaviour
         Quaternion to = Quaternion.LookRotation(lookDir);
         transform.rotation = Quaternion.Lerp(from, to, turnSpeed * Time.deltaTime);
 
-        if(e_State != E_State.Die && e_State != E_State.Attack)
+        if(e_State != E_State.Death && e_State != E_State.Attack)
             e_State = E_State.Walk;
 
         //Ground와 지속적인 충돌을 감지 및 움직임에 제한을 두기위함
@@ -160,7 +185,7 @@ public class EnemyManager : MonoBehaviour
         {
             isGround = false;
 
-            if (e_State != E_State.Die)
+            if (e_State != E_State.Death)
                 e_State = E_State.Jump;
         }
 

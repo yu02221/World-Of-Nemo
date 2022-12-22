@@ -55,6 +55,8 @@ public class CrushEnemy : MonoBehaviour
 
     private void Update()
     {
+        //실험용
+        Damaged();
         //Enemy와 Player의 거리가 일정 수치 미만이 되었는지 체크하기위한 메소드
         CheckDistanceToPlayer();
 
@@ -89,8 +91,12 @@ public class CrushEnemy : MonoBehaviour
     }
 
     void Damaged()
-    {
+    {//실험용 if문
+        if (Input.GetKeyDown(KeyCode.K))
+        { 
         anim.SetTrigger("damaged");
+        nowHp -= 2;
+        }
         e_State = E_State.Damaged;
         Death();
     }
