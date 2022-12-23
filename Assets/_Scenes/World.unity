@@ -1064,8 +1064,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 731033486}
-  _item: {fileID: 11400000, guid: 9830fe3a22abba04ca2b1c69d0ac95cd, type: 2}
-  itemCount: 64
+  _item: {fileID: 0}
+  itemCount: 0
   itemCountTxt: {fileID: 343060256}
   selected: {fileID: 0}
   hilighted: {fileID: 2069970550}
@@ -2034,12 +2034,12 @@ RectTransform:
   - {fileID: 1255402625}
   - {fileID: 1904849839}
   - {fileID: 599616662}
-  m_Father: {fileID: 574305414}
-  m_RootOrder: 3
+  m_Father: {fileID: 1480125070}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -420, y: 170}
+  m_AnchoredPosition: {x: -420, y: -320}
   m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &173378560
@@ -2056,7 +2056,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2551,8 +2551,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 81699430}
-  _item: {fileID: 11400000, guid: d35233d482e909b4ea04c4bbca0d1b97, type: 2}
-  itemCount: 64
+  _item: {fileID: 0}
+  itemCount: 0
   itemCountTxt: {fileID: 621949220}
   selected: {fileID: 0}
   hilighted: {fileID: 1003279326}
@@ -3504,8 +3504,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 150988925}
-  _item: {fileID: 11400000, guid: cbc9b212cf4c26742beb063de78a787d, type: 2}
-  itemCount: 64
+  _item: {fileID: 0}
+  itemCount: 0
   itemCountTxt: {fileID: 8099991}
   selected: {fileID: 0}
   hilighted: {fileID: 2101262383}
@@ -4016,8 +4016,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 347974591}
-  _item: {fileID: 11400000, guid: 3c97addf57723e34f92d74028592709d, type: 2}
-  itemCount: 64
+  _item: {fileID: 0}
+  itemCount: 0
   itemCountTxt: {fileID: 1694623997}
   selected: {fileID: 0}
   hilighted: {fileID: 1361987805}
@@ -4428,8 +4428,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1747719199}
-  _item: {fileID: 11400000, guid: bb27f0f078220b0459a9019697330852, type: 2}
-  itemCount: 64
+  _item: {fileID: 0}
+  itemCount: 0
   itemCountTxt: {fileID: 1594120092}
   selected: {fileID: 0}
   hilighted: {fileID: 1548139132}
@@ -5462,17 +5462,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 8f235e8c4203ec2408e6310c056cd257, type: 3}
-  m_Type: 0
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -5519,7 +5519,7 @@ RectTransform:
   m_Children:
   - {fileID: 1809327987}
   m_Father: {fileID: 574305414}
-  m_RootOrder: 8
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7336,7 +7336,7 @@ RectTransform:
   - {fileID: 1308388596}
   - {fileID: 2000455905}
   m_Father: {fileID: 574305414}
-  m_RootOrder: 7
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7523,7 +7523,7 @@ RectTransform:
   - {fileID: 348659092}
   - {fileID: 1211219014}
   m_Father: {fileID: 574305414}
-  m_RootOrder: 10
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -7607,12 +7607,12 @@ RectTransform:
   - {fileID: 368260904}
   - {fileID: 1142093072}
   - {fileID: 44557019}
-  m_Father: {fileID: 574305414}
-  m_RootOrder: 4
+  m_Father: {fileID: 1480125070}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 60, y: 170}
+  m_AnchoredPosition: {x: 60, y: -320}
   m_SizeDelta: {x: 44, y: 44}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &563686152
@@ -7629,7 +7629,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -7975,10 +7975,7 @@ RectTransform:
   m_Children:
   - {fileID: 1569816273}
   - {fileID: 342093848}
-  - {fileID: 1546381927}
-  - {fileID: 173378559}
-  - {fileID: 563686151}
-  - {fileID: 1858841603}
+  - {fileID: 1480125070}
   - {fileID: 1220256904}
   - {fileID: 552562930}
   - {fileID: 444432015}
@@ -9416,8 +9413,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 368399683}
-  _item: {fileID: 11400000, guid: 4e6bc09e2aab48041bdf50a99fd0aec8, type: 2}
-  itemCount: 64
+  _item: {fileID: 0}
+  itemCount: 0
   itemCountTxt: {fileID: 837538536}
   selected: {fileID: 0}
   hilighted: {fileID: 247100654}
@@ -16046,9 +16043,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1768160530}
   terrainChunk: {fileID: 8473286140298106031, guid: 3490750def1761248892fdd115d82507, type: 3}
-  cWidth: 16
+  cWidth: 12
   cHeight: 64
-  cDistance: 10
+  cDistance: 16
   terrainDetail: 20
   terrainHeight: 20
 --- !u!4 &1203359117
@@ -16626,7 +16623,7 @@ RectTransform:
   - {fileID: 1760157556}
   - {fileID: 1937362004}
   m_Father: {fileID: 574305414}
-  m_RootOrder: 6
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -19053,8 +19050,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 564316066}
-  _item: {fileID: 11400000, guid: 17ebd802373303a42b630d1c916cc2c7, type: 2}
-  itemCount: 64
+  _item: {fileID: 0}
+  itemCount: 0
   itemCountTxt: {fileID: 1488678731}
   selected: {fileID: 0}
   hilighted: {fileID: 848764880}
@@ -19457,8 +19454,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1178730918}
-  _item: {fileID: 11400000, guid: 15049593781a20046bf4a9e0c2662566, type: 2}
-  itemCount: 64
+  _item: {fileID: 0}
+  itemCount: 0
   itemCountTxt: {fileID: 1416720224}
   selected: {fileID: 0}
   hilighted: {fileID: 283473580}
@@ -19502,6 +19499,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1479924121}
   m_CullTransparentMesh: 1
+--- !u!1 &1480125069
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1480125070}
+  m_Layer: 5
+  m_Name: PlayerStatus
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1480125070
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480125069}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1546381927}
+  - {fileID: 173378559}
+  - {fileID: 563686151}
+  - {fileID: 1858841603}
+  m_Father: {fileID: 574305414}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1487036062
 GameObject:
   m_ObjectHideFlags: 0
@@ -20343,18 +20380,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1546381926}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 745493397}
-  m_Father: {fileID: 574305414}
-  m_RootOrder: 2
+  m_Father: {fileID: 1480125070}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -490}
   m_SizeDelta: {x: 870, y: 110}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1546381928
@@ -21045,7 +21082,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -21509,7 +21546,7 @@ RectTransform:
   - {fileID: 2112916427}
   - {fileID: 1416341976}
   m_Father: {fileID: 574305414}
-  m_RootOrder: 9
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -22204,7 +22241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -25027,12 +25064,12 @@ RectTransform:
   - {fileID: 1659267777}
   - {fileID: 1141922934}
   - {fileID: 1580876662}
-  m_Father: {fileID: 574305414}
-  m_RootOrder: 5
+  m_Father: {fileID: 1480125070}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 124}
+  m_AnchoredPosition: {x: 0, y: -366}
   m_SizeDelta: {x: 870, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1858841604
@@ -25074,7 +25111,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 438227907}
   m_HandleRect: {fileID: 0}
@@ -28164,8 +28201,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1228737056}
-  _item: {fileID: 11400000, guid: 1786326257f300f49a959d3e25573c5a, type: 2}
-  itemCount: 64
+  _item: {fileID: 0}
+  itemCount: 0
   itemCountTxt: {fileID: 2012030370}
   selected: {fileID: 0}
   hilighted: {fileID: 1986424365}

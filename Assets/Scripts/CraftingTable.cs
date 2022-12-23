@@ -13,7 +13,6 @@ public class CraftingTable : CraftingInventory
     {
         items = new string[slots.Length];
         recipes = CSVReader.Read("CraftingTable");
-        print(recipes.Count);
     }
 
     private void Update()

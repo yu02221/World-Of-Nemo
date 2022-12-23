@@ -47,7 +47,7 @@ public class TerrainGenerator : MonoBehaviour
     {
         int curPosX = Mathf.FloorToInt(player.position.x / 16);
         int curPosZ = Mathf.FloorToInt(player.position.z / 16);
-
+        
         if (curChunkPosX != curPosX || curChunkPosZ != curPosZ)
         {
             curChunkPosX = curPosX;
@@ -69,7 +69,6 @@ public class TerrainGenerator : MonoBehaviour
                     toGenerate.Add(new ChunkPos(i * 16, j * 16));
             }
         }
-
         StartCoroutine(DelayBuildChunks());
     }
 
@@ -79,8 +78,8 @@ public class TerrainGenerator : MonoBehaviour
         foreach (var chunk in buildedChunks)
         {
             ChunkPos cPos = chunk.Key;
-            if (Mathf.Abs(curChunkPosX * 16 - cPos.x) > 16 * (cDistance + 3) ||
-                Mathf.Abs(curChunkPosZ * 16 - cPos.z) > 16 * (cDistance + 3))
+            if (Mathf.Abs(curChunkPosX - cPos.x) > 16 * (cDistance + 3) ||
+                Mathf.Abs(curChunkPosZ - cPos.z) > 16 * (cDistance + 3))
             {
                 toUnload.Add(chunk.Key);
             }
@@ -104,6 +103,8 @@ public class TerrainGenerator : MonoBehaviour
             {
                 chunk.gameObject.SetActive(true);
             }
+            else
+                return;
         }
         else
         {
@@ -116,9 +117,11 @@ public class TerrainGenerator : MonoBehaviour
                 for (int z = 0; z < cWidth; z++)
                     for (int y = 0; y < cHeight; y++)
                         chunk.blocks[x, y, z] = GetBlockType(xPos + x - 1, y, zPos + z - 1);
-        }
 
+            BuildTrees(chunk.blocks);
+        }
         chunk.BuildMesh();
+
     }
 
     
@@ -141,6 +144,51 @@ public class TerrainGenerator : MonoBehaviour
             bt = BlockType.Stone;
 
         return bt;
+    }
+
+    private void BuildTrees(BlockType[,,] blocks)
+    {
+        int ranX = Random.Range(5, 16);
+        int ranZ = Random.Range(5, 16);
+        for (int x = ranX; x < cWidth - 2; x += ranX)
+        {
+            ranX = Random.Range(5, 16);
+            for (int z = ranZ; z < cWidth - 2; z += ranZ)
+            {
+                ranZ = Random.Range(5, 16);
+                for (int y = 1; y < cHeight - 5; y++)
+                {
+                    if (blocks[x, y - 1, z] == BlockType.Grass && blocks[x, y, z] == BlockType.Air)
+                    {
+                        int height = Random.Range(4, 7);
+                        for (int i = 0; i < height -2; i++)
+                        {
+                            blocks[x, y + i, z] = BlockType.OakLog;
+                        }
+                        for (int i = height - 2; i < height; i++)
+                        {
+                            blocks[x, y + i, z] = BlockType.OakLog;
+                            for (int j = -2; j <= 2; j++)
+                            {
+                                for (int k = -2; k <= 2; k++)
+                                {
+                                    if (j != 0 || k != 0)
+                                        blocks[x + j, y + i, z + k] = BlockType.Leaves;
+                                }
+                            }
+                        }
+                        for (int i = -1; i <= 1; i++)
+                        {
+                            for (int j = -1; j <= 1; j++)
+                            {
+                                blocks[x + i, y + height, z + j] = BlockType.Leaves;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     IEnumerator DelayBuildChunks()
