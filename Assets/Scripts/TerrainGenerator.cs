@@ -118,13 +118,14 @@ public class TerrainGenerator : MonoBehaviour
                     for (int y = 0; y < cHeight; y++)
                         chunk.blocks[x, y, z] = GetBlockType(xPos * 16 + x - 1, y, zPos * 16 + z - 1);
 
-            BuildTrees(chunk.blocks);
+            
+            BuildTrees(chunk.blocks);  
+
+            BuildOres(chunk.blocks);
         }
         chunk.BuildMesh();
 
     }
-
-    
 
     private BlockType GetBlockType(int x, int y, int z)
     {
@@ -188,7 +189,130 @@ public class TerrainGenerator : MonoBehaviour
                 }
             }
         }
+    }
 
+    private void BuildOres(BlockType[,,] blocks)
+    {
+        BuildDiamond(blocks);
+        BuildGold(blocks);
+        BuildIron(blocks);
+        BuildCoal(blocks);
+    }
+
+    private void BuildDiamond(BlockType[,,] blocks)
+    {
+        int randX = Random.Range(0, 16);
+        int randY = Random.Range(1, 16);
+        int randZ = Random.Range(0, 16);
+        int count = Random.Range(2, 9);
+        for (int i = 0; i < 2 && randX + i < cWidth; i++)
+        {
+            for (int j = 0; j < 2; j++)
+            {
+                for (int k = 0; k < 2 && randZ + k < cWidth; k++)
+                {
+                    if (count > 0 && 
+                        blocks[randX + i, randY + j, randZ + k] == BlockType.Stone)
+                    {
+                        blocks[randX + i, randY + j, randZ + k] = BlockType.Diamond;
+                        count--;
+                    }
+                }
+            }
+        }
+    }
+
+    private void BuildGold(BlockType[,,] blocks)
+    {
+        int randX = Random.Range(0, 8);
+        int randZ = Random.Range(0, 8);
+        for (int x = randX; x < cWidth; x += randX)
+        {
+            randX = Random.Range(0, 8);
+            for (int z = randZ; z < cWidth; z += randZ)
+            {
+                randZ = Random.Range(0, 8);
+                int randY = Random.Range(1, 20);
+                int count = Random.Range(2, 9);
+                for (int i = 0; i < 2 && randX + i < cWidth; i++)
+                {
+                    for (int j = 0; j < 2; j++)
+                    {
+                        for (int k = 0; k < 2 && randZ + k < cWidth; k++)
+                        {
+                            if (count > 0 &&
+                                blocks[randX + i, randY + j, randZ + k] == BlockType.Stone)
+                            {
+                                blocks[randX + i, randY + j, randZ + k] = BlockType.Gold;
+                                count--;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void BuildIron(BlockType[,,] blocks)
+    {
+        int randX = Random.Range(0, 8);
+        int randZ = Random.Range(0, 8);
+        for (int x = randX; x < cWidth; x += randX)
+        {
+            randX = Random.Range(0, 8);
+            for (int z = randZ; z < cWidth; z += randZ)
+            {
+                randZ = Random.Range(0, 8);
+                int randY = Random.Range(5, 30);
+                int count = Random.Range(4, 9);
+                for (int i = 0; i < 2 && randX + i < cWidth; i++)
+                {
+                    for (int j = 0; j < 2; j++)
+                    {
+                        for (int k = 0; k < 2 && randZ + k < cWidth; k++)
+                        {
+                            if (count > 0 &&
+                                blocks[randX + i, randY + j, randZ + k] == BlockType.Stone)
+                            {
+                                blocks[randX + i, randY + j, randZ + k] = BlockType.Iron;
+                                count--;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void BuildCoal(BlockType[,,] blocks)
+    {
+        int randX = Random.Range(0, 4);
+        int randZ = Random.Range(0, 4);
+        for (int x = randX; x < cWidth; x += randX)
+        {
+            randX = Random.Range(0, 4);
+            for (int z = randZ; z < cWidth; z += randZ)
+            {
+                randZ = Random.Range(0, 4);
+                int randY = Random.Range(10, 30);
+                int count = Random.Range(5, 9);
+                for (int i = 0; i < 2 && randX + i < cWidth; i++)
+                {
+                    for (int j = 0; j < 2; j++)
+                    {
+                        for (int k = 0; k < 2 && randZ + k < cWidth; k++)
+                        {
+                            if (count > 0 &&
+                                blocks[randX + i, randY + j, randZ + k] == BlockType.Stone)
+                            {
+                                blocks[randX + i, randY + j, randZ + k] = BlockType.Coal;
+                                count--;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     IEnumerator DelayBuildChunks()

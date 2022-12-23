@@ -211,10 +211,10 @@ public class TerrainModifier : MonoBehaviour
         {
             case BlockType.Grass:
             case BlockType.Dirt:
-                durability = 1.0f;
+                durability = 0.1f;
                 break;
             case BlockType.Stone:
-                durability = 4.0f;
+                durability = 0.1f;
                 break;
             default:
                 durability = 1;
