@@ -59,14 +59,14 @@ public class TerrainGenerator : MonoBehaviour
 
     private void LoadChunk(bool instant = false)
     {
-        for (int i = curChunkPosX - cDistance; i < curChunkPosX + cDistance; i++)
+        for (int i = curChunkPosX - cDistance; i <= curChunkPosX + cDistance; i++)
         {
-            for (int j = curChunkPosZ - cDistance; j < curChunkPosZ + cDistance; j++)
+            for (int j = curChunkPosZ - cDistance; j <= curChunkPosZ + cDistance; j++)
             {
                 if (instant)
-                    BuildChunk(i * 16, j * 16);
+                    BuildChunk(i, j);
                 else
-                    toGenerate.Add(new ChunkPos(i * 16, j * 16));
+                    toGenerate.Add(new ChunkPos(i, j));
             }
         }
         StartCoroutine(DelayBuildChunks());
@@ -78,8 +78,8 @@ public class TerrainGenerator : MonoBehaviour
         foreach (var chunk in buildedChunks)
         {
             ChunkPos cPos = chunk.Key;
-            if (Mathf.Abs(curChunkPosX - cPos.x) > 16 * (cDistance + 3) ||
-                Mathf.Abs(curChunkPosZ - cPos.z) > 16 * (cDistance + 3))
+            if (Mathf.Abs(curChunkPosX - cPos.x) > (cDistance + 5) ||
+                Mathf.Abs(curChunkPosZ - cPos.z) > (cDistance + 5))
             {
                 toUnload.Add(chunk.Key);
             }
@@ -108,7 +108,7 @@ public class TerrainGenerator : MonoBehaviour
         }
         else
         {
-            GameObject chunkObj = Instantiate(terrainChunk, new Vector3(xPos, 0, zPos), Quaternion.identity);
+            GameObject chunkObj = Instantiate(terrainChunk, new Vector3(xPos * 16, 0, zPos * 16), Quaternion.identity);
             chunkObj.transform.parent = GameObject.Find("Terrain").transform;
             chunk = chunkObj.GetComponent<TerrainChunk>();
             buildedChunks.Add(curChunk, chunk);
@@ -116,7 +116,7 @@ public class TerrainGenerator : MonoBehaviour
             for (int x = 0; x < cWidth; x++)
                 for (int z = 0; z < cWidth; z++)
                     for (int y = 0; y < cHeight; y++)
-                        chunk.blocks[x, y, z] = GetBlockType(xPos + x - 1, y, zPos + z - 1);
+                        chunk.blocks[x, y, z] = GetBlockType(xPos * 16 + x - 1, y, zPos * 16 + z - 1);
 
             BuildTrees(chunk.blocks);
         }
@@ -198,7 +198,7 @@ public class TerrainGenerator : MonoBehaviour
             BuildChunk(toGenerate[0].x, toGenerate[0].z);
             toGenerate.RemoveAt(0);
 
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(.01f);
         }
     }
 }

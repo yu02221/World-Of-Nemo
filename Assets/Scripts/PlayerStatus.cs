@@ -67,8 +67,8 @@ public class PlayerStatus : MonoBehaviour
         {
             Vector3 targetPos = hitInfo.point;
 
-            standChunkX = Mathf.FloorToInt(targetPos.x / 16f) * 16;
-            standChunkZ = Mathf.FloorToInt(targetPos.z / 16f) * 16;
+            standChunkX = Mathf.FloorToInt(targetPos.x / 16f);
+            standChunkZ = Mathf.FloorToInt(targetPos.z / 16f);
 
             ChunkPos cp = new ChunkPos(standChunkX, standChunkZ);
 

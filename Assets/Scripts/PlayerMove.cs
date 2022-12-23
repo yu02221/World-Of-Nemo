@@ -151,14 +151,14 @@ public class PlayerMove : MonoBehaviour
     private BlockType MoveBlockCheck(Vector3 move)
     {
         Vector3 moveBlockPos = transform.position + move.normalized * 0.5f;
-        int chunkPosX = Mathf.FloorToInt(moveBlockPos.x / 16f) * 16;
-        int chunkPosZ = Mathf.FloorToInt(moveBlockPos.z / 16f) * 16;
+        int chunkPosX = Mathf.FloorToInt(moveBlockPos.x / 16f);
+        int chunkPosZ = Mathf.FloorToInt(moveBlockPos.z / 16f);
 
         ChunkPos cp = new ChunkPos(chunkPosX, chunkPosZ);
 
-        int bix = Mathf.FloorToInt(moveBlockPos.x) - chunkPosX;
+        int bix = Mathf.FloorToInt(moveBlockPos.x) - chunkPosX * 16;
         int biy = Mathf.FloorToInt(moveBlockPos.y);
-        int biz = Mathf.FloorToInt(moveBlockPos.z) - chunkPosZ;
+        int biz = Mathf.FloorToInt(moveBlockPos.z) - chunkPosZ * 16;
 
         tc = TerrainGenerator.buildedChunks[cp];
         return tc.blocks[bix, biy, biz];

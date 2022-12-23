@@ -162,8 +162,8 @@ public class TerrainModifier : MonoBehaviour
 
     private void PlacingBlock()
     {
-        if (ps.standBlockX - ps.standChunkX != bix ||
-            ps.standBlockZ - ps.standChunkZ != biz ||
+        if (ps.standBlockX - ps.standChunkX * 16 != bix ||
+            ps.standBlockZ - ps.standChunkZ * 16 != biz ||
             ps.standBlockY != biy && ps.standBlockY + 1 != biy)
         {
             tc.blocks[bix, biy, biz] = hotInven_w.slots[curSlot].item.blockType;
@@ -184,17 +184,17 @@ public class TerrainModifier : MonoBehaviour
         {
             Vector3 targetPos = hitInfo.point + transform.forward * .01f * sign;
 
-            int chunkPosX = Mathf.FloorToInt(targetPos.x / 16f) * 16;
-            int chunkPosZ = Mathf.FloorToInt(targetPos.z / 16f) * 16;
+            int chunkPosX = Mathf.FloorToInt(targetPos.x / 16f);
+            int chunkPosZ = Mathf.FloorToInt(targetPos.z / 16f);
 
             ChunkPos cp = new ChunkPos(chunkPosX, chunkPosZ);
 
             tc = TerrainGenerator.buildedChunks[cp];
 
             //index of the target block
-            bix = Mathf.FloorToInt(targetPos.x) - chunkPosX;
+            bix = Mathf.FloorToInt(targetPos.x) - chunkPosX * 16;
             biy = Mathf.FloorToInt(targetPos.y);
-            biz = Mathf.FloorToInt(targetPos.z) - chunkPosZ;
+            biz = Mathf.FloorToInt(targetPos.z) - chunkPosZ * 16;
 
             if (biy >= TerrainChunk.chunkHeight || biy < 0)
                 return false;
