@@ -25,22 +25,7 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Bear_tpose' has import animation warnings that
-      might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'Scapula_R' is inbetween humanoid transforms
-      and has rotation animation that will be discarded.\n\t'ElbowPart1_R' is inbetween
-      humanoid transforms and has rotation animation that will be discarded.\n\t'Scapula_L'
-      has translation animation that will be discarded.\n\t'Scapula_L' is inbetween
-      humanoid transforms and has rotation animation that will be discarded.\n\nClip
-      'Bear_GetHitFromFront' has import animation warnings that might lower retargeting
-      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'Scapula_R'
-      has translation animation that will be discarded.\n\t'Scapula_R' is inbetween
-      humanoid transforms and has rotation animation that will be discarded.\n\t'ElbowPart1_R'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'Neck_M'
-      has translation animation that will be discarded.\n\t'Scapula_L' has translation
-      animation that will be discarded.\n\t'Scapula_L' is inbetween humanoid transforms
-      and has rotation animation that will be discarded.\n\t'ElbowPart1_L' is inbetween
-      humanoid transforms and has rotation animation that will be discarded.\n"
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0

@@ -40,6 +40,7 @@ public class EnemyManager : MonoBehaviour
 
     public int attackPower;
     public float attackDelay;
+    public float waitForAttack;
     //public GameObject nearPlayer;
     
     PlayerMove pm;
@@ -65,16 +66,16 @@ public class EnemyManager : MonoBehaviour
         CheckDistanceToPlayer();
         //플레이어와의 거리가 1.3 미만일경우 공격
         if (distanceFromPlayer < 1.3f)
-        { 
+        {
             Attack();
-            anim.SetBool("attack", true);
+            //anim.SetBool("attack", true);
             anim.SetBool("walk", false);
         }
         //플레이어와의 거리가 1.3초과 3 미만일경우 Idle상태로 변경
         else if (distanceFromPlayer > 1.3 && distanceFromPlayer < 3)
         { 
             e_State = E_State.Idle;
-            anim.SetBool("attack", false);
+            //anim.SetBool("attack", false);
         }
         //플레이어와의 거리가 3초과일 경우 어택딜레이 초기화
         else if (distanceFromPlayer > 3)
@@ -119,6 +120,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    
     void Attack()
     {
         e_State = E_State.Attack;
@@ -127,12 +129,13 @@ public class EnemyManager : MonoBehaviour
 
         if (attackDelay > 0.8)
         {
+            anim.SetTrigger("attack");
             pm.HitByEnemy(transform.position, attackPower);
             attackDelay = 0;
         }
+        
     }
-    
-    
+
     void Move()
     {
         //Enemy의 Rotation을 담당
