@@ -59,6 +59,8 @@ public class ResultSlot : MonoBehaviour
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (item == null)
+            return;
         if (selectedItem.item == item && 
             selectedItem.itemCount + itemCount <= selectedItem.item.maxStorageCount 
             || selectedItem.item == null)

@@ -188,6 +188,7 @@ public class PlayerMove : MonoBehaviour
 
     public void Attack()
     {
-
+        //EnemyManager em;
+        //em.hitEnemy(transform.position, damage);
     }
 }

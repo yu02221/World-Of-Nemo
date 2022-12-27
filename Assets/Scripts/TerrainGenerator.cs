@@ -224,14 +224,14 @@ public class TerrainGenerator : MonoBehaviour
 
     private void BuildGold(BlockType[,,] blocks)
     {
-        int randX = Random.Range(0, 8);
-        int randZ = Random.Range(0, 8);
+        int randX = Random.Range(0, 16);
+        int randZ = Random.Range(0, 16);
         for (int x = randX; x < cWidth; x += randX)
         {
-            randX = Random.Range(0, 8);
+            randX = Random.Range(0, 16);
             for (int z = randZ; z < cWidth; z += randZ)
             {
-                randZ = Random.Range(0, 8);
+                randZ = Random.Range(0, 16);
                 int randY = Random.Range(1, 20);
                 int count = Random.Range(2, 9);
                 for (int i = 0; i < 2 && randX + i < cWidth; i++)
@@ -264,7 +264,7 @@ public class TerrainGenerator : MonoBehaviour
             {
                 randZ = Random.Range(0, 8);
                 int randY = Random.Range(5, 30);
-                int count = Random.Range(4, 9);
+                int count = Random.Range(2, 9);
                 for (int i = 0; i < 2 && randX + i < cWidth; i++)
                 {
                     for (int j = 0; j < 2; j++)

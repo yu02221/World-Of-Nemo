@@ -14,6 +14,7 @@ public class MenuManager : MonoBehaviour
 
     public GameObject inventoryWindow;
     public GameObject craftingTableWindow;
+    public GameObject furnaceWindow;
 
     private void Start()
     {
@@ -27,6 +28,8 @@ public class MenuManager : MonoBehaviour
         {
             if (craftingTableWindow.activeSelf)
                 CloseCraftingTable();
+            else if (furnaceWindow.activeSelf)
+                CloseFurnace();
             else if (inventoryWindow.activeSelf)
                 CloseInventory();
             else if(gameMenuWindow.activeSelf)
@@ -39,6 +42,8 @@ public class MenuManager : MonoBehaviour
         {
             if (craftingTableWindow.activeSelf)
                 CloseCraftingTable();
+            else if (furnaceWindow.activeSelf)
+                CloseFurnace();
             else if (inventoryWindow.activeSelf)
                 CloseInventory();
             else if(!gameMenuWindow.activeSelf)
@@ -96,6 +101,11 @@ public class MenuManager : MonoBehaviour
     public void CloseCraftingTable()
     {
         craftingTableWindow.SetActive(false);
+        CloseInventory();
+    }
+    public void CloseFurnace()
+    {
+        furnaceWindow.SetActive(false);
         CloseInventory();
     }
 

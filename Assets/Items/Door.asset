@@ -17,3 +17,4 @@ MonoBehaviour:
   itemName: Door
   itemImage: {fileID: 21300000, guid: c58c61db97ef36e458c44161f9015af5, type: 3}
   maxStorageCount: 64
+  burningTime: 10

@@ -34,8 +34,9 @@ public class TerrainModifier : MonoBehaviour
 
     public int curSlot = 0;
 
-    public GameObject craftringTableWindow;
     public GameObject inventoryWindow;
+    public GameObject craftringTableWindow;
+    public GameObject furnaceWindow;
 
     private void Start()
     {
@@ -72,6 +73,13 @@ public class TerrainModifier : MonoBehaviour
                     craftringTableWindow.SetActive(true);
                     inventoryWindow.SetActive(true);
                     Time.timeScale = 0;
+                    Cursor.visible = true;
+                }
+                else if (GetTargetBlock(1) && tc.blocks[bix, biy, biz] == BlockType.Furnace)
+                {
+                    furnaceWindow.SetActive(true);
+                    inventoryWindow.SetActive(true);
+                    //Time.timeScale = 0;
                     Cursor.visible = true;
                 }
                 else if (hotInven_w.slots[curSlot].item != null &&

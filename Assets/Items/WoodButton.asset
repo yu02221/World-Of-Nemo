@@ -17,3 +17,4 @@ MonoBehaviour:
   itemName: WoodButton
   itemImage: {fileID: 21300000, guid: 4f7be09115579c449bf0d607c2f25df6, type: 3}
   maxStorageCount: 64
+  burningTime: 5
