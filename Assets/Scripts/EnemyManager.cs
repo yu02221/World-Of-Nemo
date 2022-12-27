@@ -12,6 +12,7 @@ public class EnemyManager : MonoBehaviour
         Idle,
         Walk,
         Jump,
+        Damaged,
         Attack,
         Death,
 
@@ -40,7 +41,7 @@ public class EnemyManager : MonoBehaviour
 
     public int attackPower;
     public float attackDelay;
-    public float waitForAttack;
+    public float waitAttackTrig;
     //public GameObject nearPlayer;
     
     PlayerMove pm;
@@ -50,6 +51,7 @@ public class EnemyManager : MonoBehaviour
     public int maxHp;
     public int nowHp;
 
+    float stateTime;
     private void Start()
     {
         player = GameObject.Find("Player").transform;
@@ -62,6 +64,16 @@ public class EnemyManager : MonoBehaviour
     {
         //실험용
         Damaged();
+        if (e_State == E_State.Damaged)
+        {
+            stateTime += Time.deltaTime;
+            if (stateTime > 1)
+            {
+                e_State = E_State.Idle;
+                stateTime = 0;
+            }
+        }
+        
         //Enemy와 Player의 거리가 일정 수치 미만이 되었는지 체크하기위한 메소드
         CheckDistanceToPlayer();
         //플레이어와의 거리가 1.3 미만일경우 공격
@@ -79,10 +91,13 @@ public class EnemyManager : MonoBehaviour
         }
         //플레이어와의 거리가 3초과일 경우 어택딜레이 초기화
         else if (distanceFromPlayer > 3)
+        { 
             attackDelay = 0;
+            waitAttackTrig = 0;
+        }
 
         //플레이어와의 거리를 체크하여 조건을 달성할시에 움직임 관련 메소드를 호출해주기 위함.
-        if (distanceFromPlayer < 10 && e_State != E_State.Attack)
+        if (distanceFromPlayer < 10 && e_State != E_State.Attack && e_State != E_State.Damaged)
         {
             //Enemy 이동에 관한 메소드
             Move();
@@ -93,7 +108,7 @@ public class EnemyManager : MonoBehaviour
             IsGroundCheck();
         }
         
-        else if(e_State != E_State.Attack)
+        else if(e_State != E_State.Attack && e_State != E_State.Damaged)
         { 
             e_State = E_State.Idle;
             anim.SetBool("walk", false);
@@ -105,6 +120,7 @@ public class EnemyManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
         {
             anim.SetTrigger("damaged");
+            e_State = E_State.Damaged;
             nowHp -= 2;
         }
         Death();
@@ -124,12 +140,16 @@ public class EnemyManager : MonoBehaviour
     void Attack()
     {
         e_State = E_State.Attack;
-
+        
         attackDelay += Time.deltaTime;
-
-        if (attackDelay > 0.8)
+        waitAttackTrig += Time.deltaTime;
+        if(waitAttackTrig > 1)
         {
             anim.SetTrigger("attack");
+            waitAttackTrig = 0;
+        }
+        if (attackDelay > 2.0f)
+        {
             pm.HitByEnemy(transform.position, attackPower);
             attackDelay = 0;
         }
