@@ -16806,6 +16806,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1768160530}
+  enemy1: {fileID: 8387559499513929110, guid: ed42cd43d4db5d34282f7645449a692b, type: 3}
+  enemy2: {fileID: 5287814909870831930, guid: 84537f8cd1766ba4095d43f87325356a, type: 3}
+  enemy3: {fileID: 9162745502971895974, guid: 7a7cb6d90e4c56c4bb492931133a5a9a, type: 3}
   terrainChunk: {fileID: 8473286140298106031, guid: 3490750def1761248892fdd115d82507, type: 3}
   cWidth: 12
   cHeight: 64
@@ -27197,7 +27200,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1930125104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1432dad7008b164c8e9109ef8f45e45, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b23d04615f1551448a126077c23cfc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1768160530}
@@ -27205,12 +27208,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   maxDist: 4
-  placeBlock: 2
   hotInven: {fileID: 745493398}
   hotInven_w: {fileID: 24320951}
-  item: {fileID: 11400000, guid: 3b9048be94c97f9428c5a94958dbc2cf, type: 2}
   itemSet: {fileID: 745964462}
-  curSlot: 0
   inventoryWindow: {fileID: 1220256903}
   craftringTableWindow: {fileID: 552562929}
   furnaceWindow: {fileID: 234258531}

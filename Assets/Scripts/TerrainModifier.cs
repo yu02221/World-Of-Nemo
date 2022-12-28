@@ -25,14 +25,11 @@ public class TerrainModifier : MonoBehaviour
 
     TerrainChunk tc;
 
-    public BlockType placeBlock;
-
     public Inventory hotInven;
     public Inventory hotInven_w;
-    public Item item;
     public ItemSet itemSet;
 
-    public int curSlot = 0;
+    private int curSlot = 0;
 
     public GameObject inventoryWindow;
     public GameObject craftringTableWindow;
@@ -232,6 +229,7 @@ public class TerrainModifier : MonoBehaviour
 
     private void GetItem(BlockType block)
     {
+        Item item;
         int count = 1;
         switch (block)
         {

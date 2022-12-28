@@ -5,6 +5,9 @@ using UnityEngine;
 public class TerrainGenerator : MonoBehaviour
 {
     public Transform player;
+    public GameObject enemy1;
+    public GameObject enemy2;
+    public GameObject enemy3;
 
     public GameObject terrainChunk;
 
@@ -33,6 +36,10 @@ public class TerrainGenerator : MonoBehaviour
             (player.position.z / 2 + seed) / terrainDetail)
             * terrainHeight) + 19;
         player.position = new Vector3(player.position.x, playerY, player.position.z);
+
+        Instantiate(enemy1);
+        Instantiate(enemy2);
+        Instantiate(enemy3);
 
         curChunkPosX = Mathf.FloorToInt(player.position.x / 16);
         curChunkPosZ = Mathf.FloorToInt(player.position.z / 16);
