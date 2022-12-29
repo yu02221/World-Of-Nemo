@@ -11,6 +11,7 @@ public class Item : ScriptableObject
         Equipment,  //장비
         Ingredient, //재료
         Food,
+        Other,
     }
 
     public ItemType itemType;
@@ -18,4 +19,5 @@ public class Item : ScriptableObject
     public string itemName;
     public Sprite itemImage;
     public int maxStorageCount;
+    public float burningTime;
 }

@@ -12,8 +12,9 @@ public class EnemyManager : MonoBehaviour
         Idle,
         Walk,
         Jump,
+        Damaged,
         Attack,
-        Die,
+        Death,
 
     }
     public E_State e_State;
@@ -40,65 +41,121 @@ public class EnemyManager : MonoBehaviour
 
     public int attackPower;
     public float attackDelay;
-    public GameObject nearPlayer;
-    public Text attackDelayText; //지울거
-    
-    PlayerManager pm;
+    public float waitAttackTrig;
+    //public GameObject nearPlayer;
 
+    PlayerMove pm;
+
+    public Animator anim;
+
+    public int maxHp;
+    public int nowHp;
+
+    float stateTime;
     private void Start()
     {
+        player = GameObject.Find("Player").transform;
         rb = GetComponent<Rigidbody>();
-        pm = GameObject.Find("Player").GetComponent<PlayerManager>();
+        pm = player.GetComponent<PlayerMove>();
         e_State = E_State.Idle;
-
-        attackDelayText.text = $"Delay : {attackDelay}"; //지울거
     }
 
     private void Update()
     {
+        //실험용
+        Damaged();
+        if (e_State == E_State.Damaged)
+        {
+            stateTime += Time.deltaTime;
+            if (stateTime > 1)
+            {
+                e_State = E_State.Idle;
+                stateTime = 0;
+            }
+        }
+
         //Enemy와 Player의 거리가 일정 수치 미만이 되었는지 체크하기위한 메소드
         CheckDistanceToPlayer();
         //플레이어와의 거리가 1.3 미만일경우 공격
         if (distanceFromPlayer < 1.3f)
+        {
             Attack();
+            //anim.SetBool("attack", true);
+            anim.SetBool("walk", false);
+        }
         //플레이어와의 거리가 1.3초과 3 미만일경우 Idle상태로 변경
         else if (distanceFromPlayer > 1.3 && distanceFromPlayer < 3)
+        {
             e_State = E_State.Idle;
+            //anim.SetBool("attack", false);
+        }
         //플레이어와의 거리가 3초과일 경우 어택딜레이 초기화
         else if (distanceFromPlayer > 3)
+        {
             attackDelay = 0;
-
-        attackDelayText.text = $"Delay : {attackDelay}"; //지울거
+            waitAttackTrig = 0;
+        }
 
         //플레이어와의 거리를 체크하여 조건을 달성할시에 움직임 관련 메소드를 호출해주기 위함.
-        if (distanceFromPlayer < 10 && e_State != E_State.Attack)
+        if (distanceFromPlayer < 10 && e_State != E_State.Attack && e_State != E_State.Damaged)
         {
             //Enemy 이동에 관한 메소드
             Move();
+            anim.SetBool("walk", true);
             //벽 앞에서면 점프시켜주는 메소드
             JumpToWall();
             //점프가 가능한지 여부를 지속적으로 묻기 위한 메소드
             IsGroundCheck();
         }
-        
-        else if(e_State != E_State.Attack)
+
+        else if (e_State != E_State.Attack && e_State != E_State.Damaged)
+        {
             e_State = E_State.Idle;
+            anim.SetBool("walk", false);
+        }
     }
-    
+
+    void Damaged()
+    {//실험용 if문
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            anim.SetTrigger("damaged");
+            e_State = E_State.Damaged;
+            nowHp -= 2;
+        }
+        Death();
+    }
+    //damaged를 어떻게 할지 생각(1회성으로)
+    void Death()
+    {
+        if (nowHp <= 0)
+        {
+            anim.SetBool("death", true);
+            e_State = E_State.Death;
+            Destroy(gameObject, 3f);
+        }
+    }
+
+
     void Attack()
     {
         e_State = E_State.Attack;
 
         attackDelay += Time.deltaTime;
-
-        if (attackDelay > 2)
+        waitAttackTrig += Time.deltaTime;
+        if (waitAttackTrig > 1)
         {
-            pm.nowHp -= attackPower;
+            anim.SetTrigger("attack");
+            waitAttackTrig = 0;
+        }
+        if (attackDelay > 2.0f)
+        {
+            pm.HitByEnemy(transform.position, attackPower);
             attackDelay = 0;
         }
+
     }
-    
-    
+
     void Move()
     {
         //Enemy의 Rotation을 담당
@@ -108,7 +165,7 @@ public class EnemyManager : MonoBehaviour
         Quaternion to = Quaternion.LookRotation(lookDir);
         transform.rotation = Quaternion.Lerp(from, to, turnSpeed * Time.deltaTime);
 
-        if(e_State != E_State.Die && e_State != E_State.Attack)
+        if (e_State != E_State.Death && e_State != E_State.Attack)
             e_State = E_State.Walk;
 
         //Ground와 지속적인 충돌을 감지 및 움직임에 제한을 두기위함
@@ -121,13 +178,14 @@ public class EnemyManager : MonoBehaviour
         //Enemy의 이동을 담당
         transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
 
+
     }
-    
+
     //만약 벽 앞까지 온다면 점프
     void JumpToWall()
     {
         //벡터값 세팅
-        dir = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
+        dir = new Vector3(transform.position.x, transform.position.y - 0.3f, transform.position.z);
         //에너미가 전방 벽과 가까워졌는지 bool 타입으로 체크
         isBorder = Physics.Raycast(dir, transform.forward, 1.0f, LayerMask.GetMask("Ground"));
         //만약 에너미가 벽과 가까워졌다면 (레이캐스트) 점프
@@ -150,7 +208,7 @@ public class EnemyManager : MonoBehaviour
         {
             isGround = false;
 
-            if (e_State != E_State.Die)
+            if (e_State != E_State.Death)
                 e_State = E_State.Jump;
         }
 

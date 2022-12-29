@@ -17,3 +17,4 @@ MonoBehaviour:
   itemName: Coal
   itemImage: {fileID: 21300000, guid: 5be3ca2693d0c7447a37ff48bb385834, type: 3}
   maxStorageCount: 64
+  burningTime: 80

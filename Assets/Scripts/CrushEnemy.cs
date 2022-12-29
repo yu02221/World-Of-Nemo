@@ -40,8 +40,9 @@ public class CrushEnemy : MonoBehaviour
 
     private void Start()
     {
+        player = GameObject.Find("Player").transform;
         rb = GetComponent<Rigidbody>();
-        pm = GameObject.Find("Player").GetComponent<PlayerMove>();
+        pm = player.GetComponent<PlayerMove>();
         e_State = E_State.Idle;
     }
 

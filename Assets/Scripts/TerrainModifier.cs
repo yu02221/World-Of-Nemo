@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -27,14 +25,15 @@ public class TerrainModifier : MonoBehaviour
 
     TerrainChunk tc;
 
-    public BlockType placeBlock;
-
     public Inventory hotInven;
     public Inventory hotInven_w;
-    public Item item;
     public ItemSet itemSet;
 
-    public int curSlot = 0;
+    private int curSlot = 0;
+
+    public GameObject inventoryWindow;
+    public GameObject craftringTableWindow;
+    public GameObject furnaceWindow;
 
     private void Start()
     {
@@ -66,7 +65,21 @@ public class TerrainModifier : MonoBehaviour
             }
             else if (rightClick)
             {
-                if (hotInven_w.slots[curSlot].item != null &&
+                if (GetTargetBlock(1) && tc.blocks[bix, biy, biz] == BlockType.CraftingTable)
+                {
+                    craftringTableWindow.SetActive(true);
+                    inventoryWindow.SetActive(true);
+                    Time.timeScale = 0;
+                    Cursor.visible = true;
+                }
+                else if (GetTargetBlock(1) && tc.blocks[bix, biy, biz] == BlockType.Furnace)
+                {
+                    furnaceWindow.SetActive(true);
+                    inventoryWindow.SetActive(true);
+                    //Time.timeScale = 0;
+                    Cursor.visible = true;
+                }
+                else if (hotInven_w.slots[curSlot].item != null &&
                     hotInven_w.slots[curSlot].item.itemType == Item.ItemType.Block &&
                     GetTargetBlock(-1))
                     PlacingBlock();
@@ -154,9 +167,9 @@ public class TerrainModifier : MonoBehaviour
 
     private void PlacingBlock()
     {
-        if (ps.standBlockX - ps.standChunkX != bix ||
-            ps.standBlockZ - ps.standChunkZ != biz ||
-            ps.standBlockY != biy)
+        if (ps.standBlockX - ps.standChunkX * 16 != bix ||
+            ps.standBlockZ - ps.standChunkZ * 16 != biz ||
+            ps.standBlockY != biy && ps.standBlockY + 1 != biy)
         {
             tc.blocks[bix, biy, biz] = hotInven_w.slots[curSlot].item.blockType;
 
@@ -176,17 +189,17 @@ public class TerrainModifier : MonoBehaviour
         {
             Vector3 targetPos = hitInfo.point + transform.forward * .01f * sign;
 
-            int chunkPosX = Mathf.FloorToInt(targetPos.x / 16f) * 16;
-            int chunkPosZ = Mathf.FloorToInt(targetPos.z / 16f) * 16;
+            int chunkPosX = Mathf.FloorToInt(targetPos.x / 16f);
+            int chunkPosZ = Mathf.FloorToInt(targetPos.z / 16f);
 
             ChunkPos cp = new ChunkPos(chunkPosX, chunkPosZ);
 
             tc = TerrainGenerator.buildedChunks[cp];
 
             //index of the target block
-            bix = Mathf.FloorToInt(targetPos.x) - chunkPosX;
+            bix = Mathf.FloorToInt(targetPos.x) - chunkPosX * 16;
             biy = Mathf.FloorToInt(targetPos.y);
-            biz = Mathf.FloorToInt(targetPos.z) - chunkPosZ;
+            biz = Mathf.FloorToInt(targetPos.z) - chunkPosZ * 16;
 
             if (biy >= TerrainChunk.chunkHeight || biy < 0)
                 return false;
@@ -203,10 +216,10 @@ public class TerrainModifier : MonoBehaviour
         {
             case BlockType.Grass:
             case BlockType.Dirt:
-                durability = 1.0f;
+                durability = 0.1f;
                 break;
             case BlockType.Stone:
-                durability = 4.0f;
+                durability = 0.1f;
                 break;
             default:
                 durability = 1;
@@ -216,46 +229,48 @@ public class TerrainModifier : MonoBehaviour
 
     private void GetItem(BlockType block)
     {
+        Item item;
+        int count = 1;
         switch (block)
         {
             case BlockType.Grass:
             case BlockType.Dirt:
-                item = itemSet.dirt;
+                item = itemSet.iSet["Dirt"];
                 break;
             case BlockType.Stone:
             case BlockType.CobbleStone:
-                item = itemSet.cobbleStone;
+                item = itemSet.iSet["CobbleStone"];
                 break;
             case BlockType.OakLog:
-                item = itemSet.oakLog;
+                item = itemSet.iSet["OakLog"];
                 break;
             case BlockType.Coal:
-                item = itemSet.coal;
+                item = itemSet.iSet["Coal"];
                 break;
             case BlockType.Diamond:
-                item = itemSet.diamond;
+                item = itemSet.iSet["Diamond"];
                 break;
             case BlockType.Iron:
-                item = itemSet.rawIron;
+                item = itemSet.iSet["IronIngot"];
                 break;
             case BlockType.Gold:
-                item = itemSet.rawGold;
+                item = itemSet.iSet["GoldIngot"];
                 break;
             case BlockType.Furnace:
-                item = itemSet.furnace;
+                item = itemSet.iSet["Furnace"];
                 break;
             case BlockType.CraftingTable:
-                item = itemSet.craftingTable;
+                item = itemSet.iSet["CraftingTable"];
                 break;
             case BlockType.OakPlanks:
-                item = itemSet.oakPlanks;
+                item = itemSet.iSet["OakPlanks"];
                 break;
             default:
-                item = itemSet.dirt;
+                item = itemSet.iSet["Dirt"];
                 break;
         }
         
-        hotInven_w.AddItem(item);
+        hotInven_w.AddItem(item, count);
     }
 
     private void CopyHotInven()
@@ -265,6 +280,7 @@ public class TerrainModifier : MonoBehaviour
             hotInven.slots[i].item = hotInven_w.slots[i].item;
             hotInven.slots[i].itemCount = hotInven_w.slots[i].itemCount;
             hotInven.slots[i].SetItemCountText();
+            hotInven_w.slots[i].SetItemCountText();
         }
     }
 }

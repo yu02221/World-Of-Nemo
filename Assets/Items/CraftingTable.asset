@@ -17,3 +17,4 @@ MonoBehaviour:
   itemName: CraftingTable
   itemImage: {fileID: 21300000, guid: 8364c1c555d3f8149ab350d019141018, type: 3}
   maxStorageCount: 64
+  burningTime: 15
