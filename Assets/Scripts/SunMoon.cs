@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SunMoon : MonoBehaviour
 {
-    public float liightSpeed;
+    public float rotSpeed;
 
     public GameObject Target;
 
@@ -18,7 +18,7 @@ public class SunMoon : MonoBehaviour
 
     private void Update()
     {
-        transform.Rotate(Vector3.right, (liightSpeed) * Time.deltaTime);
+        transform.Rotate(Vector3.right, (rotSpeed) * Time.deltaTime);
     }
 
     void FixedUpdate()
