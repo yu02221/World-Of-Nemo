@@ -9,20 +9,20 @@ public class PlayerManager : MonoBehaviour
     public int nowHp;
     PlayerMove pm;
 
-    public Text lifeText;
+    //public Text lifeText;
 
     Rigidbody rb;
     private void Start()
     {
         pm = GetComponent<PlayerMove>();
         rb = GetComponent<Rigidbody>();
-        lifeText.text = $"Life = {nowHp}";
+        //lifeText.text = $"Life = {nowHp}";
         
     }
     private void Update()
     {
         CheckHP();
-        lifeText.text = $"Life = {nowHp}";
+        //lifeText.text = $"Life = {nowHp}";
     }
 
     private void OnCollisionEnter(Collision collision)
