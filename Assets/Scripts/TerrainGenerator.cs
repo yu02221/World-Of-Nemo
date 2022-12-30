@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 플레이어 위치에 따라 청크를 생성 및 비활성화
+/// </summary>
 public class TerrainGenerator : MonoBehaviour
 {
     public Transform player;
@@ -29,7 +32,7 @@ public class TerrainGenerator : MonoBehaviour
     private void Start()
     {
         seed = Random.Range(100000, 999999);
-
+        // 플레이어의 y축 위치를 지표면으로 변경
         player = GameObject.Find("Player").transform;
         int playerY = (int)(Mathf.PerlinNoise(
             (player.position.x / 2 + seed) / terrainDetail, 
@@ -40,13 +43,13 @@ public class TerrainGenerator : MonoBehaviour
         Instantiate(enemy1);
         Instantiate(enemy2);
         Instantiate(enemy3);
-
+        //현재 청크 위치 저장
         curChunkPosX = Mathf.FloorToInt(player.position.x / 16);
         curChunkPosZ = Mathf.FloorToInt(player.position.z / 16);
 
         cWidth = TerrainChunk.chunkWidth;
         cHeight = TerrainChunk.chunkHeight;
-
+        // 시작시 플레이어 주위의 청크 즉시 생성
         LoadChunk(true);
     }
 
@@ -54,16 +57,19 @@ public class TerrainGenerator : MonoBehaviour
     {
         int curPosX = Mathf.FloorToInt(player.position.x / 16);
         int curPosZ = Mathf.FloorToInt(player.position.z / 16);
-        
+        // 현재 서 있는 청크가 바뀌었을 때 위치에 따른 주변 청크 생성 및 비활성화
         if (curChunkPosX != curPosX || curChunkPosZ != curPosZ)
         {
+            // 현제 청크위치 변경
             curChunkPosX = curPosX;
             curChunkPosZ = curPosZ;
+            // 청크 생성(이미 생성된 청크면 활성화)
             LoadChunk();
+            // 청크 비활성화
             UnloadChunk();
         }
     }
-
+    // 가까워진 청크 로드(생성 또는 활성화)
     private void LoadChunk(bool instant = false)
     {
         for (int i = curChunkPosX - cDistance; i <= curChunkPosX + cDistance; i++)
@@ -76,9 +82,11 @@ public class TerrainGenerator : MonoBehaviour
                     toGenerate.Add(new ChunkPos(i, j));
             }
         }
+        // 청크를 바로 생성하면 끊김 현상이 발생하여 생성할 청크 목록을 만든 후 순차적으로 생성
         StartCoroutine(DelayBuildChunks());
     }
 
+    // 멀어진 청크 비활성화
     private void UnloadChunk()
     {
         List<ChunkPos> toUnload = new List<ChunkPos>();
@@ -99,12 +107,13 @@ public class TerrainGenerator : MonoBehaviour
         }
     }
 
+    // 청크를 생성 또는 활성화
     private void BuildChunk(int xPos, int zPos)
     {
         TerrainChunk chunk;
         ChunkPos curChunk = new ChunkPos(xPos, zPos);
         if (buildedChunks.ContainsKey(curChunk))
-        {
+        {   // 이미 생성된 청크면 활성화
             chunk = buildedChunks[curChunk];
             if (!chunk.gameObject.activeSelf)
             {
@@ -114,7 +123,7 @@ public class TerrainGenerator : MonoBehaviour
                 return;
         }
         else
-        {
+        {   // 생성된 적 없는 청크면 새로 생성
             GameObject chunkObj = Instantiate(terrainChunk, new Vector3(xPos * 16, 0, zPos * 16), Quaternion.identity);
             chunkObj.transform.parent = GameObject.Find("Terrain").transform;
             chunk = chunkObj.GetComponent<TerrainChunk>();
@@ -125,24 +134,26 @@ public class TerrainGenerator : MonoBehaviour
                     for (int y = 0; y < cHeight; y++)
                         chunk.blocks[x, y, z] = GetBlockType(xPos * 16 + x - 1, y, zPos * 16 + z - 1);
 
-            
+            // 나무 생성
             BuildTrees(chunk.blocks);  
-
+            // 땅속 광석 생성
             BuildOres(chunk.blocks);
         }
+        // 메쉬 그리기
         chunk.BuildMesh();
-
     }
 
+    // PerlinNoise 함수를 활용해 자연스러운 지형 생성
     private BlockType GetBlockType(int x, int y, int z)
     {
-        
         BlockType bt;
 
         int grassY = (int)(Mathf.PerlinNoise((x / 2 + seed) / terrainDetail, (z / 2 + seed) / terrainDetail) * terrainHeight) +16;
         int soilRange = Random.Range(3, 5);
 
-        if (y > grassY)
+        if (y == 0)
+            bt = BlockType.Bedrock;
+        else if (y > grassY)
             bt = BlockType.Air;
         else if (y == grassY)
             bt = BlockType.Grass;

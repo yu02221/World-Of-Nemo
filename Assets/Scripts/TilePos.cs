@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// atlas 파일에 있는 블럭 텍스쳐를 각 위치에 맞게 가져옴
+/// </summary>
 public class TilePos
 {
     int xPos, yPos;
@@ -49,6 +52,11 @@ public class TilePos
         {Tile.CraftingTableTop,     new TilePos(6,0)},
         {Tile.CraftingTableFront,   new TilePos(6,1)},
         {Tile.CraftingTableSide,    new TilePos(6,2)},
+        {Tile.IronBlock,            new TilePos(7,0)},
+        {Tile.GoldBlock,            new TilePos(7,1)},
+        {Tile.DiamondBlock,         new TilePos(7,2)},
+        {Tile.CoalBlock,            new TilePos(7,3)},
+        {Tile.Bedrock,              new TilePos(8,0)},
     };
 }
 
@@ -66,4 +74,9 @@ public enum Tile
     Diamond,
     Coal,
     CraftingTableTop, CraftingTableFront, CraftingTableSide,
+    IronBlock,
+    GoldBlock,
+    DiamondBlock,
+    CoalBlock,
+    Bedrock,
 }

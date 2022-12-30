@@ -1,14 +1,15 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+/// <summary>
+/// 블럭 채굴(획득) 및 설치
+/// </summary>
 public class TerrainModifier : MonoBehaviour
 {
     public Transform player;
     private PlayerStatus ps;
 
     public LayerMask groundLayer;
-
-    //public Inventory inv;
 
     public float maxDist = 4;
 
@@ -25,15 +26,15 @@ public class TerrainModifier : MonoBehaviour
 
     TerrainChunk tc;
 
-    public Inventory hotInven;
-    public Inventory hotInven_w;
+    public Inventory hotInven;      // 화면 하단의 단축 인벤토리
+    public Inventory hotInven_w;    // 인벤토리 윈도우 안의 단축 인벤토리
     public ItemSet itemSet;
 
     private int curSlot = 0;
 
     public GameObject inventoryWindow;
-    public GameObject craftringTableWindow;
-    public GameObject furnaceWindow;
+    public GameObject craftringTableWindow; // 제작대
+    public GameObject furnaceWindow;        // 화로
 
     private void Start()
     {
@@ -49,7 +50,7 @@ public class TerrainModifier : MonoBehaviour
 
         CopyHotInven();
     }
-
+    // 마우스 클릭으로 블록 채굴 및 설치
     private void MouseInput()
     {
         bool leftClick = Input.GetMouseButton(0);
@@ -86,7 +87,7 @@ public class TerrainModifier : MonoBehaviour
             }
         }
     }
-
+    // 숫자버튼으로 단축 인벤의 슬롯 변경
     private void HotkeyInput()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -108,7 +109,7 @@ public class TerrainModifier : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha9))
             SetCurSlot(8);
     }
-
+    // 마우스 스크롤로 단축인벤의 슬롯 변경
     private void ScrollInput()
     {
         float wheelInput = Input.GetAxis("Mouse ScrollWheel");
@@ -139,23 +140,23 @@ public class TerrainModifier : MonoBehaviour
                 hotInven.slots[i].selected.SetActive(false);
         }
     }
-
+    // 블록 채굴
     private void MiningBlock()
-    {
+    {   
         if (bix != curBlockX || biy != curBlockY || biz != curBlockZ)
-        {
+        {   // 에임이 다른 블럭으로 향하면 블록 내구도 초기화
             curDurability = durability;
             curBlockX = bix;
             curBlockY = biy;
             curBlockZ = biz;
         }
         else
-        {
+        {   // 마우스로 클릭하는 동안 내구도 감소
             curDurability -= Time.deltaTime;
         }
 
         if (curDurability <= 0)
-        {
+        {   // 내구도가 0이하가 되면 블럭 채굴
             curDurability = durability;
 
             GetItem(tc.blocks[bix, biy, biz]);
@@ -164,7 +165,8 @@ public class TerrainModifier : MonoBehaviour
             tc.BuildMesh();
         }
     }
-
+    
+    // 단축 인벤의 선택슬롯에 있는 블럭 설치
     private void PlacingBlock()
     {
         if (ps.standBlockX - ps.standChunkX * 16 != bix ||
@@ -182,10 +184,15 @@ public class TerrainModifier : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 블럭을 채굴/설치할 위치를 설정
+    /// </summary>
+    /// <param name="sign">안쪽 블럭 : -1, 바깥쪽 블럭 : 1</param>
+    /// <returns>최대 사거리 이내 블럭이 있는지 여부</returns>
     private bool GetTargetBlock(int sign)
     {
         RaycastHit hitInfo;
-        if (Physics.Raycast(transform.position, transform.forward, out hitInfo, maxDist + 1, groundLayer))
+        if (Physics.Raycast(transform.position, transform.forward, out hitInfo, maxDist, groundLayer))
         {
             Vector3 targetPos = hitInfo.point + transform.forward * .01f * sign;
 
@@ -216,10 +223,10 @@ public class TerrainModifier : MonoBehaviour
         {
             case BlockType.Grass:
             case BlockType.Dirt:
-                durability = 0.1f;
+                durability = 1f;
                 break;
             case BlockType.Stone:
-                durability = 0.1f;
+                durability = 1f;
                 break;
             default:
                 durability = 1;
@@ -227,7 +234,7 @@ public class TerrainModifier : MonoBehaviour
         }
     }
 
-    private void GetItem(BlockType block)
+    public void GetItem(BlockType block)
     {
         Item item;
         int count = 1;
@@ -251,10 +258,10 @@ public class TerrainModifier : MonoBehaviour
                 item = itemSet.iSet["Diamond"];
                 break;
             case BlockType.Iron:
-                item = itemSet.iSet["IronIngot"];
+                item = itemSet.iSet["RawIron"];
                 break;
             case BlockType.Gold:
-                item = itemSet.iSet["GoldIngot"];
+                item = itemSet.iSet["RawGold"];
                 break;
             case BlockType.Furnace:
                 item = itemSet.iSet["Furnace"];
@@ -264,6 +271,18 @@ public class TerrainModifier : MonoBehaviour
                 break;
             case BlockType.OakPlanks:
                 item = itemSet.iSet["OakPlanks"];
+                break;
+            case BlockType.IronBlock:
+                item = itemSet.iSet["IronBlock"];
+                break;
+            case BlockType.GoldBlock:
+                item = itemSet.iSet["GoldBlock"];
+                break;
+            case BlockType.DiamondBlock:
+                item = itemSet.iSet["DiamondBlock"];
+                break;
+            case BlockType.CoalBlock:
+                item = itemSet.iSet["CoalBlock"];
                 break;
             default:
                 item = itemSet.iSet["Dirt"];

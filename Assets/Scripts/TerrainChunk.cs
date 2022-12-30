@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 16X64X16 크기의 청크를 메쉬를 이용하여 그림
+/// </summary>
 public class TerrainChunk : MonoBehaviour
 {
-    //chunk size
+    // chunk size
     public const int chunkWidth = 16;
     public const int chunkHeight = 64;
 
-    //0 = air, 1 = land
+    // 청크내 좌표에 따른 블럭타입
     public BlockType[,,] blocks = new BlockType[chunkWidth, chunkHeight, chunkWidth];
 
 
