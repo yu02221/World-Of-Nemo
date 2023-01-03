@@ -20,6 +20,7 @@ public class MenuManager : MonoBehaviour
     {
         invens = inventoryWindow.GetComponentsInChildren<Inventory>();
         cInven = inventoryWindow.GetComponentInChildren<CraftingInventory>();
+        Cursor.visible = false;
     }
 
     private void Update()
@@ -52,6 +53,7 @@ public class MenuManager : MonoBehaviour
     }
     public void QuitToTitle()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("Menu");
     }
 
