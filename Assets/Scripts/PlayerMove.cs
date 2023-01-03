@@ -55,6 +55,9 @@ public class PlayerMove : MonoBehaviour
     Enemy enemy;
     public float attackCool;
 
+    // 플레이어 사운드
+    public AudioSource walkSound; 
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -79,6 +82,14 @@ public class PlayerMove : MonoBehaviour
 
         if (attackCool > 0)
             attackCool -= Time.deltaTime;
+
+        if (playerState == PlayerState.Walk)
+        {
+            if (!walkSound.isPlaying)
+                walkSound.Play();
+        }
+        else
+            walkSound.Stop();
     }
 
     private void FixedUpdate()

@@ -5,114 +5,167 @@ using UnityEngine.UI;
 
 public class Furnace : CraftingInventory
 {
-    public Slider arrow;
-    public Slider fire;
-    public FuelSlot fuelSolt;
+    public Slider arrowSlider;
+    public Slider fireSlider;
+    public FuelSlot fuelSlot;
+    public Slot itemSlot;
+    public ItemSet itemSet;
 
+    private FurnaceState fState = FurnaceState.Idle;
+    private float maxBurnTime;
     private float burnTime;
     private float bakeTime;
-    private bool fuelIn;
-    private bool itemIn;
-
-    private void OnValidate()
-    {
-        slots = transform.GetComponentsInChildren<Slot>();
-    }
+    private bool fuelIn = false;
+    private bool itemIn = false;
+    private Item curItem;
 
     private void Start()
     {
-        items = new string[slots.Length];
         recipes = CSVReader.Read("Furnace");
     }
 
     private void Update()
     {
-        FuelCheck();
-        ItemCheck();
+        if (curItem != itemSlot.item)
+            ResetItem();
 
-
-        for (int i = 0; i < slots.Length; i++)
+        switch (fState)
         {
-            if (slots[i].item != null)
-                items[i] = slots[i].item.itemName;
+            case FurnaceState.Idle :
+                Idle();
+                break;
+            case FurnaceState.Burn:
+                BurnItem();
+                break;
+            case FurnaceState.CoolDown:
+                CoolDown();
+                break;
         }
-        
-        if (itemIn && burnTime > 0)
+    }
+
+    private void Idle()
+    {
+        if (!fuelIn && fuelSlot.item != null)
+            fuelIn = true;
+
+        if (!itemIn && CheckRecipes(itemSlot.item))
+            itemIn = true;
+
+        if (fuelIn && itemIn)
         {
-            print(burnTime);
+            burnTime = fuelSlot.item.burningTime;
+            maxBurnTime = burnTime;
+            if (--fuelSlot.itemCount == 0)
+                fuelSlot.item = null;
+            fuelSlot.SetItemCountText();
+
+            bakeTime = 0;
+            fState = FurnaceState.Burn;
+        }
+    }
+
+    private void BurnItem()
+    {
+        if (itemSlot.item == null)
+        {
+            bakeTime = 0;
+            arrowSlider.value = 0;
+            itemIn = false;
+            fState = FurnaceState.CoolDown;
+            return;
+        }
+
+        if (burnTime > 0)
+        {
             burnTime -= Time.deltaTime;
-            fire.value = burnTime / fuelSolt.item.burningTime;
-        }
-        else
-        {
-            fuelSolt.itemCount--;
-            if (fuelSolt.itemCount == 0)
+            bakeTime += Time.deltaTime;
+            fireSlider.value = burnTime / maxBurnTime;
+            arrowSlider.value = bakeTime / 10f;
+
+            if (bakeTime >= 10f)
             {
-                fire.value = 0;
-                fuelSolt.item = null;
-                fuelIn = false;
+                bakeTime = 0;
+                GetResultItem();
             }
-            fuelSolt.SetItemCountText();
-        }
-
-        GetResultItem();
-
-        if (resultItem != null)
-        {
-            resultSlot.item = resultItem;
-            resultSlot.itemCount = resultItemCount;
         }
         else
         {
-            resultSlot.item = null;
-            resultSlot.itemCount = 0;
+            if (fuelSlot.item != null)
+            {
+                burnTime = fuelSlot.item.burningTime;
+                maxBurnTime = burnTime;
+
+                if (--fuelSlot.itemCount == 0)
+                    fuelSlot.item = null;
+                fuelSlot.SetItemCountText();
+            }
+            else
+            {
+                fuelIn = false;
+                fState = FurnaceState.Idle;
+            }
         }
+    }
+
+    private void CoolDown()
+    {
+        if (burnTime > 0)
+        {
+            if (CheckRecipes(itemSlot.item))
+            {
+                itemIn = true;
+                bakeTime = 0;
+                fState = FurnaceState.Burn;
+            }
+            else
+            {
+                burnTime -= 3 * Time.deltaTime;
+                fireSlider.value = burnTime / maxBurnTime;
+            }
+        }
+        else
+        {
+            burnTime = 0;
+            fState = FurnaceState.Idle;
+        }
+    }
+
+    private bool CheckRecipes(Item item)
+    {
+        if (item == null)
+            return false;
+
+        for (int i = 0; i < recipes.Count; i++)
+        {
+            if (item.name == recipes[i]["Item"].ToString()
+                && (resultSlot.item == null || resultSlot.item == item))
+            {
+                resultItem = itemSet.iSet[recipes[i]["ResultItem"].ToString()];
+                curItem = item;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private  new void GetResultItem()
+    {
+        if (--itemSlot.itemCount == 0)
+            itemSlot.item = null;
+        itemSlot.SetItemCountText();
+
+        resultSlot.item = resultItem;
+        resultSlot.itemCount++;
         resultSlot.SetItemCountText();
     }
 
-    private void FuelCheck()
+    public void ResetItem()
     {
-        if (!fuelIn && fuelSolt.item != null)
-        {
-            fuelIn = true;
-            burnTime = fuelSolt.item.burningTime;
-            fire.value = 1;
-        }
-        if (fuelSolt.item == null)
-        {
-            fuelIn = false;
-            burnTime = 0;
-            fire.value = 0;
-        }
+        curItem = itemSlot.item;
+        bakeTime = 0;
+        arrowSlider.value = 0;
+        fState = FurnaceState.CoolDown;
     }
 
-    private void ItemCheck()
-    {
-        for (int i = 0; i < recipes.Count; i++)
-        {
-            if (items[0] == recipes[i]["item"].ToString())
-            {
-                itemIn = true;
-                return;
-            }
-        }
-        itemIn = false;
-        return;
-    }
-
-    protected new void GetResultItem()
-    {
-        int i = 0;
-        for (; i < recipes.Count; i++)
-        {
-            if (items[0] == recipes[i]["Item"].ToString())
-            {
-                resultItem = itemset.iSet[recipes[i]["ResultItem"].ToString()];
-                resultItemCount++;
-                break;
-            }
-        }
-        if (i == recipes.Count)
-            resultItem = null;
-    }
+    enum FurnaceState { Idle, Burn, CoolDown }
 }

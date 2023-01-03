@@ -4280,8 +4280,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 347974591}
-  _item: {fileID: 11400000, guid: 09798f82e7f73de49a872284944cac58, type: 2}
-  itemCount: 1
+  _item: {fileID: 0}
+  itemCount: 0
   itemCountTxt: {fileID: 1694623997}
   selected: {fileID: 0}
   hilighted: {fileID: 1361987805}
@@ -4419,6 +4419,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 213606193}
   _item: {fileID: 0}
+  furnace: {fileID: 1884371238}
   itemCount: 0
   itemCountTxt: {fileID: 1453777681}
   selected: {fileID: 0}
@@ -7400,8 +7401,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1391709898}
-  _item: {fileID: 0}
-  itemCount: 0
+  _item: {fileID: 11400000, guid: 14b3f17c7dbdc23479981cd1a2d26fe5, type: 2}
+  itemCount: 10
   itemCountTxt: {fileID: 201236509}
   selected: {fileID: 0}
   hilighted: {fileID: 2080187017}
@@ -8858,8 +8859,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1046629352}
-  _item: {fileID: 0}
-  itemCount: 0
+  _item: {fileID: 11400000, guid: d35233d482e909b4ea04c4bbca0d1b97, type: 2}
+  itemCount: 10
   itemCountTxt: {fileID: 1923833591}
   selected: {fileID: 0}
   hilighted: {fileID: 204196115}
@@ -9521,8 +9522,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 432542601}
-  _item: {fileID: 0}
-  itemCount: 0
+  _item: {fileID: 11400000, guid: cbc9b212cf4c26742beb063de78a787d, type: 2}
+  itemCount: 10
   itemCountTxt: {fileID: 1338500757}
   selected: {fileID: 0}
   hilighted: {fileID: 1220731811}
@@ -18533,7 +18534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fbecae75a066064b916af9590379abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  craftingInven: {fileID: 0}
+  craftingInven: {fileID: 1884371238}
   image: {fileID: 76269975}
   _item: {fileID: 0}
   itemCount: 0
@@ -23166,8 +23167,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1628598640}
-  _item: {fileID: 0}
-  itemCount: 0
+  _item: {fileID: 11400000, guid: 64a3e5aefee45b144a49c4a22df97b18, type: 2}
+  itemCount: 1
   itemCountTxt: {fileID: 765079534}
   selected: {fileID: 0}
   hilighted: {fileID: 795465548}
@@ -23999,7 +24000,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -24732,8 +24733,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1949504281}
-  _item: {fileID: 0}
-  itemCount: 0
+  _item: {fileID: 11400000, guid: 1786326257f300f49a959d3e25573c5a, type: 2}
+  itemCount: 10
   itemCountTxt: {fileID: 1487036064}
   selected: {fileID: 0}
   hilighted: {fileID: 1884744343}
@@ -25269,6 +25270,7 @@ GameObject:
   - component: {fileID: 1768160532}
   - component: {fileID: 1768160531}
   - component: {fileID: 1768160533}
+  - component: {fileID: 1768160535}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -25323,6 +25325,7 @@ MonoBehaviour:
     m_Bits: 128
   maxDist: 4
   attackCool: 0
+  walkSound: {fileID: 1768160535}
 --- !u!54 &1768160532
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -25405,6 +25408,102 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 1.7, z: 0.5}
   m_Center: {x: 0, y: -0.05, z: 0}
+--- !u!82 &1768160535
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768160526}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: df7a1185801dc5647bf1699c2fedf80a, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1771705632
 GameObject:
   m_ObjectHideFlags: 0
@@ -27059,9 +27158,11 @@ MonoBehaviour:
   - {fileID: 1954229169}
   itemset: {fileID: 745964462}
   resultSlot: {fileID: 1273660657}
-  arrow: {fileID: 2117481242}
-  fire: {fileID: 1138250702}
-  fuelSolt: {fileID: 0}
+  arrowSlider: {fileID: 2117481242}
+  fireSlider: {fileID: 1138250702}
+  fuelSlot: {fileID: 325676975}
+  itemSlot: {fileID: 1954229169}
+  itemSet: {fileID: 745964462}
 --- !u!1 &1884729065
 GameObject:
   m_ObjectHideFlags: 0
@@ -28051,7 +28152,7 @@ GameObject:
   - component: {fileID: 1954229167}
   - component: {fileID: 1954229169}
   m_Layer: 5
-  m_Name: IngridientSlot
+  m_Name: ItemSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30488,7 +30589,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
