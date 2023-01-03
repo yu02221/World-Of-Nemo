@@ -12,6 +12,7 @@ public class FuelSlot : MonoBehaviour
     [SerializeField] Image image;
 
     public Item _item;
+    public Furnace furnace;
 
     public int itemCount;
     public Text itemCountTxt;
@@ -89,6 +90,8 @@ public class FuelSlot : MonoBehaviour
         item = tempItem;
         itemCount = tempCount;
         SetItemCountText();
+
+        furnace.SwitchItem();
     }
 
     public void CombineItems()

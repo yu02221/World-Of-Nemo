@@ -44,7 +44,9 @@ public class ResultSlot : MonoBehaviour
         selectedItem.SetItemCountText();
         item = null;
         itemCount = 0;
-
+        SetItemCountText();
+        if (craftingInven.name == "FurnaceInven")
+            return;
         for (int i = 0; i < craftingInven.slots.Length; i++)
         {
             if (craftingInven.slots[i].item != null)
