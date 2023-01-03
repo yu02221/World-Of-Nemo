@@ -49,6 +49,12 @@ public class PlayerMove : MonoBehaviour
 
     public Text velY;
 
+    // 플레이어 공격 관련 변수
+    public LayerMask enemyLayer;
+    public float maxDist;       // 공격 가능 거리
+    Enemy enemy;
+    public float attackCool;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -70,6 +76,9 @@ public class PlayerMove : MonoBehaviour
             rb.angularVelocity = Vector3.zero;
         //플레이어의 회전값에대한 내용을 적용시켜준다
         transform.eulerAngles = new Vector3(0, yRotate, 0);
+
+        if (attackCool > 0)
+            attackCool -= Time.deltaTime;
     }
 
     private void FixedUpdate()
@@ -170,13 +179,13 @@ public class PlayerMove : MonoBehaviour
             Time.timeScale = 0;
     }
 
-    public void HitByEnemy(Vector3 enemyPosi0tion, int attackPower)
+    public void HitByEnemy(Vector3 enemyPosition, int damage)
     {
-        Vector3 reactVec = transform.position - enemyPosi0tion;
+        Vector3 reactVec = transform.position - enemyPosition;
         reactVec = reactVec.normalized;
         reactVec += Vector3.up;
         rb.AddForce(reactVec * 5, ForceMode.Impulse);
-        ps.hp -= attackPower;
+        ps.hp -= damage;
         ps.SetHp();
 
         if (ps.hp <= 0)
@@ -188,7 +197,13 @@ public class PlayerMove : MonoBehaviour
 
     public void Attack()
     {
-        //EnemyManager em;
-        //em.hitEnemy(transform.position, damage);
+        RaycastHit hitInfo;
+        if (attackCool <= 0 &&
+            Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hitInfo, maxDist, enemyLayer))
+        {
+            attackCool = 1;
+            enemy = hitInfo.transform.GetComponent<Enemy>();
+            enemy.HitByPlayer(transform.position, 3);
+        }
     }
 }

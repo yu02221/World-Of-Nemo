@@ -14,7 +14,7 @@ public class TerrainGenerator : MonoBehaviour
 
     public GameObject terrainChunk;
 
-    public static Dictionary<ChunkPos, TerrainChunk> buildedChunks = new Dictionary<ChunkPos, TerrainChunk>();
+    public static Dictionary<ChunkPos, TerrainChunk> buildedChunks;
     private int curChunkPosX;
     private int curChunkPosZ;
 
@@ -39,6 +39,8 @@ public class TerrainGenerator : MonoBehaviour
             (player.position.z / 2 + seed) / terrainDetail)
             * terrainHeight) + 19;
         player.position = new Vector3(player.position.x, playerY, player.position.z);
+
+        buildedChunks = new Dictionary<ChunkPos, TerrainChunk>();
 
         Instantiate(enemy1);
         Instantiate(enemy2);

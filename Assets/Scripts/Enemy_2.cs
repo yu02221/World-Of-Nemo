@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_2 : MonoBehaviour
+public class Enemy_2 : Enemy
 {
+    /*
     public enum E_State
     {
         Idle,
@@ -14,7 +15,7 @@ public class Enemy_2 : MonoBehaviour
         Death,
     }
     public E_State e_State;
-
+    */
     //이동을 위한 변수
     public GameObject nearPlayer;
     public Transform player;
@@ -34,7 +35,7 @@ public class Enemy_2 : MonoBehaviour
 
     Vector3 dir;
     Vector3 lookDir;
-    Rigidbody rb;
+    //Rigidbody rb;
 
     //공격할때 사용하는 변수들
     public int crushPower = 2;
@@ -42,16 +43,16 @@ public class Enemy_2 : MonoBehaviour
     PlayerMove pm;
     Vector3 playerTransSave;
     float readyTime;
-
+    /*
     //대미지드 액션을 위한 변수
     float stateTime;
-
+    
     //크러쉬 에너미 stats
     public int maxHp;
     public int nowHp;
 
     public Animator anim;
-
+    */
     private void Start()
     {
         player = GameObject.Find("Player").transform;
@@ -69,7 +70,7 @@ public class Enemy_2 : MonoBehaviour
         {
             e_State = E_State.Damaged;
             anim.SetTrigger("damaged");
-            nowHp -= 2;
+            hp -= 2;
         }
 
         switch (e_State)
@@ -187,7 +188,7 @@ public class Enemy_2 : MonoBehaviour
             pm.HitByEnemy(collision.transform.position, 1);
         }
     }
-
+    /*
     void Damaged()
     {
         stateTime += Time.deltaTime;
@@ -201,14 +202,14 @@ public class Enemy_2 : MonoBehaviour
             Death();
         }
     }
-
+    
     void Death()
     {
         anim.SetBool("death", true);
         e_State = E_State.Death;
         Destroy(gameObject, 4f);
     }
-
+    */
     //플레이어까지 거리 계산
     void CheckDistanceToPlayer()
     {

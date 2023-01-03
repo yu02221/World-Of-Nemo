@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_1 : MonoBehaviour
+public class Enemy_1 : Enemy
 {
+    /*
     public enum E_State
     {
         Idle,
@@ -14,7 +15,7 @@ public class Enemy_1 : MonoBehaviour
 
     }
     public E_State e_State;
-
+    */
     public Transform groundCheckTransform; //에너미를 기준으로 Ground를 체크하기 위함
     public Vector3 boxSize = new Vector3(0, 1, 0); //그라운드 체크의 범위를 위한 벡터값
     public float halfsize = 1; //그라운드 체크의 범위를 줄이기 위한 변수
@@ -30,7 +31,7 @@ public class Enemy_1 : MonoBehaviour
     public float speed; //이동할때 스피드
     public float turnSpeed; //턴(플레이어 방향으로)스피드
 
-    Rigidbody rb;
+    //Rigidbody rb;
 
     bool isBorder; //정면방향에 Ground를 체크해주기 위함
     bool isForwardToWall;
@@ -41,13 +42,13 @@ public class Enemy_1 : MonoBehaviour
     //public GameObject nearPlayer;
 
     PlayerMove pm;
-
+    /*
     public Animator anim;
 
     public int maxHp;
     public int nowHp;
-
     float stateTime;
+    */
     private void Start()
     {
         player = GameObject.Find("Player").transform;
@@ -65,7 +66,7 @@ public class Enemy_1 : MonoBehaviour
         {
             e_State = E_State.Damaged; 
             anim.SetTrigger("damaged");
-            nowHp -= 2;
+            hp -= 2;
         }
 
         switch (e_State)
@@ -151,16 +152,16 @@ public class Enemy_1 : MonoBehaviour
         }    
     }
 
-
+    /*
     void Damaged()
     {
         stateTime += Time.deltaTime;
-        if (nowHp > 0 && stateTime > 1)
+        if (hp > 0 && stateTime > 1)
         {
             e_State = E_State.Idle;
             stateTime = 0;
         }
-        if (nowHp <= 0)
+        if (hp <= 0)
         {
             Death();
         }
@@ -174,7 +175,7 @@ public class Enemy_1 : MonoBehaviour
          e_State = E_State.Death;
          Destroy(gameObject, 3f);
     }
-
+    */
     //플레이어까지 거리 계산
     void CheckDistanceToPlayer()
     {

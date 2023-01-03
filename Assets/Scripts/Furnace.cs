@@ -12,6 +12,7 @@ public class Furnace : CraftingInventory
     private float burnTime;
     private float bakeTime;
     private bool fuelIn;
+    private bool itemIn;
 
     private void OnValidate()
     {
@@ -26,24 +27,17 @@ public class Furnace : CraftingInventory
 
     private void Update()
     {
+        FuelCheck();
+        ItemCheck();
+
+
         for (int i = 0; i < slots.Length; i++)
         {
             if (slots[i].item != null)
                 items[i] = slots[i].item.itemName;
         }
-        if (!fuelIn && fuelSolt.item != null)
-        {
-            fuelIn = true;
-            burnTime = fuelSolt.item.burningTime;
-            fire.value = 1;
-        }
-        if (fuelSolt.item == null)
-        {
-            fuelIn = false;
-            burnTime = 0;
-            fire.value = 0;
-        }
-        if (burnTime > 0)
+        
+        if (itemIn && burnTime > 0)
         {
             print(burnTime);
             burnTime -= Time.deltaTime;
@@ -74,6 +68,36 @@ public class Furnace : CraftingInventory
             resultSlot.itemCount = 0;
         }
         resultSlot.SetItemCountText();
+    }
+
+    private void FuelCheck()
+    {
+        if (!fuelIn && fuelSolt.item != null)
+        {
+            fuelIn = true;
+            burnTime = fuelSolt.item.burningTime;
+            fire.value = 1;
+        }
+        if (fuelSolt.item == null)
+        {
+            fuelIn = false;
+            burnTime = 0;
+            fire.value = 0;
+        }
+    }
+
+    private void ItemCheck()
+    {
+        for (int i = 0; i < recipes.Count; i++)
+        {
+            if (items[0] == recipes[i]["item"].ToString())
+            {
+                itemIn = true;
+                return;
+            }
+        }
+        itemIn = false;
+        return;
     }
 
     protected new void GetResultItem()

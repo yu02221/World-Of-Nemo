@@ -8,6 +8,7 @@ public class TerrainModifier : MonoBehaviour
 {
     public Transform player;
     private PlayerStatus ps;
+    public Animator handAnim;
 
     public LayerMask groundLayer;
 
@@ -59,12 +60,16 @@ public class TerrainModifier : MonoBehaviour
         {
             if (leftClick)
             {
+                handAnim.SetBool("leftClick", true);
                 if (GetTargetBlock(1))
                     MiningBlock();
                 else
                     player.GetComponent<PlayerMove>().Attack();
             }
-            else if (rightClick)
+            else
+                handAnim.SetBool("leftClick", false);
+
+            if (rightClick)
             {
                 if (GetTargetBlock(1) && tc.blocks[bix, biy, biz] == BlockType.CraftingTable)
                 {
