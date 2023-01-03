@@ -4280,8 +4280,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 347974591}
-  _item: {fileID: 11400000, guid: 09798f82e7f73de49a872284944cac58, type: 2}
-  itemCount: 1
+  _item: {fileID: 0}
+  itemCount: 0
   itemCountTxt: {fileID: 1694623997}
   selected: {fileID: 0}
   hilighted: {fileID: 1361987805}
@@ -30589,7 +30589,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

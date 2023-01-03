@@ -90,8 +90,6 @@ public class FuelSlot : MonoBehaviour
         item = tempItem;
         itemCount = tempCount;
         SetItemCountText();
-
-        furnace.SwitchItem();
     }
 
     public void CombineItems()

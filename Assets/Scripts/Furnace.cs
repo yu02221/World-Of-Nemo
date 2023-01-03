@@ -17,6 +17,7 @@ public class Furnace : CraftingInventory
     private float bakeTime;
     private bool fuelIn = false;
     private bool itemIn = false;
+    private Item curItem;
 
     private void Start()
     {
@@ -25,6 +26,9 @@ public class Furnace : CraftingInventory
 
     private void Update()
     {
+        if (curItem != itemSlot.item)
+            ResetItem();
+
         switch (fState)
         {
             case FurnaceState.Idle :
@@ -137,6 +141,7 @@ public class Furnace : CraftingInventory
                 && (resultSlot.item == null || resultSlot.item == item))
             {
                 resultItem = itemSet.iSet[recipes[i]["ResultItem"].ToString()];
+                curItem = item;
                 return true;
             }
         }
@@ -154,8 +159,9 @@ public class Furnace : CraftingInventory
         resultSlot.SetItemCountText();
     }
 
-    public void SwitchItem()
+    public void ResetItem()
     {
+        curItem = itemSlot.item;
         bakeTime = 0;
         arrowSlider.value = 0;
         fState = FurnaceState.CoolDown;
