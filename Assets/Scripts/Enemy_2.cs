@@ -53,6 +53,9 @@ public class Enemy_2 : Enemy
 
     public Animator anim;
     */
+
+    private float burnTime;
+
     private void Start()
     {
         player = GameObject.Find("Player").transform;
@@ -93,6 +96,16 @@ public class Enemy_2 : Enemy
             case E_State.Death:
                 Death();
                 break;
+        }
+
+        if (DayAndNight.tState == DayAndNight.TimeState.Day)
+        {
+            burnTime += Time.deltaTime;
+            if (burnTime > 2f)
+            {
+                burnTime = 0;
+                HitByPlayer(lookDir, 3);
+            }
         }
     }
     //거리가 20 미만 Walk
@@ -214,6 +227,8 @@ public class Enemy_2 : Enemy
     void CheckDistanceToPlayer()
     {
         distanceFromPlayer = Vector3.Distance(transform.position, player.transform.position);
+        if (distanceFromPlayer > 128)
+            Destroy(gameObject);
     }
 
     //점프 가능 여부를 확인하기위한 메소드

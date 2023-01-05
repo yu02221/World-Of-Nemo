@@ -7,6 +7,10 @@ using UnityEngine.UI;
 
 public class DayAndNight : MonoBehaviour
 {
+    public enum TimeState { Day, Evening, Night, Dawn}
+    public static TimeState tState = TimeState.Day;
+    public float timeSpeed;
+
     private float elpasedTime;  //°æ°ú½Ã°£
     private float r = 1f;       //r,g,b »ö±òµé
     private float g = 1f;
@@ -23,15 +27,41 @@ public class DayAndNight : MonoBehaviour
         //¿ÀÇÁ¼Â¿¡¼­ Á¢±ÙÇØ¼­ »ö º¯°æ
         skyDomeMaterial.SetTextureOffset("_MainTex", new Vector2(offsetValueX, 0));
 
-        StartCoroutine(DayImpl());
+        StartCoroutine(Day());
+    }
+
+    //³·
+    IEnumerator Day()
+    {
+        tState = TimeState.Day;
+        print(tState);
+
+        skyDomeMaterial.SetTextureOffset("_MainTex", new Vector2(offsetValueX, 0));
+
+        while (true)
+        {
+            elpasedTime += Time.deltaTime * timeSpeed;
+
+            if (elpasedTime >= 400)
+            {
+                StopAllCoroutines();
+                elpasedTime = 0;
+                StartCoroutine(DayToNight());
+                break;
+            }
+
+            yield return null;
+        }
     }
 
     //³· -> ¹ã
-    IEnumerator DayToNightImpl()
+    IEnumerator DayToNight()
     {
+        tState = TimeState.Evening;
+        print(tState);
         while (true)
         {
-            elpasedTime += Time.deltaTime;
+            elpasedTime += Time.deltaTime * timeSpeed;
 
             RenderSettings.ambientLight = new Color(r, g, b, 1);
             r -= r / 1000;
@@ -45,7 +75,7 @@ public class DayAndNight : MonoBehaviour
                 b = 0;
             }
 
-            offsetValueX += 0.0025f * Time.deltaTime;
+            offsetValueX += 0.0025f * Time.deltaTime * timeSpeed;
             skyDomeMaterial.SetTextureOffset("_MainTex", new Vector2(offsetValueX, 0));
 
             if (elpasedTime >= 200)
@@ -53,7 +83,7 @@ public class DayAndNight : MonoBehaviour
                 offsetValueX = 0.5f;
                 elpasedTime = 0;
 
-                StartCoroutine(NightImpl());
+                StartCoroutine(Night());
                 break;
             }
 
@@ -62,19 +92,22 @@ public class DayAndNight : MonoBehaviour
     }
 
     //¹ã
-    IEnumerator NightImpl()
+    IEnumerator Night()
     {
+        tState = TimeState.Night;
+        print(tState);
+
         skyDomeMaterial.SetTextureOffset("_MainTex", new Vector2(offsetValueX, 0));
 
         while (true)
         {
-            elpasedTime += Time.deltaTime;
+            elpasedTime += Time.deltaTime * timeSpeed;
 
 
             if (elpasedTime >= 400)
             {
                 elpasedTime = 0;
-                StartCoroutine(NightToDayImpl());
+                StartCoroutine(NightToDay());
                 break;
             }
 
@@ -83,11 +116,14 @@ public class DayAndNight : MonoBehaviour
     }
 
     //¹ã -> ³·
-    IEnumerator NightToDayImpl()
+    IEnumerator NightToDay()
     {
+        tState = TimeState.Dawn;
+        print(tState);
+
         while (true)
         {
-            elpasedTime += Time.deltaTime;
+            elpasedTime += Time.deltaTime * timeSpeed;
 
             RenderSettings.ambientLight = new Color(r, g, b, 1);
             r += r / 1000;
@@ -101,7 +137,7 @@ public class DayAndNight : MonoBehaviour
                 b = 1;
             }
 
-            offsetValueX -= 0.0025f * Time.deltaTime;
+            offsetValueX -= 0.0025f * Time.deltaTime * timeSpeed;
             skyDomeMaterial.SetTextureOffset("_MainTex", new Vector2(offsetValueX, 0));
 
             if (elpasedTime >= 200)
@@ -109,7 +145,7 @@ public class DayAndNight : MonoBehaviour
                 offsetValueX = 0;
                 elpasedTime = 0;
 
-                StartCoroutine(DayImpl());
+                StartCoroutine(Day());
                 break;
             }
 
@@ -117,24 +153,5 @@ public class DayAndNight : MonoBehaviour
         }
     }
 
-    //³·
-    IEnumerator DayImpl()
-    {
-        skyDomeMaterial.SetTextureOffset("_MainTex", new Vector2(offsetValueX, 0));
-
-        while (true)
-        {
-            elpasedTime += Time.deltaTime;
-
-            if (elpasedTime >= 400)
-            {
-                StopAllCoroutines();
-                elpasedTime = 0;
-                StartCoroutine(DayToNightImpl());
-                break;
-            }
-
-            yield return null;
-        }
-    }
+    
 }

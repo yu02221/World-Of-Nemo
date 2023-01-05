@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 플레이어 위치에 따라 청크를 생성 및 비활성화
@@ -8,9 +9,9 @@ using UnityEngine;
 public class TerrainGenerator : MonoBehaviour
 {
     public Transform player;
-    public GameObject enemy1;
-    public GameObject enemy2;
-    public GameObject enemy3;
+    public List<GameObject> enemyPool = new List<GameObject>();
+    private List<Vector3> spawnPos = new List<Vector3>();
+    private bool isSpawning = false;
 
     public GameObject terrainChunk;
 
@@ -29,6 +30,7 @@ public class TerrainGenerator : MonoBehaviour
     
     private List<ChunkPos> toGenerate = new List<ChunkPos>();
 
+
     private void Start()
     {
         seed = Random.Range(100000, 999999);
@@ -42,9 +44,6 @@ public class TerrainGenerator : MonoBehaviour
 
         buildedChunks = new Dictionary<ChunkPos, TerrainChunk>();
 
-        Instantiate(enemy1);
-        Instantiate(enemy2);
-        Instantiate(enemy3);
         //현재 청크 위치 저장
         curChunkPosX = Mathf.FloorToInt(player.position.x / 16);
         curChunkPosZ = Mathf.FloorToInt(player.position.z / 16);
@@ -69,6 +68,25 @@ public class TerrainGenerator : MonoBehaviour
             LoadChunk();
             // 청크 비활성화
             UnloadChunk();
+        }
+
+        if (DayAndNight.tState == DayAndNight.TimeState.Night)
+        {
+            foreach (var cPos in buildedChunks.Keys)
+            {
+                if (buildedChunks[cPos].enemySpawnd || !buildedChunks[cPos].gameObject.activeSelf)
+                    continue;
+                int chunkDistX = Mathf.Abs(cPos.x - curChunkPosX);
+                int chunkDistZ = Mathf.Abs(cPos.z - curChunkPosZ);
+                if ((chunkDistX >= 2 || chunkDistZ >= 2) &&
+                    chunkDistX <= 8 && chunkDistZ <= 8)
+                {
+                    SpawnEnemy(buildedChunks[cPos].blocks, cPos.x, cPos.z);
+                    buildedChunks[cPos].enemySpawnd = true;
+                }
+            }
+            if (!isSpawning)
+                StartCoroutine(DelaySpawnEnemy());
         }
     }
     // 가까워진 청크 로드(생성 또는 활성화)
@@ -140,6 +158,8 @@ public class TerrainGenerator : MonoBehaviour
             BuildTrees(chunk.blocks);  
             // 땅속 광석 생성
             BuildOres(chunk.blocks);
+
+            
         }
         // 메쉬 그리기
         chunk.BuildMesh();
@@ -333,6 +353,41 @@ public class TerrainGenerator : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void SpawnEnemy(BlockType[,,] blocks, int xPos, int zPos)
+    {
+        int population = Random.Range(0, 2);
+        for (int i = 0; i < population; i++)
+        {
+            int randX = Random.Range(0, 16);
+            int randZ = Random.Range(0, 16);
+            for (int y = 1; y < 64; y++)
+            {
+                if (blocks[randX, y - 1, randZ] != BlockType.Air &&
+                    blocks[randX, y - 1, randZ] != BlockType.Leaves &&
+                    blocks[randX, y, randZ] == BlockType.Air)
+                {
+                    spawnPos.Add(new Vector3(xPos * 16 + randX, y, zPos * 16 + randZ));
+                }
+            }
+        }
+    }
+
+    IEnumerator DelaySpawnEnemy()
+    {
+        isSpawning = true;
+        while (spawnPos.Count > 0)
+        {
+            print(spawnPos.Count);
+            int index = Random.Range(0, enemyPool.Count);
+            GameObject enemy = Instantiate(enemyPool[index]);
+            enemy.transform.position = spawnPos[0];
+            spawnPos.RemoveAt(0);
+
+            yield return null;
+        }
+        isSpawning = false;
     }
 
     IEnumerator DelayBuildChunks()

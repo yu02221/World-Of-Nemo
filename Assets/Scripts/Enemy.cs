@@ -26,18 +26,21 @@ public class Enemy : MonoBehaviour
 
     public void HitByPlayer(Vector3 playerPosition, int damage)
     {
-        Vector3 reactVec = transform.position - playerPosition;
-        reactVec = reactVec.normalized;
-        reactVec += Vector3.up;
-        rb.AddForce(reactVec * 5, ForceMode.Impulse);
-        hp -= damage;
-        e_State = E_State.Damaged;
-        anim.SetTrigger("damaged");
-
-        if (hp <= 0)
+        if (e_State != E_State.Death)
         {
-            Death();
-            e_State = E_State.Death;
+            Vector3 reactVec = transform.position - playerPosition;
+            reactVec = reactVec.normalized;
+            reactVec += Vector3.up;
+            rb.AddForce(reactVec * 5, ForceMode.Impulse);
+            hp -= damage;
+            e_State = E_State.Damaged;
+            anim.SetTrigger("damaged");
+
+            if (hp <= 0)
+            {
+                Death();
+                e_State = E_State.Death;
+            }
         }
     }
 

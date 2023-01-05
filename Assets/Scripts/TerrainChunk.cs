@@ -14,6 +14,8 @@ public class TerrainChunk : MonoBehaviour
     // 청크내 좌표에 따른 블럭타입
     public BlockType[,,] blocks = new BlockType[chunkWidth, chunkHeight, chunkWidth];
 
+    public bool enemySpawnd = false;
+
 
     public void BuildMesh()
     {

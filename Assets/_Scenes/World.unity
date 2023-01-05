@@ -7873,7 +7873,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a8c9a2abdbae589458574c6a83b44818, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8603,6 +8603,7 @@ RectTransform:
   - {fileID: 444432015}
   - {fileID: 1604914101}
   - {fileID: 555546209}
+  - {fileID: 1529799685}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9322,7 +9323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d88c75c724e6aa4b9d9d9b5379c8050, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotSpeed: 0.3
+  rotSpeed: 3
   Target: {fileID: 606865066}
   offsetX: 0
   offsetY: -50
@@ -15526,7 +15527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f985ce0c447d1ed498cfde4f57835558, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotSpeed: 0.3
+  rotSpeed: 3
 --- !u!1 &1079445409
 GameObject:
   m_ObjectHideFlags: 0
@@ -17113,9 +17114,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1768160530}
-  enemy1: {fileID: 8387559499513929110, guid: ed42cd43d4db5d34282f7645449a692b, type: 3}
-  enemy2: {fileID: 5287814909870831930, guid: 84537f8cd1766ba4095d43f87325356a, type: 3}
-  enemy3: {fileID: 9162745502971895974, guid: 7a7cb6d90e4c56c4bb492931133a5a9a, type: 3}
+  enemyPool:
+  - {fileID: 8387559499513929110, guid: ed42cd43d4db5d34282f7645449a692b, type: 3}
+  - {fileID: 5287814909870831930, guid: 84537f8cd1766ba4095d43f87325356a, type: 3}
+  - {fileID: 9162745502971895974, guid: 7a7cb6d90e4c56c4bb492931133a5a9a, type: 3}
   terrainChunk: {fileID: 8473286140298106031, guid: 3490750def1761248892fdd115d82507, type: 3}
   cWidth: 12
   cHeight: 64
@@ -18078,6 +18080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ea48ce8d86a7c409cf49510f393e3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeSpeed: 10
   skyDome: {fileID: 1244171410}
 --- !u!23 &1244171413
 MeshRenderer:
@@ -21723,6 +21726,86 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1523539931}
+  m_CullTransparentMesh: 1
+--- !u!1 &1529799684
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1529799685}
+  - component: {fileID: 1529799687}
+  - component: {fileID: 1529799686}
+  m_Layer: 5
+  m_Name: chunkPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1529799685
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529799684}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 574305414}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -200}
+  m_SizeDelta: {x: 300, y: 150}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &1529799686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529799684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 40
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 4
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "ChunkX : 00 \nChunkZ : 00"
+--- !u!222 &1529799687
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529799684}
   m_CullTransparentMesh: 1
 --- !u!1 &1544334410
 GameObject:
