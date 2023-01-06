@@ -56,7 +56,9 @@ public class PlayerMove : MonoBehaviour
     public float attackCool;
 
     // 플레이어 사운드
-    public AudioSource walkSound; 
+    public AudioSource walkSound;
+
+    public GameObject dieEffect;
 
     private void Start()
     {
@@ -187,7 +189,10 @@ public class PlayerMove : MonoBehaviour
     void Dead()
     {
         if (playerState == PlayerState.Dead)
+        {
+            dieEffect.SetActive(true); //플레이어 죽는 화면
             Time.timeScale = 0;
+        }
     }
 
     public void HitByEnemy(Vector3 enemyPosition, int damage)
@@ -201,10 +206,11 @@ public class PlayerMove : MonoBehaviour
 
         if (ps.hp <= 0)
         {
-            Dead();
             playerState = PlayerState.Dead;
+            Dead();
         }
     }
+
 
     public void Attack()
     {

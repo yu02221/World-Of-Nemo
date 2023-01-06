@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour
     public Slider friendlySlider;
     public Slider hostileSlider;
 
+    public GameObject dieEffect;
+
     public void SetSound()
     {
       
@@ -56,6 +58,13 @@ public class UIManager : MonoBehaviour
     {
         OptionsMenu.SetActive(false);  //옵션나가기
         SaveOption();
+    }
+
+    public void ReGame() //죽은뒤 다시 게임으로
+    {
+        //dieEffect.SetActive(false);
+        Time.timeScale = 1;
+        SceneManager.LoadScene("World");
     }
 
     public void SaveOption()
