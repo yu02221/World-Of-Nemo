@@ -201,8 +201,8 @@ public class PlayerMove : MonoBehaviour
 
         if (ps.hp <= 0)
         {
-            Dead();
             playerState = PlayerState.Dead;
+            Dead();
         }
     }
 

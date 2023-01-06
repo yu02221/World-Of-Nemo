@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -37,6 +38,9 @@ public class TerrainModifier : MonoBehaviour
     public GameObject craftringTableWindow; // 제작대
     public GameObject furnaceWindow;        // 화로
 
+    public List<GameObject> handedItems;
+    private Item curItem;
+
     private void Start()
     {
         ps = player.GetComponent<PlayerStatus>();
@@ -50,6 +54,10 @@ public class TerrainModifier : MonoBehaviour
         ScrollInput();
 
         CopyHotInven();
+        if (curItem != hotInven_w.slots[curSlot].item)
+        {
+            SetHandedItem();
+        }
     }
     // 마우스 클릭으로 블록 채굴 및 설치
     private void MouseInput()
@@ -144,6 +152,34 @@ public class TerrainModifier : MonoBehaviour
             else
                 hotInven.slots[i].selected.SetActive(false);
         }
+        SetHandedItem();
+    }
+
+    private void SetHandedItem()
+    {
+        curItem = hotInven_w.slots[curSlot].item;
+        handAnim.SetTrigger("changeItem");
+
+        if (hotInven_w.slots[curSlot].item == null)
+        {
+            foreach (var item in handedItems)
+            {
+                if (item.name == "Hand")
+                    item.SetActive(true);
+                else
+                    item.SetActive(false);
+            }
+        }
+        else
+        {
+            foreach (var item in handedItems)
+            {
+                if (item.name == hotInven_w.slots[curSlot].item.itemName)
+                    item.SetActive(true);
+                else
+                    item.SetActive(false);
+            }
+        }
     }
     // 블록 채굴
     private void MiningBlock()
@@ -181,7 +217,9 @@ public class TerrainModifier : MonoBehaviour
             tc.blocks[bix, biy, biz] = hotInven_w.slots[curSlot].item.blockType;
 
             if (--hotInven_w.slots[curSlot].itemCount == 0)
+            {
                 hotInven_w.slots[curSlot].item = null;
+            }
 
             hotInven_w.slots[curSlot].SetItemCountText();
 
@@ -290,11 +328,11 @@ public class TerrainModifier : MonoBehaviour
                 item = itemSet.iSet["CoalBlock"];
                 break;
             default:
-                item = itemSet.iSet["Dirt"];
+                item = null;
                 break;
         }
-        
-        hotInven_w.AddItem(item, count);
+        if (item != null)
+            hotInven_w.AddItem(item, count);
     }
 
     private void CopyHotInven()
