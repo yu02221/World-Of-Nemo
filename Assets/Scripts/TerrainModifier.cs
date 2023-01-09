@@ -45,6 +45,7 @@ public class TerrainModifier : MonoBehaviour
     {
         ps = player.GetComponent<PlayerStatus>();
         SetCurSlot(curSlot);
+        SetHandedItem();
     }
 
     private void Update()
@@ -152,7 +153,6 @@ public class TerrainModifier : MonoBehaviour
             else
                 hotInven.slots[i].selected.SetActive(false);
         }
-        SetHandedItem();
     }
 
     private void SetHandedItem()

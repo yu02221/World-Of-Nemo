@@ -20,4 +20,7 @@ public class Item : ScriptableObject
     public Sprite itemImage;
     public int maxStorageCount;
     public float burningTime;
+    public float miningSpeed;
+    public float loggingSpeed;
+    public float power;
 }
