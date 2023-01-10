@@ -14,7 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 0
   blockType: 5
+  materType: 1
   itemName: OakLog
   itemImage: {fileID: 21300000, guid: c3a17bed9c77d91499263eda52b79828, type: 3}
   maxStorageCount: 64
   burningTime: 15
+  hardness: 2
+  miningSpeed: 0
+  loggingSpeed: 0
+  diggingSpeed: 0
+  power: 0

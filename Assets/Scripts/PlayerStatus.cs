@@ -34,6 +34,7 @@ public class PlayerStatus : MonoBehaviour
     public Sprite halfHunger;
     public Sprite emptyHunger;
 
+    public int weaponPower;
 
     private void Start()
     {

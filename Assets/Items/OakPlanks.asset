@@ -14,7 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 0
   blockType: 7
+  materType: 1
   itemName: OakPlanks
   itemImage: {fileID: 21300000, guid: eaca2d6e8c9f19943be64638b682868a, type: 3}
   maxStorageCount: 64
   burningTime: 15
+  hardness: 3
+  miningSpeed: 0
+  loggingSpeed: 0
+  diggingSpeed: 0
+  power: 0

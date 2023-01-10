@@ -14,7 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 0
   blockType: 14
+  materType: 0
   itemName: IronBlock
   itemImage: {fileID: 21300000, guid: e00e0066c66e16243858197759c9bed5, type: 3}
   maxStorageCount: 64
   burningTime: 0
+  hardness: 5
+  miningSpeed: 0
+  loggingSpeed: 0
+  diggingSpeed: 0
+  power: 0

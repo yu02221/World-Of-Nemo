@@ -14,7 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 2
   blockType: 0
+  materType: 3
   itemName: RawGold
   itemImage: {fileID: 21300000, guid: ac67bf205856fee4b8b2d79e14c3d07d, type: 3}
   maxStorageCount: 64
   burningTime: 0
+  hardness: 0
+  miningSpeed: 0
+  loggingSpeed: 0
+  diggingSpeed: 0
+  power: 0

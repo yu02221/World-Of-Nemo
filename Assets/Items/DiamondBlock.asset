@@ -14,7 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 0
   blockType: 16
+  materType: 0
   itemName: DiamondBlock
   itemImage: {fileID: 21300000, guid: 86e6166f43adae44ea4322fedea2075f, type: 3}
   maxStorageCount: 64
   burningTime: 0
+  hardness: 5
+  miningSpeed: 0
+  loggingSpeed: 0
+  diggingSpeed: 0
+  power: 0

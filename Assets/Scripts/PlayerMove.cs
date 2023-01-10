@@ -214,7 +214,7 @@ public class PlayerMove : MonoBehaviour
         {
             attackCool = 1;
             enemy = hitInfo.transform.GetComponent<Enemy>();
-            enemy.HitByPlayer(transform.position, 3);
+            enemy.HitByPlayer(transform.position, 1 + ps.weaponPower);
         }
     }
 }

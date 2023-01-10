@@ -14,7 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 0
   blockType: 18
+  materType: 0
   itemName: Bedrock
-  itemImage: {fileID: 0}
-  maxStorageCount: 0
+  itemImage: {fileID: 21300000, guid: edc5a86a667df5d4d9f96fce3fd1bed7, type: 3}
+  maxStorageCount: 64
   burningTime: 0
+  hardness: 999
+  miningSpeed: 0
+  loggingSpeed: 0
+  diggingSpeed: 0
+  power: 0

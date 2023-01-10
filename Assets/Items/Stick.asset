@@ -14,7 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 4
   blockType: 0
+  materType: 3
   itemName: Stick
   itemImage: {fileID: 21300000, guid: c2a6a27c6518f6444b272327d0116ecc, type: 3}
   maxStorageCount: 64
   burningTime: 5
+  hardness: 0
+  miningSpeed: 0
+  loggingSpeed: 0
+  diggingSpeed: 0
+  power: 0

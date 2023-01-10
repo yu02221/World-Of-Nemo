@@ -14,6 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 0
   blockType: 8
+  materType: 0
   itemName: Furnace
   itemImage: {fileID: 21300000, guid: 3d216fd98b1ff1e4abf99ecd56adcecd, type: 3}
   maxStorageCount: 64
+  burningTime: 0
+  hardness: 2
+  miningSpeed: 0
+  loggingSpeed: 0
+  diggingSpeed: 0
+  power: 0

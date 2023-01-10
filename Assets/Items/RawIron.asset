@@ -14,7 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 2
   blockType: 0
+  materType: 3
   itemName: RawIron
   itemImage: {fileID: 21300000, guid: a458f103ecd22c443bec781df68ddfa6, type: 3}
   maxStorageCount: 64
   burningTime: 0
+  hardness: 0
+  miningSpeed: 0
+  loggingSpeed: 0
+  diggingSpeed: 0
+  power: 0

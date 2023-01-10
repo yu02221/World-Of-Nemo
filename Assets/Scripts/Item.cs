@@ -14,13 +14,24 @@ public class Item : ScriptableObject
         Other,
     }
 
+    public enum MaterType
+    {
+        Stone,
+        Wood,
+        Dirt,
+        Other,
+    }
+
     public ItemType itemType;
     public BlockType blockType;
+    public MaterType materType;
     public string itemName;
     public Sprite itemImage;
     public int maxStorageCount;
     public float burningTime;
+    public float hardness;
     public float miningSpeed;
     public float loggingSpeed;
-    public float power;
+    public float diggingSpeed;
+    public int power;
 }

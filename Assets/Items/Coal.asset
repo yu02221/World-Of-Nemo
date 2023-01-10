@@ -14,7 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 2
   blockType: 0
+  materType: 3
   itemName: Coal
   itemImage: {fileID: 21300000, guid: 5be3ca2693d0c7447a37ff48bb385834, type: 3}
   maxStorageCount: 64
   burningTime: 80
+  hardness: 0
+  miningSpeed: 0
+  loggingSpeed: 0
+  diggingSpeed: 0
+  power: 0

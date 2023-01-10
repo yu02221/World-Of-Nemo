@@ -14,7 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 4
   blockType: 0
+  materType: 1
   itemName: Door
   itemImage: {fileID: 21300000, guid: c58c61db97ef36e458c44161f9015af5, type: 3}
   maxStorageCount: 64
   burningTime: 10
+  hardness: 0
+  miningSpeed: 0
+  loggingSpeed: 0
+  diggingSpeed: 0
+  power: 0

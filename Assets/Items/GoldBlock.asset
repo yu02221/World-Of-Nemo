@@ -14,7 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 0
   blockType: 15
+  materType: 0
   itemName: GoldBlock
   itemImage: {fileID: 21300000, guid: 43ad95b8041df6e40ad99c79ba8318ad, type: 3}
   maxStorageCount: 64
   burningTime: 0
+  hardness: 5
+  miningSpeed: 0
+  loggingSpeed: 0
+  diggingSpeed: 0
+  power: 0

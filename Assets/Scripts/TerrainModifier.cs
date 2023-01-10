@@ -159,7 +159,9 @@ public class TerrainModifier : MonoBehaviour
     {
         curItem = hotInven_w.slots[curSlot].item;
         handAnim.SetTrigger("changeItem");
-
+        if (curItem != null)
+            ps.weaponPower = curItem.power;
+        print(ps.weaponPower);
         if (hotInven_w.slots[curSlot].item == null)
         {
             foreach (var item in handedItems)
