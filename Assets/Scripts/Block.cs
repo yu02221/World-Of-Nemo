@@ -8,9 +8,9 @@ using UnityEngine;
 /// </summary>
 public class Block
 {
-    public Tile top, front, side, bottom;
+    public Tile top, front, side, bottom;   // 블럭 렌더링을 위한 타일
 
-    public TilePos topPos, frontPos, sidePos, bottomPos;
+    public TilePos topPos, frontPos, sidePos, bottomPos;    // 타일 위치
 
     // 모든 면이 동일한 블럭
     public Block(Tile tile)

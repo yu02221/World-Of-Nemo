@@ -8,10 +8,10 @@ using UnityEngine.UI;
 /// </summary>
 public class TerrainGenerator : MonoBehaviour
 {
-    public Transform player;
-    public List<GameObject> enemyPool = new List<GameObject>();
-    private List<Vector3> spawnPos = new List<Vector3>();
-    private bool isSpawning = false;
+    public Transform player;    // 플레이어 위치
+    public List<GameObject> enemyPool = new List<GameObject>(); // 스폰시킬 에너미 목록
+    private List<Vector3> spawnPos = new List<Vector3>();   // 에너미 스폰 위치 목록
+    private bool isSpawned = false;     // 이미 몬스터가 스폰된 청크인지 여부
 
     public GameObject terrainChunk;
 
@@ -85,7 +85,7 @@ public class TerrainGenerator : MonoBehaviour
                     buildedChunks[cPos].enemySpawnd = true;
                 }
             }
-            if (!isSpawning)
+            if (!isSpawned)
                 StartCoroutine(DelaySpawnEnemy());
         }
     }
@@ -376,7 +376,7 @@ public class TerrainGenerator : MonoBehaviour
 
     IEnumerator DelaySpawnEnemy()
     {
-        isSpawning = true;
+        isSpawned = true;
         while (spawnPos.Count > 0)
         {
             print(spawnPos.Count);
@@ -387,7 +387,7 @@ public class TerrainGenerator : MonoBehaviour
 
             yield return null;
         }
-        isSpawning = false;
+        isSpawned = false;
     }
 
     IEnumerator DelayBuildChunks()
