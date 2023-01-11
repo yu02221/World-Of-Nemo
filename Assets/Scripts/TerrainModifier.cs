@@ -17,6 +17,10 @@ public class TerrainModifier : MonoBehaviour
 
     private float durability;
     private float curDurability;
+    private string materType;
+    public float miningSpeed;
+    public float loggingSpeed;
+    public float diggingSpeed;
 
     int curBlockX = TerrainChunk.chunkWidth;
     int curBlockY = TerrainChunk.chunkHeight;
@@ -160,7 +164,12 @@ public class TerrainModifier : MonoBehaviour
         curItem = hotInven_w.slots[curSlot].item;
         handAnim.SetTrigger("changeItem");
         if (curItem != null)
+        {
             ps.weaponPower = curItem.power;
+            miningSpeed = curItem.miningSpeed;
+            loggingSpeed = curItem.loggingSpeed;
+            diggingSpeed = curItem.diggingSpeed;
+        }
         print(ps.weaponPower);
         if (hotInven_w.slots[curSlot].item == null)
         {
@@ -195,7 +204,23 @@ public class TerrainModifier : MonoBehaviour
         }
         else
         {   // 마우스로 클릭하는 동안 내구도 감소
-            curDurability -= Time.deltaTime;
+            float speed = 1f;
+            switch (materType)
+            {
+                case "Stone":
+                    speed += miningSpeed;
+                    break;
+                case "Wood":
+                    speed += loggingSpeed;
+                    break;
+                case "Dirt":
+                    speed += diggingSpeed;
+                    break;
+                default:
+                    speed = 1f;
+                    break;
+            }
+            curDurability -= Time.deltaTime * speed * 0.5f;
         }
 
         if (curDurability <= 0)
@@ -266,20 +291,29 @@ public class TerrainModifier : MonoBehaviour
     {
         switch (targetBlock)
         {
+            case BlockType.Air:
+                materType = "Other";
+                break;
+            case BlockType.Leaves:
+                materType = "Other";
+                durability = 1f;
+                break;
             case BlockType.Grass:
                 durability = 0.6f;
+                materType = "Dirt";
                 break;
             case BlockType.Coal:
             case BlockType.Iron:
             case BlockType.Gold:
             case BlockType.Diamond:
-                durability = 5f;
+                durability = 3f;
+                materType = "Stone";
                 break;
             default:
                 durability = itemSet.iSet[targetBlock.ToString()].hardness;
+                materType = itemSet.iSet[targetBlock.ToString()].materType.ToString();
                 break;
         }
-        print(durability);
     }
 
     public void GetItem(BlockType block)

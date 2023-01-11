@@ -11,6 +11,7 @@ public class MenuManager : MonoBehaviour
     public SelectedItem sItem;
     Inventory[] invens;
     CraftingInventory cInven;
+    CraftingTable craftingTable;
 
     public GameObject inventoryWindow;
     public GameObject craftingTableWindow;
@@ -20,6 +21,7 @@ public class MenuManager : MonoBehaviour
     {
         invens = inventoryWindow.GetComponentsInChildren<Inventory>();
         cInven = inventoryWindow.GetComponentInChildren<CraftingInventory>();
+        craftingTable = craftingTableWindow.GetComponentInChildren<CraftingTable>();
         Cursor.visible = false;
     }
 
@@ -102,6 +104,18 @@ public class MenuManager : MonoBehaviour
     }
     public void CloseCraftingTable()
     {
+        foreach (var slot in craftingTable.slots)
+        {
+            if (slot.item != null)
+            {
+                hInven.AddItem(slot.item, slot.itemCount);
+                slot.item = null;
+                slot.itemCount = 0;
+                slot.SetItemCountText();
+            }
+            slot.hilighted.SetActive(false);
+        }
+
         craftingTableWindow.SetActive(false);
         CloseInventory();
     }

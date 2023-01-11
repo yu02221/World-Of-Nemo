@@ -31788,6 +31788,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   maxDist: 4
+  miningSpeed: 0
+  loggingSpeed: 0
+  diggingSpeed: 0
   hotInven: {fileID: 745493398}
   hotInven_w: {fileID: 24320951}
   itemSet: {fileID: 745964462}
