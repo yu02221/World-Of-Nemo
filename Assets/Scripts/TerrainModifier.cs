@@ -110,10 +110,13 @@ public class TerrainModifier : MonoBehaviour
                     pm.playerState = PlayerState.OpenInventory;
                     Cursor.visible = true;
                 }
-                else if (hotInven_w.slots[curSlot].item != null &&
-                    hotInven_w.slots[curSlot].item.itemType == Item.ItemType.Block &&
-                    GetTargetBlock(-1))
-                    PlacingBlock();
+                else if (hotInven_w.slots[curSlot].item != null)
+                {
+                    if (hotInven_w.slots[curSlot].item.itemType == Item.ItemType.Block && GetTargetBlock(-1))
+                        PlacingBlock();
+                    else if (hotInven_w.slots[curSlot].item.itemType == Item.ItemType.Food)
+                        EatFood();
+                }
             }
         }
     }
@@ -234,12 +237,12 @@ public class TerrainModifier : MonoBehaviour
                     break;
             }
             
-            int index = Mathf.FloorToInt(curDurability / durability * 6f);
-            if (index >= 1)
+            int index = Mathf.FloorToInt((1 - curDurability / durability) * 6f);
+            if (index < 6)
             {
                 breakingBlock.SetActive(true);
                 breakingBlock.transform.position = selectedBlock.transform.position;
-                breakingBlock.GetComponentInChildren<MeshRenderer>().material = bBlockMaterials[6 - index];
+                breakingBlock.GetComponentInChildren<MeshRenderer>().material = bBlockMaterials[index];
             }
             curDurability -= Time.deltaTime * speed * 0.5f;
         }
@@ -398,6 +401,12 @@ public class TerrainModifier : MonoBehaviour
             case BlockType.CoalBlock:
                 item = itemSet.iSet["CoalBlock"];
                 break;
+            case BlockType.Leaves:
+                if (Random.Range(0, 10) > 7)
+                    item = itemSet.iSet["Apple"];
+                else
+                    item = null;
+                break;
             default:
                 item = null;
                 break;
@@ -415,5 +424,20 @@ public class TerrainModifier : MonoBehaviour
             hotInven.slots[i].SetItemCountText();
             hotInven_w.slots[i].SetItemCountText();
         }
+    }
+
+    private void EatFood()
+    {
+        if (ps.hunger >= ps.maxHunger)
+            return;
+        ps.hunger += hotInven_w.slots[curSlot].item.foodPoint;
+        if (ps.hunger > ps.maxHunger)
+            ps.hunger = ps.maxHunger;
+        ps.SetHunger();
+
+        hotInven_w.slots[curSlot].itemCount--;
+        if (hotInven_w.slots[curSlot].itemCount == 0)
+            hotInven_w.slots[curSlot].item = null;
+        hotInven_w.slots[curSlot].SetItemCountText();
     }
 }

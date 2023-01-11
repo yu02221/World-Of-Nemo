@@ -204,4 +204,12 @@ public class Enemy_2 : Enemy
         if (isGround == true)
             rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
     }
+
+    public new void Death()
+    {
+        anim.SetBool("death", true);
+        e_State = E_State.Death;
+        player.GetComponent<PlayerStatus>().GetExp(10);
+        Destroy(gameObject, 3f);
+    }
 }

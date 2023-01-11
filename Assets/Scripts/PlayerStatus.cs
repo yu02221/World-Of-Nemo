@@ -65,9 +65,16 @@ public class PlayerStatus : MonoBehaviour
         if (hungerTime >= 1f)
         {
             hunger--;
+            if (hunger <= 0)
+            {
+                hunger = 0;
+                hp--;
+                SetHp();
+            }
             SetHunger();
             hungerTime = 0;
         }
+
         if (expSlider.value < exp / (float)maxExp)
             expSlider.value = Mathf.Lerp(expSlider.value, exp / (float)maxExp, 3 * Time.deltaTime);
         else if (expSlider.value > exp / (float)maxExp)

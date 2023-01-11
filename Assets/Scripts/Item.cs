@@ -34,4 +34,5 @@ public class Item : ScriptableObject
     public float loggingSpeed;
     public float diggingSpeed;
     public int power;
+    public int foodPoint;
 }
