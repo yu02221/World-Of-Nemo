@@ -267,16 +267,19 @@ public class TerrainModifier : MonoBehaviour
         switch (targetBlock)
         {
             case BlockType.Grass:
-            case BlockType.Dirt:
-                durability = 1f;
+                durability = 0.6f;
                 break;
-            case BlockType.Stone:
-                durability = 1f;
+            case BlockType.Coal:
+            case BlockType.Iron:
+            case BlockType.Gold:
+            case BlockType.Diamond:
+                durability = 5f;
                 break;
             default:
-                durability = 1;
+                durability = itemSet.iSet[targetBlock.ToString()].hardness;
                 break;
         }
+        print(durability);
     }
 
     public void GetItem(BlockType block)
