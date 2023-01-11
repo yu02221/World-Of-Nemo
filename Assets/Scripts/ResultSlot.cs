@@ -19,6 +19,8 @@ public class ResultSlot : MonoBehaviour
 
     public SelectedItem selectedItem;
 
+    public PlayerStatus ps;
+
     public Item item
     {
         get { return _item; }
@@ -46,7 +48,10 @@ public class ResultSlot : MonoBehaviour
         itemCount = 0;
         SetItemCountText();
         if (craftingInven.name == "FurnaceInven")
+        {
+            ps.GetExp(selectedItem.itemCount);
             return;
+        }
         for (int i = 0; i < craftingInven.slots.Length; i++)
         {
             if (craftingInven.slots[i].item != null)

@@ -4,18 +4,6 @@ using UnityEngine;
 
 public class Enemy_3 : Enemy
 {
-    /*
-    public enum E_State
-    {
-        Idle,
-        Walk,
-        Damaged,
-        Attack,
-        Death,
-
-    }
-    public E_State e_State;
-    */
     public Transform groundCheckTransform; //에너미를 기준으로 Ground를 체크하기 위함
     public Vector3 boxSize = new Vector3(0, 1, 0); //그라운드 체크의 범위를 위한 벡터값
     public float halfsize = 1; //그라운드 체크의 범위를 줄이기 위한 변수
@@ -26,23 +14,11 @@ public class Enemy_3 : Enemy
     Vector3 dir;
     Vector3 lookDir;
 
-    public Transform player;
-    public float distanceFromPlayer; //Enemy와 Player의 거리를 체크하기 위함
-    public float speed; //이동할때 스피드
-    public float turnSpeed; //턴(플레이어 방향으로)스피드
-
     //Rigidbody rb;
 
     bool isBorder; //정면방향에 Ground를 체크해주기 위함
     bool isForwardToWall;
-    /*
-    public Animator anim;
 
-    public int maxHp;
-    public int nowHp;
-
-    float stateTime;
-    */
     int attackPower;
     float attackDelay;
     public GameObject bullet;
@@ -82,9 +58,6 @@ public class Enemy_3 : Enemy
                 break;
             case E_State.Attack:
                 Attack();
-                break;
-            case E_State.Death:
-                Death();
                 break;
         }
         if (DayAndNight.tState == DayAndNight.TimeState.Day)
@@ -177,36 +150,6 @@ public class Enemy_3 : Enemy
             stateTime = 0;
         }
         
-    }
-    /*
-    void Damaged()
-    {
-        stateTime += Time.deltaTime;
-        if (nowHp > 0 && stateTime > 1)
-        {
-            e_State = E_State.Idle;
-            stateTime = 0;
-        }
-        if (nowHp <= 0)
-        {
-            Death();
-        }
-    }
-
-
-    void Death()
-    {
-        anim.SetBool("death", true);
-        e_State = E_State.Death;
-        Destroy(gameObject, 3f);
-    }
-    */
-    //플레이어까지 거리 계산
-    void CheckDistanceToPlayer()
-    {
-        distanceFromPlayer = Vector3.Distance(transform.position, player.transform.position);
-        if (distanceFromPlayer > 128)
-            Destroy(gameObject);
     }
 
     //점프 가능 여부를 확인하기위한 메소드

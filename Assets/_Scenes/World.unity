@@ -6433,7 +6433,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -21350,6 +21350,7 @@ MonoBehaviour:
   itemCountTxt: {fileID: 1908899623}
   hilighted: {fileID: 1261673358}
   selectedItem: {fileID: 444432016}
+  ps: {fileID: 1768160533}
 --- !u!114 &1273660658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21449,6 +21450,7 @@ MonoBehaviour:
   itemCountTxt: {fileID: 590188449}
   hilighted: {fileID: 107879419}
   selectedItem: {fileID: 444432016}
+  ps: {fileID: 1768160533}
 --- !u!114 &1308388598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25655,7 +25657,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 10
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f13a3b9d6e69f164ebea431858a390b4, type: 2}
   m_sharedMaterial: {fileID: 4175241481913890878, guid: f13a3b9d6e69f164ebea431858a390b4, type: 2}
@@ -26292,8 +26294,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1628598640}
-  _item: {fileID: 0}
-  itemCount: 0
+  _item: {fileID: 11400000, guid: 7d9d82a2953fb1147a84cd96b1bafaf8, type: 2}
+  itemCount: 1
   itemCountTxt: {fileID: 765079534}
   selected: {fileID: 0}
   hilighted: {fileID: 795465548}
@@ -28537,6 +28539,7 @@ MonoBehaviour:
   itemCountTxt: {fileID: 1628616705}
   hilighted: {fileID: 1137812210}
   selectedItem: {fileID: 444432016}
+  ps: {fileID: 0}
 --- !u!1 &1760529546
 GameObject:
   m_ObjectHideFlags: 0
@@ -28827,6 +28830,11 @@ MonoBehaviour:
   fullHunger: {fileID: 21300000, guid: be84bb87c239f9047ab8bb85361e638a, type: 3}
   halfHunger: {fileID: 21300000, guid: 3d0243b31e9589d4baeb4b34a0b61893, type: 3}
   emptyHunger: {fileID: 21300000, guid: 206a4884d084b4c43bb2b3108fdd7d8e, type: 3}
+  exp: 0
+  maxExp: 7
+  level: 0
+  expSlider: {fileID: 1858841604}
+  levelText: {fileID: 1580876663}
   weaponPower: 0
 --- !u!65 &1768160534
 BoxCollider:
@@ -30434,9 +30442,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 100
+  m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 100
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

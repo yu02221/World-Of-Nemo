@@ -361,15 +361,19 @@ public class TerrainModifier : MonoBehaviour
                 break;
             case BlockType.Coal:
                 item = itemSet.iSet["Coal"];
+                ps.GetExp(1);
                 break;
             case BlockType.Diamond:
                 item = itemSet.iSet["Diamond"];
+                ps.GetExp(5);
                 break;
             case BlockType.Iron:
                 item = itemSet.iSet["RawIron"];
+                ps.GetExp(2);
                 break;
             case BlockType.Gold:
                 item = itemSet.iSet["RawGold"];
+                ps.GetExp(3);
                 break;
             case BlockType.Furnace:
                 item = itemSet.iSet["Furnace"];

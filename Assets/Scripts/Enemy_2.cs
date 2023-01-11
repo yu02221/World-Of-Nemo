@@ -4,25 +4,6 @@ using UnityEngine;
 
 public class Enemy_2 : Enemy
 {
-    /*
-    public enum E_State
-    {
-        Idle,
-        Walk,
-        Ready,
-        Crush,
-        Damaged,
-        Death,
-    }
-    public E_State e_State;
-    */
-    //이동을 위한 변수
-    public GameObject nearPlayer;
-    public Transform player;
-    public float distanceFromPlayer; //Enemy와 Player의 거리를 체크하기 위함
-    public float speed; //이동할때 스피드
-    public float turnSpeed; //턴(플레이어 방향으로)스피드
-
     //이동관련 중 벽(그라운드)체크를 위한 변수들
     public Transform groundCheckTransform; //에너미를 기준으로 Ground를 체크하기 위함
     public Vector3 boxSize = new Vector3(0, 1, 0); //그라운드 체크의 범위를 위한 벡터값
@@ -43,16 +24,6 @@ public class Enemy_2 : Enemy
     PlayerMove pm;
     Vector3 playerTransSave;
     float readyTime;
-    /*
-    //대미지드 액션을 위한 변수
-    float stateTime;
-    
-    //크러쉬 에너미 stats
-    public int maxHp;
-    public int nowHp;
-
-    public Animator anim;
-    */
 
     private float burnTime;
 
@@ -92,9 +63,6 @@ public class Enemy_2 : Enemy
                 break;
             case E_State.Damaged:
                 Damaged();
-                break;
-            case E_State.Death:
-                Death();
                 break;
         }
 
@@ -200,35 +168,6 @@ public class Enemy_2 : Enemy
         {
             pm.HitByEnemy(collision.transform.position, 1);
         }
-    }
-    /*
-    void Damaged()
-    {
-        stateTime += Time.deltaTime;
-        if (nowHp > 0 && stateTime > 1)
-        {
-            e_State = E_State.Idle;
-            stateTime = 0;
-        }
-        if (nowHp <= 0)
-        {
-            Death();
-        }
-    }
-    
-    void Death()
-    {
-        anim.SetBool("death", true);
-        e_State = E_State.Death;
-        Destroy(gameObject, 4f);
-    }
-    */
-    //플레이어까지 거리 계산
-    void CheckDistanceToPlayer()
-    {
-        distanceFromPlayer = Vector3.Distance(transform.position, player.transform.position);
-        if (distanceFromPlayer > 128)
-            Destroy(gameObject);
     }
 
     //점프 가능 여부를 확인하기위한 메소드

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerStatus : MonoBehaviour
 {
@@ -34,6 +35,12 @@ public class PlayerStatus : MonoBehaviour
     public Sprite halfHunger;
     public Sprite emptyHunger;
 
+    public int exp = 0;
+    public int maxExp = 7;
+    public int level = 0;
+    public Slider expSlider;
+    public TMP_Text levelText;
+
     public int weaponPower;
 
     private void Start()
@@ -58,6 +65,14 @@ public class PlayerStatus : MonoBehaviour
             hunger--;
             SetHunger();
             hungerTime = 0;
+        }
+        if (expSlider.value < exp / (float)maxExp)
+            expSlider.value = Mathf.Lerp(expSlider.value, exp / (float)maxExp, 3 * Time.deltaTime);
+        else if (expSlider.value > exp / (float)maxExp)
+        {
+            expSlider.value = Mathf.Lerp(expSlider.value, 1,  3 * Time.deltaTime);
+            if (expSlider.value >= 0.99f)
+                expSlider.value = 0;
         }
     }
 
@@ -126,5 +141,22 @@ public class PlayerStatus : MonoBehaviour
             else
                 hungers[i].sprite = emptyHunger;
         }
+    }
+
+    public void GetExp(int amount)
+    {
+        exp += amount;
+        if (exp >= maxExp)
+        {
+            exp -= maxExp;
+            LevelUp();
+        }
+    }
+
+    private void LevelUp()
+    {
+        level++;
+        levelText.text = level.ToString();
+        maxExp = level * 2 + 7;
     }
 }

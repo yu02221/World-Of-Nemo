@@ -14,6 +14,12 @@ public class Enemy : MonoBehaviour
         Damaged,
         Death,
     }
+
+    //이동을 위한 변수
+    public Transform player;
+    public float distanceFromPlayer; //Enemy와 Player의 거리를 체크하기 위함
+    public float speed; //이동할때 스피드
+    public float turnSpeed; //턴(플레이어 방향으로)스피드
     public E_State e_State;
 
     public Rigidbody rb;
@@ -22,7 +28,16 @@ public class Enemy : MonoBehaviour
 
     public Animator anim;
 
+
     public float stateTime;
+
+    //플레이어까지 거리 계산
+    public void CheckDistanceToPlayer()
+    {
+        distanceFromPlayer = Vector3.Distance(transform.position, player.transform.position);
+        if (distanceFromPlayer > 128)
+            Destroy(gameObject);
+    }
 
     public void HitByPlayer(Vector3 playerPosition, int damage)
     {
@@ -64,6 +79,7 @@ public class Enemy : MonoBehaviour
     {
         anim.SetBool("death", true);
         e_State = E_State.Death;
+        player.GetComponent<PlayerStatus>().GetExp(10);
         Destroy(gameObject, 3f);
     }
 }
