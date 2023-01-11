@@ -3484,7 +3484,7 @@ RectTransform:
   - {fileID: 2117481241}
   - {fileID: 1138250701}
   m_Father: {fileID: 574305414}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5029,17 +5029,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 342093847}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 574305414}
-  m_RootOrder: 1
+  m_Father: {fileID: 1480125070}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -50}
+  m_AnchoredPosition: {x: -860, y: 440}
   m_SizeDelta: {x: 300, y: 150}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &342093849
@@ -6479,7 +6479,7 @@ RectTransform:
   m_Children:
   - {fileID: 1809327987}
   m_Father: {fileID: 574305414}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8764,7 +8764,7 @@ RectTransform:
   - {fileID: 1308388596}
   - {fileID: 2000455905}
   m_Father: {fileID: 574305414}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9034,7 +9034,7 @@ RectTransform:
   - {fileID: 348659092}
   - {fileID: 1211219014}
   m_Father: {fileID: 574305414}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -9485,7 +9485,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1569816273}
-  - {fileID: 342093848}
   - {fileID: 1480125070}
   - {fileID: 1220256904}
   - {fileID: 552562930}
@@ -9493,7 +9492,6 @@ RectTransform:
   - {fileID: 444432015}
   - {fileID: 1896094201}
   - {fileID: 555546209}
-  - {fileID: 1529799685}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -20402,7 +20400,7 @@ RectTransform:
   - {fileID: 1760157556}
   - {fileID: 1937362004}
   m_Father: {fileID: 574305414}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -24154,8 +24152,10 @@ RectTransform:
   - {fileID: 173378559}
   - {fileID: 563686151}
   - {fileID: 1858841603}
+  - {fileID: 342093848}
+  - {fileID: 1529799685}
   m_Father: {fileID: 574305414}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -25007,17 +25007,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1529799684}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 574305414}
-  m_RootOrder: 9
+  m_Father: {fileID: 1480125070}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -200}
+  m_AnchoredPosition: {x: -860, y: 290}
   m_SizeDelta: {x: 300, y: 150}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1529799686
@@ -28798,6 +28798,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   xyz: {fileID: 342093849}
+  chunkPosTxt: {fileID: 1529799686}
   hp: 20
   maxHp: 20
   hearts:
@@ -31093,7 +31094,7 @@ RectTransform:
   - {fileID: 807739548}
   - {fileID: 1321504190}
   m_Father: {fileID: 574305414}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -31842,6 +31843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnSpeed: 200
+  pm: {fileID: 1768160531}
 --- !u!114 &1930125109
 MonoBehaviour:
   m_ObjectHideFlags: 0

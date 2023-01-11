@@ -19,6 +19,7 @@ public class PlayerStatus : MonoBehaviour
     TerrainChunk tc;
 
     public Text xyz;
+    public Text chunkPosTxt;
 
     public int hp;
     public int maxHp;
@@ -54,6 +55,7 @@ public class PlayerStatus : MonoBehaviour
         GetStandBlock();
 
         xyz.text = string.Format($"X : {standBlockX}\nY : {standBlockY}\nZ : {standBlockZ}");
+        chunkPosTxt.text = string.Format($"ChunkX : {standChunkX}\nChunkZ : {standChunkZ}");
 
         if (pm.playerState == PlayerState.Run || pm.playerState == PlayerState.Jump)
             hungerTime += 0.1f * Time.deltaTime;

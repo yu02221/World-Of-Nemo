@@ -9,6 +9,7 @@ public class TerrainModifier : MonoBehaviour
 {
     public Transform player;
     private PlayerStatus ps;
+    private PlayerMove pm;
     public Animator handAnim;
 
     public LayerMask groundLayer;
@@ -52,6 +53,7 @@ public class TerrainModifier : MonoBehaviour
     private void Start()
     {
         ps = player.GetComponent<PlayerStatus>();
+        pm = player.GetComponent<PlayerMove>();
         SetCurSlot(curSlot);
         SetHandedItem();
     }
@@ -98,14 +100,14 @@ public class TerrainModifier : MonoBehaviour
                 {
                     craftringTableWindow.SetActive(true);
                     inventoryWindow.SetActive(true);
-                    Time.timeScale = 0;
+                    pm.playerState = PlayerState.OpenInventory;
                     Cursor.visible = true;
                 }
                 else if (GetTargetBlock(1) && tc.blocks[bix, biy, biz] == BlockType.Furnace)
                 {
                     furnaceWindow.SetActive(true);
                     inventoryWindow.SetActive(true);
-                    //Time.timeScale = 0;
+                    pm.playerState = PlayerState.OpenInventory;
                     Cursor.visible = true;
                 }
                 else if (hotInven_w.slots[curSlot].item != null &&

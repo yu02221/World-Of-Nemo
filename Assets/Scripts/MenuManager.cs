@@ -17,11 +17,14 @@ public class MenuManager : MonoBehaviour
     public GameObject craftingTableWindow;
     public GameObject furnaceWindow;
 
+    private PlayerMove pm;
+
     private void Start()
     {
         invens = inventoryWindow.GetComponentsInChildren<Inventory>();
         cInven = inventoryWindow.GetComponentInChildren<CraftingInventory>();
         craftingTable = craftingTableWindow.GetComponentInChildren<CraftingTable>();
+        pm = GameObject.Find("Player").GetComponent<PlayerMove>();
         Cursor.visible = false;
     }
 
@@ -99,7 +102,7 @@ public class MenuManager : MonoBehaviour
         
         inventoryWindow.SetActive(false);
 
-        Time.timeScale = 1f;
+        pm.playerState = PlayerState.Idle;
         Cursor.visible = false;
     }
     public void CloseCraftingTable()
@@ -128,7 +131,7 @@ public class MenuManager : MonoBehaviour
     public void OpenInventory()
     {
         inventoryWindow.SetActive(true);
-        Time.timeScale = 0f;
+        pm.playerState = PlayerState.OpenInventory;
         Cursor.visible = true;
     }
 }

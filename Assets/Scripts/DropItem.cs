@@ -17,10 +17,6 @@ public class DropItem : MonoBehaviour
     [SerializeField]
     private float range = 0.5f;  // 아이템 습득이 가능한 최대 거리
 
-    private bool pickupActivated = false;  // 아이템 습득 가능할시 True 
-
-    private RaycastHit hitInfo;  // 충돌체 정보 저장
-
     [SerializeField]
     private LayerMask layerMask;  // 특정 레이어를 가진 오브젝트에 대해서만 습득할 수 있어야 한다.
 
@@ -40,6 +36,7 @@ public class DropItem : MonoBehaviour
 
     private void Floating() //떠있는거
     {
+        RaycastHit hitInfo;
         if (Physics.Raycast(transform.position, -transform.up, out hitInfo, range, layerMask))
         {
             rb.AddForce(transform.up * jump, ForceMode.Impulse);

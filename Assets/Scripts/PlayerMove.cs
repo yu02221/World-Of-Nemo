@@ -13,6 +13,7 @@ public enum PlayerState
     Attack,
     Damaged,
     Dead,
+    OpenInventory,
 }
 public class PlayerMove : MonoBehaviour
 {
@@ -67,34 +68,39 @@ public class PlayerMove : MonoBehaviour
     {
         IsGroundCheck();
 
-        if (playerState != PlayerState.Dead && playerState != PlayerState.Attack)
-            Jump();
-
-        //마우스 움직임에 대한 값을 받는다
-        float yRotateSize = Input.GetAxis("Mouse X") * turnSpeed * Time.deltaTime;
-        //받은 값을 저장한다
-        float yRotate = transform.eulerAngles.y + yRotateSize;
-        //만약 마우스 움직임이 없다면 벡터값에 대한 힘을 0으로 고정시킨다.
-        if (yRotateSize == 0)
-            rb.angularVelocity = Vector3.zero;
-        //플레이어의 회전값에대한 내용을 적용시켜준다
-        transform.eulerAngles = new Vector3(0, yRotate, 0);
-
-        if (attackCool > 0)
-            attackCool -= Time.deltaTime;
-
-        if (playerState == PlayerState.Walk)
+        if (playerState != PlayerState.Dead && 
+            playerState != PlayerState.Attack && 
+            playerState != PlayerState.OpenInventory)
         {
-            if (!walkSound.isPlaying)
-                walkSound.Play();
+            Jump();
+            //마우스 움직임에 대한 값을 받는다
+            float yRotateSize = Input.GetAxis("Mouse X") * turnSpeed * Time.deltaTime;
+            //받은 값을 저장한다
+            float yRotate = transform.eulerAngles.y + yRotateSize;
+            //만약 마우스 움직임이 없다면 벡터값에 대한 힘을 0으로 고정시킨다.
+            if (yRotateSize == 0)
+                rb.angularVelocity = Vector3.zero;
+            //플레이어의 회전값에대한 내용을 적용시켜준다
+            transform.eulerAngles = new Vector3(0, yRotate, 0);
+
+            if (attackCool > 0)
+                attackCool -= Time.deltaTime;
+
+            if (playerState == PlayerState.Walk)
+            {
+                if (!walkSound.isPlaying)
+                    walkSound.Play();
+            }
+            else
+                walkSound.Stop();
         }
-        else
-            walkSound.Stop();
     }
 
     private void FixedUpdate()
     {
-        if (playerState != PlayerState.Dead && playerState != PlayerState.Attack)
+        if (playerState != PlayerState.Dead && 
+            playerState != PlayerState.Attack && 
+            playerState != PlayerState.OpenInventory)
             Move();
 
     }
