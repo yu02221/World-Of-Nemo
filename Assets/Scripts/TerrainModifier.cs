@@ -45,6 +45,10 @@ public class TerrainModifier : MonoBehaviour
     public List<GameObject> handedItems;
     private Item curItem;
 
+    public GameObject selectedBlock;
+    public GameObject breakingBlock;
+    public List<Material> bBlockMaterials;
+
     private void Start()
     {
         ps = player.GetComponent<PlayerStatus>();
@@ -63,6 +67,8 @@ public class TerrainModifier : MonoBehaviour
         {
             SetHandedItem();
         }
+
+        GetTargetBlock(1);
     }
     // 마우스 클릭으로 블록 채굴 및 설치
     private void MouseInput()
@@ -80,7 +86,11 @@ public class TerrainModifier : MonoBehaviour
                     player.GetComponent<PlayerMove>().Attack();
             }
             else
+            {
                 handAnim.SetBool("leftClick", false);
+                breakingBlock.SetActive(false);
+                curDurability = durability;
+            }
 
             if (rightClick)
             {
@@ -198,6 +208,7 @@ public class TerrainModifier : MonoBehaviour
         if (bix != curBlockX || biy != curBlockY || biz != curBlockZ)
         {   // 에임이 다른 블럭으로 향하면 블록 내구도 초기화
             curDurability = durability;
+            breakingBlock.SetActive(false);
             curBlockX = bix;
             curBlockY = biy;
             curBlockZ = biz;
@@ -220,13 +231,21 @@ public class TerrainModifier : MonoBehaviour
                     speed = 1f;
                     break;
             }
+            
+            int index = Mathf.FloorToInt(curDurability / durability * 6f);
+            if (index >= 1)
+            {
+                breakingBlock.SetActive(true);
+                breakingBlock.transform.position = selectedBlock.transform.position;
+                breakingBlock.GetComponentInChildren<MeshRenderer>().material = bBlockMaterials[6 - index];
+            }
             curDurability -= Time.deltaTime * speed * 0.5f;
         }
 
         if (curDurability <= 0)
         {   // 내구도가 0이하가 되면 블럭 채굴
             curDurability = durability;
-
+            breakingBlock.SetActive(false);
             GetItem(tc.blocks[bix, biy, biz]);
 
             tc.blocks[bix, biy, biz] = BlockType.Air;
@@ -278,13 +297,20 @@ public class TerrainModifier : MonoBehaviour
             biy = Mathf.FloorToInt(targetPos.y);
             biz = Mathf.FloorToInt(targetPos.z) - chunkPosZ * 16;
 
+            selectedBlock.SetActive(true);
+            selectedBlock.transform.position = new Vector3(
+                bix + chunkPosX * 16, biy, biz + chunkPosZ * 16);
+
             if (biy >= TerrainChunk.chunkHeight || biy < 0)
                 return false;
             GetBlockDurability(tc.blocks[bix, biy, biz]);
             return true;
         }
         else
+        {
+            selectedBlock.SetActive(false);
             return false;
+        }
     }
 
     private void GetBlockDurability(BlockType targetBlock)
